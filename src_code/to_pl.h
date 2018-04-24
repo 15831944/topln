@@ -179,10 +179,10 @@ public:
 
 	//生成多义线；
 	void toPolylines();   //对m_edgeLinkArrayToPolyline加工，生成多义线。 
-	AcDbObjectId join2database(AcDbEntity *pEnt);  
+	AcDbObjectId join2database(AcDbEntity *pEnt);  //
 
 	//测试用的函数；测试完可删除；
-	void testPrintOriginalPath(); //打印从图里面深度遍历后得到的路径；
+	void testPrintOriginalPath(); //打印从图里面深度遍历后得到的路径； 
 	//测试用来生成多一线的m_edgeLinkArrayToPolyline内容；
 	void testm_edgeLinkArrayToPolyline();
 };
