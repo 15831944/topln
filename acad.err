@@ -1,0 +1,60 @@
+
+
+致命错误:  Unhandled c0000417h Exception at 5c2352d4h
+
+11/13/2017 at 14:40:25.810  图形: D:\2017arx\didi\ArxProject1\ArxProject1\topln001.dwg
+-------------
+
+
+致命错误:  Unhandled 80000003h Exception at fca831f2h
+
+11/15/2017 at 16:10:30.724  图形: D:\2017arx\didi\ArxProject1\ArxProject1\topln001.dwg
+-------------
+
+
+致命错误:  Unhandled Access Violation Reading 0x0048 Exception at e01f9e65h
+
+11/22/2017 at 15:08:51.955  图形: D:\2017arx\didi\ArxProject1\ArxProject1\topln003.dwg
+-------------
+
+
+致命错误:  Unhandled Access Violation Reading 0x0048 Exception at e01f9e65h
+
+11/22/2017 at 15:14:21.481  图形: D:\2017arx\didi\ArxProject1\ArxProject1\topln003.dwg
+-------------
+
+
+致命错误:  Unhandled Access Violation Writing 0x39a7a000 Exception at 39a7a000h
+
+12/06/2017 at 14:48:37.505  图形: D:\data\Drawing2.dwg
+-------------
+
+
+内部错误:  !dbobji.cpp@7227: eNotOpenForWrite
+
+12/15/2017 at 15:59:01.057  图形: D:\2017arx\didi\ArxProject1\ArxProject1\offset001.dwg
+-------------
+
+
+内部错误:  !dbobji.cpp@7227: eNotOpenForWrite
+
+12/15/2017 at 17:14:27.481  图形: D:\2017arx\didi\ArxProject1\ArxProject1\offset001.dwg
+-------------
+
+
+内部错误:  !dbobji.cpp@7227: eNotOpenForWrite
+
+12/15/2017 at 17:18:21.565  图形: D:\2017arx\didi\ArxProject1\ArxProject1\offset001.dwg
+-------------
+
+
+内部错误:  !dbobji.cpp@7227: eNotOpenForWrite
+
+12/18/2017 at 09:21:27.250  图形: D:\2017arx\didi\ArxProject1\ArxProject1\offset001.dwg
+-------------
+
+
+内部错误:  !dbobji.cpp@7227: eNotOpenForWrite
+
+12/18/2017 at 09:23:05.259  图形: D:\2017arx\didi\ArxProject1\ArxProject1\offset001.dwg
+-------------
