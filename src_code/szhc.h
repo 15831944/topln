@@ -40,7 +40,7 @@ using namespace std;
 
 
 
-/*  test 1
+/*  test 1 2
  *  developer's function
 */
 //AcDbObjectId join2database(AcDbEntity *pEnt);
