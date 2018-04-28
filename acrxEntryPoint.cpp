@@ -69,7 +69,7 @@ def_cmdfun cmdFunTbl[] =
 	{_T("ra"), createNewLayer, ACRX_CMD_MODAL},   //create new layer;   
 	{_T("owal1"), laigerTwo, ACRX_CMD_MODAL},   //画0和1的长方形;   
 	{_T("pc"), purge, ACRX_CMD_MODAL},   //清理图形:去除无用层、5s;  
-	{_T("xi"), xb, ACRX_CMD_MODAL}   //分解minsert，insert实体;  
+	{_T("xi"), xb, ACRX_CMD_MODAL}   //分解minsert，insert实体;  2018-4-28-sat github test aaa
 
 };
 
