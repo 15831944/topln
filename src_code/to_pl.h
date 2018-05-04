@@ -332,7 +332,7 @@ private:
 	ads_name m_sel;      //用来聚合多义线的实体;过滤后才传入本类;    
 	long m_ssLength;   // 实体集数量(实体边);
 
-	CArcLink  m_stackEdges;  //深度遍历图过程中，存放遍历的边系列的栈;    
+	CArcLink  m_stackEdges;  //深度遍历图过程中，存放遍历的边系列的栈;     
 	CArcLinkArray m_allLoops;  //所有的可能的路径都装载于此;  
 	vector<int> visited;    //记录节点是否被访问过;	
 
@@ -351,13 +351,13 @@ public:
 	//对图进行改造，每个度大于2的顶点都拆开来，使得每个顶点度不大于2;
 	//提取路径（闭合及不闭合）:a-重叠边先提取环路径;b-然后提取连续路径;  
 	//对路径生成多义线;  
-	void to_polyline(IN ads_name ssPick);
+	void to_polyline(IN ads_name ssPick);  
 	static bool isTwoPointsEqual(IN const AcGePoint3d& pt1,IN const AcGePoint3d& pt2,IN const int nDotNUm); 
 	
 private:
-	int insertVertex(IN AcGePoint3d &pt);     //向图中插入一个顶点;  
-	void insertEdge(CEdge* pedge);    //向图中插入一条边;
-	int delVertex(int v);  //删除图中一个顶点(即相关边也要删除);  
+	int insertVertex(IN AcGePoint3d &pt);     //向图中插入一个顶点;    
+	void insertEdge(CEdge* pedge);    //向图中插入一条边;   
+	int delVertex(int v);  //删除图中一个顶点(即相关边也要删除);     
 	int delEdge(CEdge* pedge);   //删除图中一条边;  
 
 private:
@@ -378,7 +378,7 @@ private:
 	int insertSameVertex(IN const int vtxIndex);  //插入新顶点，次顶点肯定是重复顶点(拆分出来的顶点);
 	void chopVertex(IN IN const int iIndex);
 	int getAnotherVertex(IN const int v1,IN const int iParent,IN CEdge*& pEdge); //取某顶点iParent的除v1外的另一顶点，前提是该顶点度为2;
-	bool isVertexIndexValid(IN const int iVertexIndex);
+	bool isVertexIndexValid(IN const int iVertexIndex);  
 
 	//深度遍历不用递归方式，而是用栈结构，使用循环来遍历;   
 	//index是某个顶点序号；若图是联通的，只遍历一次;  
