@@ -97,21 +97,21 @@ struct SXData
 
 	bool find(IN const double yVal,OUT int& ptIndex);  //查找y-key; 
 	map<double,SYData,dblcmp>::iterator insert(IN const double yVal,IN const int ptIndex); //插入y key; 
-	unsigned int erase(IN const double yVal);  //delete;
+	unsigned int erase(IN const double yVal);  //delete;   
 	void print();  //测试，打印信息;
 };
 
 
-//用x和y坐标做为key，建立嵌套map，提供插入、查询、删除等功能;
-//希望能提高点坐标查询速度;
+//用x和y坐标做为key，建立嵌套map，提供插入、查询、删除等功能;    
+//希望能提高点坐标查询速度;  
 class CPointMap
 {
 public:
 	CPointMap();
-	~CPointMap();
+	~CPointMap();  
 
 private:
-	map<double,SXData,dblcmp> m_mapXcoord;
+	map<double,SXData,dblcmp> m_mapXcoord;  
 	int m_nDotNum;   //小数的位数;
 	bool isDotNumSet; //判断小数位数是否已经设置，设置过了就不能再设置了;
 	
