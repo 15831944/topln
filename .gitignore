@@ -30,6 +30,7 @@ x64/debug/vc90.pdb
 topln.ncb
 *.obj
 *.exp
+*.arx
 x64/debug/owaltopln.ilk
 *.obj
 *.exp
@@ -57,6 +58,7 @@ x64/debug/owaltopln.ilk
 topln.suo
 x64/debug/mt.dep
 x64/debug/mt.dep
+x64/debug/owaltopln.arx
 *.ilk
 *.obj
 x64/debug/topln.exp
