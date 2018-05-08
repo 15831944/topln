@@ -2571,6 +2571,7 @@ void CGraphEnts::DFS2(int iIndex)
 
 //提取边链表; 
 //前提是：图中所有顶点的度小于等于2;
+//分两段提取原因：可能开始端点是在某条轮廓线中间;
 void
 CGraphEnts::extractEdgeLinks(IN const int iIndex)  
 {

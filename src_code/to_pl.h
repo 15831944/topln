@@ -109,7 +109,7 @@ enum ENTDirection
 class CArcLink
 {
 private:
-	vector<int>  m_vectroIndex;  //从图中提起的一条路径所代表的顶点的系列；这个可能用不上。稍后删除;
+	vector<int>  m_vectroIndex;  //从图中提起的一条路径所代表的顶点的系列；这个可能用不上。稍后删除; 
 	vector<CEdge*> m_edgesLink;   //从图中提取的一条路径；
 	//vector<CEdge*> m_edgesPathToPolyline();  // 从m_edgesLink整理而来，直接用于生成多义线。
 	//vector<vector<CEdge*>> m_pathToPolyline;    // 从m_edgesLink整理而来，直接用于生成多义线。
@@ -139,10 +139,10 @@ public:
 	void extractLoopsOfOverlappedEdges(vector<vector<CEdge*>> & pEdgesLinks);// 其次，提取重叠边上的环；即由两条重叠边组成的环；
 	void extractPathNotClosed(vector<vector<CEdge*>> & pEdgesLinks);  //最后，提取剩下的路径，都是不闭合的；
 
-	//提取路径后，第一条路径和最后一条路径“可能”要合并才行；
+	//提取路径后，第一条路径和最后一条路径“可能”要合并才行； 
 	bool isEdgeLeftAfterLoopsExtacted(const CEdge* pEdge);  //判断一条边在提取环后，是否为空边;
 	bool isFirstAndLastEdgeLinked();  //判断此arclink的头边和尾边是否连续（提取重叠边后）;
-	bool getStartPointIndex(OUT int& iIndex); //获取起点的序号; 如果没有起点（环形），则返回-1;
+	bool getStartPointIndex(OUT int& iIndex); //获取起点的序号; 如果没有起点（环形），则返回-1;  
 	bool getEndPointIndex(OUT int& iIndex);
 	bool mergeFirstAndLastLink(vector<vector<CEdge*>> & pEdgesLinks); //如果arclink闭合，且第一段和最后一段是相邻的，则合并第一个段和最后一段，成为一个段；
 	
@@ -167,13 +167,13 @@ private:
 	vector<AcDbPolyline*> m_vecPolylines;  //最终生成的多义线。	
 public:
 	CArcLinkArray();  //构造函数; 
-	~CArcLinkArray();
+	~CArcLinkArray(); 
 
 public:	
 	bool push_back(CArcLink edgesLink);  //纳入;
 	void pop_back();  //弹出;
 
-	// 整理回路CArcLink：回路不是完整回路，可能带有尾巴；需要将多余边去掉，剩下的是完整回路；
+	// 整理回路CArcLink：回路不是完整回路，可能带有尾巴；需要将多余边去掉，剩下的是完整回路； 
 	// 尾巴是由DFS深度遍历造成的；	
 	bool correctByRealEdges();    //根据实际边实体来整理出新的路径path；
 
@@ -282,11 +282,11 @@ public:
 public:
 	int index1;    //顶点1在图中的序号；
 	int index2;     //顶点2在图中的序号；
-	CEdge* path1;  //第一个顶点的下一个邻接边；
+	CEdge* path1;  //第一个顶点的下一个邻接边； 
 	CEdge* path2;   //第二个顶点的下一个邻接边；
 	AcGePoint3d ptstart;  //线段起点；
 	AcGePoint3d ptend;   //线段终点；
-	CEdge* ptrSameEdges;  //同一条边可能有多个实体图元（line，arc，polyline）;
+	CEdge* ptrSameEdges;  //同一条边可能有多个实体图元（line，arc，polyline）; 
 	AcDbEntity* ptrEnt;
 	AcGe::EntityId enttype;   //表明实体是什么类：line，or arc，polyline。。。
 	//AcDbEntity* pEnt;   //指向一个实体；指针比较省空间。 
@@ -319,6 +319,7 @@ public:
 //图类,存储所有实体;
 //采用多重链表;
 //顶点按int编号;
+//算法修改：应该在遍历轮廓线之前提取“重复边”，否则会导致轮廓线破碎不堪;(当然这也是一种选择而已)
 class  CGraphEnts    //所有的图形（line，arc，polyline）都在这里组成图结构;
 {
 	//friend class CArcLink;
