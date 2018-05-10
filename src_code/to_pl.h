@@ -328,7 +328,7 @@ private:
 	int MaxNumVertexs;    //最大顶点数;
 	int numVertexs;      //目前实际顶点数;  
 	vector<CVertex* > m_vertexTable;  //顶点表; 
-	vector<CEdge*> m_vctEdges;  //边表；收集用户分配的内存，主要用来释放其内存。
+	vector<CEdge*> m_vctEdges;  //边表；收集用户分配的内存，主要用来释放内存。
 	int numEdges;         //图的边数;
 	ads_name m_sel;      //用来聚合多义线的实体;过滤后才传入本类;    
 	long m_ssLength;   // 实体集数量(实体边);
@@ -337,11 +337,11 @@ private:
 	CArcLinkArray m_allLoops;  //所有的可能的路径都装载于此;  
 	vector<int> visited;    //记录节点是否被访问过;	
 
-	CPointMap m_pointMap;  //存储点坐标;
+	CPointMap m_pointMap;  //存储点坐标;   
 	int m_nDotNum;  //点坐标小数位保留多少位.  
 
-private:
-	vector<CEdge*> m_paths;  //临时用作深度遍历后，从carclinkarray中取出路径（检查是否存在，真实的路径）；
+//private:
+//	vector<CEdge*> m_paths;  //临时用作深度遍历后，从carclinkarray中取出路径（检查是否存在，真实的路径）；
 
 public:
 	CGraphEnts();
@@ -380,6 +380,7 @@ private:
 	void chopVertex(IN IN const int iIndex);
 	int getAnotherVertex(IN const int v1,IN const int iParent,IN CEdge*& pEdge); //取某顶点iParent的除v1外的另一顶点，前提是该顶点度为2;
 	bool isVertexIndexValid(IN const int iVertexIndex);  
+	bool extractOverlappedLink();  //在chopEdgeLinks之前，对每条边提取重叠环路;每两个提取一次;
 
 	//深度遍历不用递归方式，而是用栈结构，使用循环来遍历;   
 	//index是某个顶点序号；若图是联通的，只遍历一次;  

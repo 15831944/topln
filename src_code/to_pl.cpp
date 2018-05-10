@@ -2543,7 +2543,7 @@ CGraphEnts::DFS(int index)
 
 
 //图的所有顶点都被拆分过了，每个顶点只有1-2度；所以直接提取一条边表;
-//
+//在提取轮廓线算法中，没有用上它;
 void CGraphEnts::DFS2(int iIndex)
 {
 	//判断顶点是否被访问过；
@@ -2580,7 +2580,7 @@ CGraphEnts::extractEdgeLinks(IN const int iIndex)
 	{
 		return;
 	}
-	visited[iIndex] = 1; //set;
+	visited[iIndex] = 1; //set;  
 
 	//init;	
 	m_stackEdges.clear();
@@ -2653,7 +2653,7 @@ CGraphEnts::extractEdgeLinks(IN const int iIndex)
 	//合并第二段;
 	pEdgeTmp = NULL;
 	itr = vEdgeLinksSecond.begin();
-	for(; itr != vEdgeLinksSecond.end(); itr++)
+	for(; itr != vEdgeLinksSecond.end(); itr++) 
 	{
 		pEdgeTmp = (CEdge*)(*itr);
 		m_stackEdges.push_back(pEdgeTmp);
@@ -2766,6 +2766,14 @@ CGraphEnts::isVertexIndexValid(IN const int iVertexIndex)
 		return false;
 	}
 	return true;
+}
+
+
+//对每条边提取重叠环路;在chopEdgeLinks()之前;
+bool
+CGraphEnts::extractOverlappedLink()
+{
+	;
 }
 
 
