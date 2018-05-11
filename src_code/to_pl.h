@@ -258,7 +258,7 @@ public:
 	AcGePoint3d pt;    //autocad的点；
 	int m_degree;  //度;
 public:
-	CEdge* adj;   //链接边;
+	CEdge* adj;   //链接边;  
 
 public:
 	CVertex(const AcGePoint3d& ptinput);	// 构造函数；
@@ -283,7 +283,7 @@ public:
 	int index1;    //顶点1在图中的序号；
 	int index2;     //顶点2在图中的序号；
 	CEdge* path1;  //第一个顶点的下一个邻接边；
-	CEdge* path2;   //第二个顶点的下一个邻接边；
+	CEdge* path2;   //第二个顶点的下一个邻接边； 
 	AcGePoint3d ptstart;  //线段起点；
 	AcGePoint3d ptend;   //线段终点；
 	CEdge* ptrSameEdges;  //同一条边可能有多个实体图元（line，arc，polyline）;
@@ -319,10 +319,10 @@ public:
 //图类,存储所有实体;
 //采用多重链表;
 //顶点按int编号;
-class  CGraphEnts    //所有的图形（line，arc，polyline）都在这里组成图结构;
+class  CGraphEnts    //所有的图形（line，arc，polyline）都在这里组成图结构;  
 {
 	//friend class CArcLink;
-	//friend class CArcLinkArray;  //友元类，为了访问该类的私有成员，比如图结构； 
+	//friend class CArcLinkArray;  //友元类，为了访问该类的私有成员，比如图结构；  
 private:
 	int MaxNumVertexs;    //最大顶点数;
 	int numVertexs;      //目前实际顶点数;  
@@ -332,8 +332,8 @@ private:
 	ads_name m_sel;      //用来聚合多义线的实体;过滤后才传入本类;    
 	long m_ssLength;   // 实体集数量(实体边);
 
-	CArcLink  m_stackEdges;  //深度遍历图过程中，存放遍历的边系列的栈;     
-	CArcLinkArray m_allLoops;  //所有的可能的路径都装载于此;  
+	CArcLink  m_stackEdges;  //深度遍历图过程中，存放遍历的边系列的栈;  
+	CArcLinkArray m_allLoops;  //所有的可能的路径都装载于此;   
 	vector<int> visited;    //记录节点是否被访问过;	
 
 	CPointMap m_pointMap;  //存储点坐标;
