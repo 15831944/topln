@@ -2362,6 +2362,14 @@ CGraphEnts::insertEdge(CEdge* pedge)
 }
 
 
+//从图中删除一条边
+int
+CGraphEnts::delEdge(CEdge* pedge)
+{
+	;
+}
+
+
 
 //寻找节点，返回找到的节点序号；若找不到，返回-1；
 //设置误差; 
@@ -2643,23 +2651,23 @@ CGraphEnts::extractEdgeLinks(IN const int iIndex)
 	//合并两段;
 	//合并第一段;
 	CEdge* pEdgeTmp = NULL;
-	std::reverse(vEdgeLinksFirst.begin(),vEdgeLinksFirst.end()); //倒立;
-	vector<CEdge*>::iterator itr = vEdgeLinksFirst.begin();
+	std::reverse(vEdgeLinksFirst.begin(),vEdgeLinksFirst.end()); //倒立;    
+	vector<CEdge*>::iterator itr = vEdgeLinksFirst.begin();    
 	for(; itr != vEdgeLinksFirst.end(); itr++)
 	{
 		pEdgeTmp = (CEdge*)(*itr);
-		m_stackEdges.push_back(pEdgeTmp);
+		m_stackEdges.push_back(pEdgeTmp);     
 	}
 	//合并第二段;
 	pEdgeTmp = NULL;
 	itr = vEdgeLinksSecond.begin();
-	for(; itr != vEdgeLinksSecond.end(); itr++) 
+	for(; itr != vEdgeLinksSecond.end(); itr++)    
 	{
 		pEdgeTmp = (CEdge*)(*itr);
-		m_stackEdges.push_back(pEdgeTmp);
+		m_stackEdges.push_back(pEdgeTmp);   
 	}
 
-	m_stackEdges.testPintOriginalPath();
+	m_stackEdges.testPintOriginalPath();   
 	m_allLoops.push_back(m_stackEdges);
 }
 

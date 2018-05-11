@@ -328,12 +328,12 @@ private:
 	int MaxNumVertexs;    //最大顶点数;
 	int numVertexs;      //目前实际顶点数;  
 	vector<CVertex* > m_vertexTable;  //顶点表; 
-	vector<CEdge*> m_vctEdges;  //边表；收集用户分配的内存，主要用来释放内存。
+	vector<CEdge*> m_vctEdges;  //边表；收集用户分配的内存，主要用来释放内存。  
 	int numEdges;         //图的边数;
 	ads_name m_sel;      //用来聚合多义线的实体;过滤后才传入本类;    
 	long m_ssLength;   // 实体集数量(实体边);
 
-	CArcLink  m_stackEdges;  //深度遍历图过程中，存放遍历的边系列的栈;     
+	CArcLink  m_stackEdges;  //深度遍历图过程中，存放遍历的边系列的栈;    
 	CArcLinkArray m_allLoops;  //所有的可能的路径都装载于此;  
 	vector<int> visited;    //记录节点是否被访问过;	
 
