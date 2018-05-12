@@ -2367,7 +2367,7 @@ CGraphEnts::insertEdge(CEdge* pedge)
 int
 CGraphEnts::delEdge(CEdge* pedge)
 {
-	;
+	return -1;
 }
 
 
@@ -2781,7 +2781,7 @@ CGraphEnts::isVertexIndexValid(IN const int iVertexIndex)
 bool
 CGraphEnts::extractOverlappedLink()
 {
-	;
+	return true;
 }
 
 
