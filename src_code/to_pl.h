@@ -283,18 +283,8 @@ public:
 	int index1;    //顶点1在图中的序号；
 	int index2;     //顶点2在图中的序号；
 	CEdge* path1;  //第一个顶点的下一个邻接边；
-<<<<<<< HEAD
 	CEdge* path2;   //第二个顶点的下一个邻接边； 
-<<<<<<< HEAD
-=======
-	CEdge* path1;  //第一个顶点的下一个邻接边； 
-	CEdge* path2;   //第二个顶点的下一个邻接边；
->>>>>>> 1bef0f8c46c892e81d7e7de142486e58c326b98f
-=======
-	CEdge* path2;   //第二个顶点的下一个邻接边；
->>>>>>> parent of 8b35f37... hi
-=======
->>>>>>> parent of 862164d... Merge branch 'master' of https://github.com/zhouhuagang/topln
+
 	AcGePoint3d ptstart;  //线段起点；
 	AcGePoint3d ptend;   //线段终点；
 	CEdge* ptrSameEdges;  //同一条边可能有多个实体图元（line，arc，polyline）;
@@ -330,20 +320,8 @@ public:
 //图类,存储所有实体;
 //采用多重链表;
 //顶点按int编号;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-class  CGraphEnts    //所有的图形（line，arc，polyline）都在这里组成图结构;  
-=======
 //算法修改：应该在遍历轮廓线之前提取“重复边”，否则会导致轮廓线破碎不堪;(当然这也是一种选择而已)
-class  CGraphEnts    //所有的图形（line，arc，polyline）都在这里组成图结构;
->>>>>>> 1bef0f8c46c892e81d7e7de142486e58c326b98f
-=======
-class  CGraphEnts    //所有的图形（line，arc，polyline）都在这里组成图结构;
->>>>>>> parent of 8b35f37... hi
-=======
 class  CGraphEnts    //所有的图形（line，arc，polyline）都在这里组成图结构;  
->>>>>>> parent of 862164d... Merge branch 'master' of https://github.com/zhouhuagang/topln
 {
 	//friend class CArcLink;
 	//friend class CArcLinkArray;  //友元类，为了访问该类的私有成员，比如图结构； 
@@ -355,24 +333,9 @@ private:
 	int numEdges;         //图的边数;
 	ads_name m_sel;      //用来聚合多义线的实体;过滤后才传入本类;    
 	long m_ssLength;   // 实体集数量(实体边);
+	CArcLink  m_stackEdges;  //深度遍历图过程中，存放遍历的边系列的栈;  
+	CArcLinkArray m_allLoops;  //所有的可能的路径都装载于此; 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-	CArcLink  m_stackEdges;  //深度遍历图过程中，存放遍历的边系列的栈;  
-	CArcLinkArray m_allLoops;  //所有的可能的路径都装载于此;   
-=======
-	CArcLink  m_stackEdges;  //深度遍历图过程中，存放遍历的边系列的栈;    
-	CArcLinkArray m_allLoops;  //所有的可能的路径都装载于此;  
->>>>>>> 1bef0f8c46c892e81d7e7de142486e58c326b98f
-=======
-	CArcLink  m_stackEdges;  //深度遍历图过程中，存放遍历的边系列的栈;     
-	CArcLinkArray m_allLoops;  //所有的可能的路径都装载于此;  
->>>>>>> parent of 8b35f37... hi
-=======
-	CArcLink  m_stackEdges;  //深度遍历图过程中，存放遍历的边系列的栈;  
-	CArcLinkArray m_allLoops;  //所有的可能的路径都装载于此;   
->>>>>>> parent of 862164d... Merge branch 'master' of https://github.com/zhouhuagang/topln
 	vector<int> visited;    //记录节点是否被访问过;	
 
 	CPointMap m_pointMap;  //存储点坐标;
@@ -418,6 +381,7 @@ private:
 	void chopVertex(IN IN const int iIndex);
 	int getAnotherVertex(IN const int v1,IN const int iParent,IN CEdge*& pEdge); //取某顶点iParent的除v1外的另一顶点，前提是该顶点度为2;
 	bool isVertexIndexValid(IN const int iVertexIndex);  
+	bool extractOverlappedLink(); 	
 
 	//深度遍历不用递归方式，而是用栈结构，使用循环来遍历;   
 	//index是某个顶点序号；若图是联通的，只遍历一次;  

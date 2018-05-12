@@ -2363,6 +2363,15 @@ CGraphEnts::insertEdge(CEdge* pedge)
 
 
 
+//图的操作之一：删除一条边
+int
+CGraphEnts::delEdge(CEdge* pedge)
+{
+	;
+}
+
+
+
 //寻找节点，返回找到的节点序号；若找不到，返回-1；
 //设置误差; 
 //注意：当图里面还没有顶点的时候，要判断之;
@@ -2765,6 +2774,14 @@ CGraphEnts::isVertexIndexValid(IN const int iVertexIndex)
 		return false;
 	}
 	return true;
+}
+
+
+//对每条边提取起重叠边构成的环（也是提取环路）
+bool
+CGraphEnts::extractOverlappedLink()
+{
+	;
 }
 
 
