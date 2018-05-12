@@ -2362,14 +2362,6 @@ CGraphEnts::insertEdge(CEdge* pedge)
 }
 
 
-//从图中删除一条边
-int
-CGraphEnts::delEdge(CEdge* pedge)
-{
-	;
-}
-
-
 
 //寻找节点，返回找到的节点序号；若找不到，返回-1；
 //设置误差; 
@@ -2551,7 +2543,7 @@ CGraphEnts::DFS(int index)
 
 
 //图的所有顶点都被拆分过了，每个顶点只有1-2度；所以直接提取一条边表;
-//在提取轮廓线算法中，没有用上它;
+//
 void CGraphEnts::DFS2(int iIndex)
 {
 	//判断顶点是否被访问过；
@@ -2579,7 +2571,6 @@ void CGraphEnts::DFS2(int iIndex)
 
 //提取边链表; 
 //前提是：图中所有顶点的度小于等于2;
-//分两段提取原因：可能开始端点是在某条轮廓线中间;
 void
 CGraphEnts::extractEdgeLinks(IN const int iIndex)  
 {
@@ -2588,7 +2579,7 @@ CGraphEnts::extractEdgeLinks(IN const int iIndex)
 	{
 		return;
 	}
-	visited[iIndex] = 1; //set;  
+	visited[iIndex] = 1; //set;
 
 	//init;	
 	m_stackEdges.clear();
@@ -2651,23 +2642,23 @@ CGraphEnts::extractEdgeLinks(IN const int iIndex)
 	//合并两段;
 	//合并第一段;
 	CEdge* pEdgeTmp = NULL;
-	std::reverse(vEdgeLinksFirst.begin(),vEdgeLinksFirst.end()); //倒立;    
-	vector<CEdge*>::iterator itr = vEdgeLinksFirst.begin();    
+	std::reverse(vEdgeLinksFirst.begin(),vEdgeLinksFirst.end()); //倒立;
+	vector<CEdge*>::iterator itr = vEdgeLinksFirst.begin();
 	for(; itr != vEdgeLinksFirst.end(); itr++)
 	{
 		pEdgeTmp = (CEdge*)(*itr);
-		m_stackEdges.push_back(pEdgeTmp);     
+		m_stackEdges.push_back(pEdgeTmp);
 	}
 	//合并第二段;
 	pEdgeTmp = NULL;
 	itr = vEdgeLinksSecond.begin();
-	for(; itr != vEdgeLinksSecond.end(); itr++)    
+	for(; itr != vEdgeLinksSecond.end(); itr++)
 	{
 		pEdgeTmp = (CEdge*)(*itr);
-		m_stackEdges.push_back(pEdgeTmp);   
+		m_stackEdges.push_back(pEdgeTmp);
 	}
 
-	m_stackEdges.testPintOriginalPath();   
+	m_stackEdges.testPintOriginalPath();
 	m_allLoops.push_back(m_stackEdges);
 }
 
@@ -2774,14 +2765,6 @@ CGraphEnts::isVertexIndexValid(IN const int iVertexIndex)
 		return false;
 	}
 	return true;
-}
-
-
-//对每条边提取重叠环路;在chopEdgeLinks()之前;
-bool
-CGraphEnts::extractOverlappedLink()
-{
-	;
 }
 
 
