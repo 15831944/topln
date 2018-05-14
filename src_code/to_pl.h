@@ -109,7 +109,7 @@ enum ENTDirection
 class CArcLink
 {
 private:
-	vector<int>  m_vectroIndex;  //从图中提起的一条路径所代表的顶点的系列；这个可能用不上。稍后删除; 
+	vector<int>  m_vectroIndex;  //从图中提起的一条路径所代表的顶点的系列；这个可能用不上。稍后删除;
 	vector<CEdge*> m_edgesLink;   //从图中提取的一条路径；
 	//vector<CEdge*> m_edgesPathToPolyline();  // 从m_edgesLink整理而来，直接用于生成多义线。
 	//vector<vector<CEdge*>> m_pathToPolyline;    // 从m_edgesLink整理而来，直接用于生成多义线。
@@ -139,10 +139,10 @@ public:
 	void extractLoopsOfOverlappedEdges(vector<vector<CEdge*>> & pEdgesLinks);// 其次，提取重叠边上的环；即由两条重叠边组成的环；
 	void extractPathNotClosed(vector<vector<CEdge*>> & pEdgesLinks);  //最后，提取剩下的路径，都是不闭合的；
 
-	//提取路径后，第一条路径和最后一条路径“可能”要合并才行； 
+	//提取路径后，第一条路径和最后一条路径“可能”要合并才行；
 	bool isEdgeLeftAfterLoopsExtacted(const CEdge* pEdge);  //判断一条边在提取环后，是否为空边;
 	bool isFirstAndLastEdgeLinked();  //判断此arclink的头边和尾边是否连续（提取重叠边后）;
-	bool getStartPointIndex(OUT int& iIndex); //获取起点的序号; 如果没有起点（环形），则返回-1;  
+	bool getStartPointIndex(OUT int& iIndex); //获取起点的序号; 如果没有起点（环形），则返回-1;
 	bool getEndPointIndex(OUT int& iIndex);
 	bool mergeFirstAndLastLink(vector<vector<CEdge*>> & pEdgesLinks); //如果arclink闭合，且第一段和最后一段是相邻的，则合并第一个段和最后一段，成为一个段；
 	
@@ -167,13 +167,13 @@ private:
 	vector<AcDbPolyline*> m_vecPolylines;  //最终生成的多义线。	
 public:
 	CArcLinkArray();  //构造函数; 
-	~CArcLinkArray(); 
+	~CArcLinkArray();
 
 public:	
 	bool push_back(CArcLink edgesLink);  //纳入;
 	void pop_back();  //弹出;
 
-	// 整理回路CArcLink：回路不是完整回路，可能带有尾巴；需要将多余边去掉，剩下的是完整回路； 
+	// 整理回路CArcLink：回路不是完整回路，可能带有尾巴；需要将多余边去掉，剩下的是完整回路；
 	// 尾巴是由DFS深度遍历造成的；	
 	bool correctByRealEdges();    //根据实际边实体来整理出新的路径path；
 
@@ -282,11 +282,12 @@ public:
 public:
 	int index1;    //顶点1在图中的序号；
 	int index2;     //顶点2在图中的序号；
-	CEdge* path1;  //第一个顶点的下一个邻接边； 
-	CEdge* path2;   //第二个顶点的下一个邻接边；
+	CEdge* path1;  //第一个顶点的下一个邻接边；
+	CEdge* path2;   //第二个顶点的下一个邻接边； 
+
 	AcGePoint3d ptstart;  //线段起点；
 	AcGePoint3d ptend;   //线段终点；
-	CEdge* ptrSameEdges;  //同一条边可能有多个实体图元（line，arc，polyline）; 
+	CEdge* ptrSameEdges;  //同一条边可能有多个实体图元（line，arc，polyline）;
 	AcDbEntity* ptrEnt;
 	AcGe::EntityId enttype;   //表明实体是什么类：line，or arc，polyline。。。
 	//AcDbEntity* pEnt;   //指向一个实体；指针比较省空间。 
@@ -320,7 +321,7 @@ public:
 //采用多重链表;
 //顶点按int编号;
 //算法修改：应该在遍历轮廓线之前提取“重复边”，否则会导致轮廓线破碎不堪;(当然这也是一种选择而已)
-class  CGraphEnts    //所有的图形（line，arc，polyline）都在这里组成图结构;
+class  CGraphEnts    //所有的图形（line，arc，polyline）都在这里组成图结构;  
 {
 	//friend class CArcLink;
 	//friend class CArcLinkArray;  //友元类，为了访问该类的私有成员，比如图结构； 
@@ -328,20 +329,20 @@ private:
 	int MaxNumVertexs;    //最大顶点数;
 	int numVertexs;      //目前实际顶点数;  
 	vector<CVertex* > m_vertexTable;  //顶点表; 
-	vector<CEdge*> m_vctEdges;  //边表；收集用户分配的内存，主要用来释放内存。  
+	vector<CEdge*> m_vctEdges;  //边表；收集用户分配的内存，主要用来释放其内存。
 	int numEdges;         //图的边数;
 	ads_name m_sel;      //用来聚合多义线的实体;过滤后才传入本类;    
 	long m_ssLength;   // 实体集数量(实体边);
+	CArcLink  m_stackEdges;  //深度遍历图过程中，存放遍历的边系列的栈;  
+	CArcLinkArray m_allLoops;  //所有的可能的路径都装载于此; 
 
-	CArcLink  m_stackEdges;  //深度遍历图过程中，存放遍历的边系列的栈;    
-	CArcLinkArray m_allLoops;  //所有的可能的路径都装载于此;  
 	vector<int> visited;    //记录节点是否被访问过;	
 
-	CPointMap m_pointMap;  //存储点坐标;   
+	CPointMap m_pointMap;  //存储点坐标;
 	int m_nDotNum;  //点坐标小数位保留多少位.  
 
-//private:
-//	vector<CEdge*> m_paths;  //临时用作深度遍历后，从carclinkarray中取出路径（检查是否存在，真实的路径）；
+private:
+	vector<CEdge*> m_paths;  //临时用作深度遍历后，从carclinkarray中取出路径（检查是否存在，真实的路径）；
 
 public:
 	CGraphEnts();
@@ -380,7 +381,7 @@ private:
 	void chopVertex(IN IN const int iIndex);
 	int getAnotherVertex(IN const int v1,IN const int iParent,IN CEdge*& pEdge); //取某顶点iParent的除v1外的另一顶点，前提是该顶点度为2;
 	bool isVertexIndexValid(IN const int iVertexIndex);  
-	bool extractOverlappedLink();  //在chopEdgeLinks之前，对每条边提取重叠环路;每两个提取一次;
+	bool extractOverlappedLink(); 	
 
 	//深度遍历不用递归方式，而是用栈结构，使用循环来遍历;   
 	//index是某个顶点序号；若图是联通的，只遍历一次;  
