@@ -136,7 +136,7 @@ public:
 	void correctLinks(CArcLinkArray* pLinkArr); //对closed的边路径：初步整理,去掉非环部分；//没用上；算法改了.
 	void numOfLoops();    //检查此路径有几个重叠（就是路径重叠数量），路径重叠，懂吗？
 	void extractLoops(vector<vector<CEdge*>> & pEdgesLinks);  // 首先对闭合的arclink提取闭合圈；有几圈提取几圈；剩下的另外函数处理；//没用上；算法改了.
-	void extractLoopsOfOverlappedEdges(vector<vector<CEdge*>> & pEdgesLinks);// 其次，提取重叠边上的环；即由两条重叠边组成的环；
+	void extractLoopsOfOverlappedEdges(OUT vector<vector<CEdge*>> & pEdgesLinks);// 其次，提取重叠边上的环；即由两条重叠边组成的环；
 	void extractPathNotClosed(vector<vector<CEdge*>> & pEdgesLinks);  //最后，提取剩下的路径，都是不闭合的；
 
 	//提取路径后，第一条路径和最后一条路径“可能”要合并才行；
@@ -324,12 +324,12 @@ public:
 class  CGraphEnts    //所有的图形（line，arc，polyline）都在这里组成图结构;  
 {
 	//friend class CArcLink;
-	//friend class CArcLinkArray;  //友元类，为了访问该类的私有成员，比如图结构； 
+	//friend class CArcLinkArray;  //友元类，为了访问该类的私有成员，比如图结构; 
 private:
 	int MaxNumVertexs;    //最大顶点数;
 	int numVertexs;      //目前实际顶点数;  
 	vector<CVertex* > m_vertexTable;  //顶点表; 
-	vector<CEdge*> m_vctEdges;  //边表；收集用户分配的内存，主要用来释放其内存。
+	vector<CEdge*> m_vctEdges;  //边表；收集用户分配的内存，主要用来释放其内存。 
 	int numEdges;         //图的边数;
 	ads_name m_sel;      //用来聚合多义线的实体;过滤后才传入本类;    
 	long m_ssLength;   // 实体集数量(实体边);
@@ -353,14 +353,14 @@ public:
 	//对图进行改造，每个度大于2的顶点都拆开来，使得每个顶点度不大于2;
 	//提取路径（闭合及不闭合）:a-重叠边先提取环路径;b-然后提取连续路径;  
 	//对路径生成多义线;  
-	void to_polyline(IN ads_name ssPick);  
+	void to_polyline(IN ads_name ssPick); 
 	static bool isTwoPointsEqual(IN const AcGePoint3d& pt1,IN const AcGePoint3d& pt2,IN const int nDotNUm); 
 	
 private:
 	int insertVertex(IN AcGePoint3d &pt);     //向图中插入一个顶点;    
 	void insertEdge(CEdge* pedge);    //向图中插入一条边;   
 	int delVertex(int v);  //删除图中一个顶点(即相关边也要删除);     
-	int delEdge(CEdge* pedge);   //删除图中一条边;  
+	bool delEdge(CEdge* pedge);   //删除图中一条边;  
 
 private:
 	int GetFirstNeighbor(int v1,OUT CEdge*& pedge);  //取顶点v1的第一个邻接顶点；
@@ -377,11 +377,13 @@ private:
 	void  extractEdgeLinks(IN const int iIndex);  //每个顶点的度都是<=2，直接提取每条边表即可;
 	//拆分边链表：出入度大于2的边表都要拆分，添加新顶点，拆分成多个边表;
 	void chopEdgeLinks();
-	int insertSameVertex(IN const int vtxIndex);  //插入新顶点，次顶点肯定是重复顶点(拆分出来的顶点);
+	int insertSameVertex(IN const int vtxIndex);  //插入新顶点，此顶点肯定是重复顶点(拆分出来的顶点);
 	void chopVertex(IN IN const int iIndex);
-	int getAnotherVertex(IN const int v1,IN const int iParent,IN CEdge*& pEdge); //取某顶点iParent的除v1外的另一顶点，前提是该顶点度为2;
-	bool isVertexIndexValid(IN const int iVertexIndex);  
-	bool extractOverlappedLink(); 	
+	//取某顶点iParent的除v1外的另一顶点，前提是该顶点度为2;
+	int getAnotherVertex(IN const int v1,IN const int iParent,IN CEdge*& pEdge); 
+	bool isVertexIndexValid(IN const int iVertexIndex);   
+	bool extractOverlappedEdges(); 	
+	bool extractOverlappedEdge(IN CEdge* pEdge,OUT CArcLinkArray* pArcLinkArr);  //对指定边提取重叠边构成的环路;  
 
 	//深度遍历不用递归方式，而是用栈结构，使用循环来遍历;   
 	//index是某个顶点序号；若图是联通的，只遍历一次;  
