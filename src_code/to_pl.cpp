@@ -449,7 +449,7 @@ CArcLink::numOfLoops()
 void 
 CArcLink::extractLoops(vector<vector<CEdge*>> & pEdgesLinks)
 {
-	//if(isClosed == false)  //先检查是否闭合；//不闭合也要提取重叠线路2017-11-20；
+	//if(isClosed == false)  //先检查是否闭合；//不闭合也要提取重叠线路2017-11-20;
 	//{
 	//	return;
 	//}
@@ -492,7 +492,7 @@ CArcLink::extractLoops(vector<vector<CEdge*>> & pEdgesLinks)
 //注意CEdge上的各种参数的变动；
 //此处先计算剩余是奇数还是偶数；然后决定是否跳过第1个边；然后成对提取；
 void
-CArcLink::extractLoopsOfOverlappedEdges(vector<vector<CEdge*>> & pEdgeLinks)
+CArcLink::extractLoopsOfOverlappedEdges(OUT vector<vector<CEdge*>> & pEdgeLinks)
 {
 	CEdge* pEdge;
 	vector<CEdge*> pVectEdge;
@@ -2364,10 +2364,58 @@ CGraphEnts::insertEdge(CEdge* pedge)
 
 
 //图的操作之一：删除一条边
-int
+bool
 CGraphEnts::delEdge(CEdge* pedge)
 {
-	return -1;
+	int index1 = pedge->index1;
+	int index2 = pedge->index2;
+
+	//找到上游指针->index1;	
+	CEdge* pEdgeTmp = NULL;
+	while(true)
+	{
+		pEdgeTmp = m_vertexTable[index1]->adj;
+		if(pEdgeTmp == pedge)
+		{
+			break;
+		}
+		pEdgeTmp = pEdgeTmp->path1;
+	}
+	//断开index1连接;
+	if(pEdgeTmp != NULL)
+	{
+		pEdgeTmp = pEdgeTmp->path1->path1;
+		pEdgeTmp->path1 = NULL;
+	}
+	else
+	{
+		return false;
+	}
+
+
+	//找到上游指针->index2;	
+	pEdgeTmp = NULL;
+	while(true)
+	{
+		pEdgeTmp = m_vertexTable[index2]->adj;
+		if(pEdgeTmp == pedge)
+		{
+			break;
+		}
+		pEdgeTmp = pEdgeTmp->path2;
+	}
+	//断开index1连接;
+	if(pEdgeTmp != NULL)
+	{
+		pEdgeTmp = pEdgeTmp->path2->path2;
+		pEdgeTmp->path2 = NULL;
+	}
+	else
+	{
+		return false;
+	}
+
+	return true;
 }
 
 
@@ -2778,11 +2826,54 @@ CGraphEnts::isVertexIndexValid(IN const int iVertexIndex)
 
 
 //对每条边提取起重叠边构成的环（也是提取环路）
+//直接按顶点集合来遍历?
 bool
-CGraphEnts::extractOverlappedLink()
+CGraphEnts::extractOverlappedEdges() 
 {
 	return true;
 }
+
+
+
+//对指定边提取重叠边构成的环路（loop links);
+//提取的环路存放于CArcLinkArray; 不用对其初始化;
+bool
+CGraphEnts::extractOverlappedEdge(IN CEdge* pEdge,OUT CArcLinkArray& m_allLoops)
+{
+	CEdge* pEdge;
+	vector<CEdge*> pVectEdge;
+	CArcLink* pVectEdge = new CArcLink;
+
+	int edgeDepth = 0;	
+	vector<CEdge*>::iterator itr = this->m_edgesLink.begin();
+	for(; itr < m_edgesLink.end(); itr++)
+	{		
+		pEdge = (CEdge*)(*itr);
+		CEdge* pEdgeTemp = pEdge;
+		edgeDepth = pEdge->m_leftSameEdges;
+		if(edgeDepth > 1)  //此边重叠数超过1，则需将重叠边每两个一组取出放于pEdgeLinks；
+		{
+			int i = 0;
+			i = edgeDepth % 2;   //测试奇偶;
+			if(1 == i)
+			{
+				pEdgeTemp = pEdgeTemp->ptrSameEdges;
+			}
+			while(pEdgeTemp)
+			{
+				pVectEdge.push_back(pEdgeTemp);
+				pEdgeTemp = pEdgeTemp->ptrSameEdges;
+				pVectEdge.push_back(pEdgeTemp);
+				pEdgeTemp = pEdgeTemp->ptrSameEdges;  //bug
+
+				pEdgeLinks.push_back(pVectEdge); 
+				pVectEdge.clear();
+				pEdge->m_leftSameEdges -= 2;   //此边剩余数量每次减去2，最后可能是0或者1；
+			}
+		}
+	}
+}
+
 
 
 //分析点坐标小数位数量、获取误差值;
