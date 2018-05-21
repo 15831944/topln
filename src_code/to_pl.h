@@ -383,7 +383,7 @@ private:
 	int getAnotherVertex(IN const int v1,IN const int iParent,IN CEdge*& pEdge); 
 	bool isVertexIndexValid(IN const int iVertexIndex);   
 	bool extractOverlappedEdges(); 	
-	bool extractOverlappedEdge(IN CEdge* pEdge,OUT CArcLinkArray* pArcLinkArr);  //对指定边提取重叠边构成的环路;  
+	bool extractOverlappedEdge(IN CEdge* pEdge); //对指定边提取重叠边构成的环路;  
 
 	//深度遍历不用递归方式，而是用栈结构，使用循环来遍历;   
 	//index是某个顶点序号；若图是联通的，只遍历一次;  

@@ -2830,6 +2830,22 @@ CGraphEnts::isVertexIndexValid(IN const int iVertexIndex)
 bool
 CGraphEnts::extractOverlappedEdges() 
 {
+	int iIdx = 0;   //图顶点序号
+	CEdge* pEdge = NULL;  //指向边的临时指针.
+	//循环所有顶点
+	for(; iIdx < numVertexs; iIdx++)
+	{
+		//循环某个顶点下的所有边;
+		pEdge = m_vertexTable[iIdx]->adj;
+		while(pEdge != NULL)
+		{
+			extractOverlappedEdge(pEdge);
+			if(pEdge->m_leftSameEdges == 0) //说明全部被提取了
+			{
+				delEdge(pEdge); //删除之后，
+			}
+		}
+	}
 	return true;
 }
 
@@ -2838,40 +2854,34 @@ CGraphEnts::extractOverlappedEdges()
 //对指定边提取重叠边构成的环路（loop links);
 //提取的环路存放于CArcLinkArray; 不用对其初始化;
 bool
-CGraphEnts::extractOverlappedEdge(IN CEdge* pEdge,OUT CArcLinkArray& m_allLoops)
+CGraphEnts::extractOverlappedEdge(IN CEdge* pEdge)
 {
-	CEdge* pEdge;
-	vector<CEdge*> pVectEdge;
-	CArcLink* pVectEdge = new CArcLink;
-
+	//CEdge* pEdge;
 	int edgeDepth = 0;	
-	vector<CEdge*>::iterator itr = this->m_edgesLink.begin();
-	for(; itr < m_edgesLink.end(); itr++)
-	{		
-		pEdge = (CEdge*)(*itr);
-		CEdge* pEdgeTemp = pEdge;
-		edgeDepth = pEdge->m_leftSameEdges;
-		if(edgeDepth > 1)  //此边重叠数超过1，则需将重叠边每两个一组取出放于pEdgeLinks；
+	CEdge* pEdgeTemp = pEdge;
+	edgeDepth = pEdge->m_leftSameEdges;
+	if(edgeDepth > 1)  //此边重叠数超过1，则需将重叠边每两个一组取出放于pEdgeLinks；
+	{
+		int i = 0;
+		i = edgeDepth % 2;   //测试奇偶;
+		if(1 == i)
 		{
-			int i = 0;
-			i = edgeDepth % 2;   //测试奇偶;
-			if(1 == i)
-			{
-				pEdgeTemp = pEdgeTemp->ptrSameEdges;
-			}
-			while(pEdgeTemp)
-			{
-				pVectEdge.push_back(pEdgeTemp);
-				pEdgeTemp = pEdgeTemp->ptrSameEdges;
-				pVectEdge.push_back(pEdgeTemp);
-				pEdgeTemp = pEdgeTemp->ptrSameEdges;  //bug
-
-				pEdgeLinks.push_back(pVectEdge); 
-				pVectEdge.clear();
-				pEdge->m_leftSameEdges -= 2;   //此边剩余数量每次减去2，最后可能是0或者1；
-			}
+			pEdgeTemp = pEdgeTemp->ptrSameEdges;
 		}
+		while(pEdgeTemp)
+		{
+			m_stackEdges.push_back(pEdgeTemp);
+			pEdgeTemp = pEdgeTemp->ptrSameEdges;
+			m_stackEdges.push_back(pEdgeTemp);
+			pEdgeTemp = pEdgeTemp->ptrSameEdges;  //bug  
+
+			m_allLoops.push_back(m_stackEdges); 
+			m_stackEdges.clear();
+			pEdge->m_leftSameEdges -= 2;   //此边剩余数量每次减去2，最后可能是0或者1；
+		}
+		return true;
 	}
+	return false;
 }
 
 
