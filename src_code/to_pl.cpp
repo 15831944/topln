@@ -2372,9 +2372,9 @@ CGraphEnts::delEdge(CEdge* pedge)
 
 	//找到上游指针->index1;	
 	CEdge* pEdgeTmp = NULL;
-	while(true)
-	{
-		pEdgeTmp = m_vertexTable[index1]->adj;
+	pEdgeTmp = m_vertexTable[index1]->adj;
+	while(pEdgeTmp != NULL)
+	{		
 		if(pEdgeTmp == pedge)
 		{
 			break;
@@ -2395,9 +2395,9 @@ CGraphEnts::delEdge(CEdge* pedge)
 
 	//找到上游指针->index2;	
 	pEdgeTmp = NULL;
-	while(true)
-	{
-		pEdgeTmp = m_vertexTable[index2]->adj;
+	pEdgeTmp = m_vertexTable[index2]->adj;
+	while(pEdgeTmp != NULL)
+	{		
 		if(pEdgeTmp == pedge)
 		{
 			break;
@@ -2844,6 +2844,15 @@ CGraphEnts::extractOverlappedEdges()
 			{
 				delEdge(pEdge); //删除之后，
 			}
+			//指针往下移动;
+			if(iIdx == pEdge->index1)
+			{
+				pEdge = pEdge->path1;
+			}
+			else
+			{
+				pEdge = pEdge->path2;
+			}			
 		}
 	}
 	return true;
@@ -3137,6 +3146,9 @@ CGraphEnts::to_polyline(IN ads_name ssUsr)
 	createGraph();  //建图;
 
 	CTimeElapse objTimeElpsedAnother;
+
+	//提取重叠边
+	extractOverlappedEdges();	
 
 	//DFS3(); //打印图；测试语句
 
