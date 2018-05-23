@@ -2370,51 +2370,67 @@ CGraphEnts::delEdge(CEdge* pedge)
 	int index1 = pedge->index1;
 	int index2 = pedge->index2;
 
-	//找到上游指针->index1;	
+	//找到上游边表指针->index1;	
 	CEdge* pEdgeTmp = NULL;
-	pEdgeTmp = m_vertexTable[index1]->adj;
-	while(pEdgeTmp != NULL)
-	{		
-		if(pEdgeTmp == pedge)
-		{
-			break;
-		}
-		pEdgeTmp = pEdgeTmp->path1;
-	}
-	//断开index1连接;
-	if(pEdgeTmp != NULL)
+	pEdgeTmp = m_vertexTable[index1]->adj;  
+	if(pEdgeTmp == pedge)  //第一个边就需要删除
 	{
-		pEdgeTmp = pEdgeTmp->path1->path1;
-		pEdgeTmp->path1 = NULL;
+		m_vertexTable[index1]->adj = pEdgeTmp->path1;
+		//pEdgeTmp->path1 = NULL; //这句可以不要;
 	}
 	else
-	{
-		return false;
+	{		
+		//*pEdgeTmp = pEdgeTmp->path1;
+		while(pEdgeTmp != NULL)
+		{
+			if(pEdgeTmp->path1 == pedge)
+			{
+				break;
+			}
+			pEdgeTmp = pEdgeTmp->path1; 
+		}
+		//断开index1连接;
+		if(pEdgeTmp != NULL)
+		{
+			pEdgeTmp->path1 = pEdgeTmp->path1->path1; 
+			//pedge->path1->path1 = NULL;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 
 	//找到上游指针->index2;	
 	pEdgeTmp = NULL;
 	pEdgeTmp = m_vertexTable[index2]->adj;
-	while(pEdgeTmp != NULL)
-	{		
-		if(pEdgeTmp == pedge)
-		{
-			break;
-		}
-		pEdgeTmp = pEdgeTmp->path2;
-	}
-	//断开index1连接;
-	if(pEdgeTmp != NULL)
+	if(pEdgeTmp == pedge)  //第一个边就需要删除
 	{
-		pEdgeTmp = pEdgeTmp->path2->path2;
-		pEdgeTmp->path2 = NULL;
+		m_vertexTable[index2]->adj = pEdgeTmp->path2;
+		//pEdgeTmp->path1 = NULL; //这句可以不要;
 	}
 	else
 	{
-		return false;
+		while(pEdgeTmp != NULL)
+		{		
+			if(pEdgeTmp == pedge)
+			{
+				break;
+			}
+			pEdgeTmp = pEdgeTmp->path2;
+		}
+		//断开index1连接;
+		if(pEdgeTmp != NULL)
+		{
+			pEdgeTmp->path2 = pEdgeTmp->path2->path2;
+			//pEdgeTmp->path2->path2 = NULL;
+		}
+		else
+		{
+			return false;
+		}
 	}
-
 	return true;
 }
 
