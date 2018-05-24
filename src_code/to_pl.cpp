@@ -2371,28 +2371,29 @@ CGraphEnts::delEdge(CEdge* pedge)
 	int index2 = pedge->index2;
 
 	//找到上游边表指针->index1;	
-	CEdge* pEdgeTmp = NULL;
-	pEdgeTmp = m_vertexTable[index1]->adj;  
-	if(pEdgeTmp == pedge)  //第一个边就需要删除
+	CEdge* pEdgePro = NULL;
+	CEdge* pEdgeToDel = NULL;
+	pEdgePro = m_vertexTable[index1]->adj;  
+	if(pEdgePro == pedge)  //第一个边就需要删除
 	{
-		m_vertexTable[index1]->adj = pEdgeTmp->path1;
-		//pEdgeTmp->path1 = NULL; //这句可以不要;
+		m_vertexTable[index1]->adj = pEdgePro->path1;
+		//pEdgePro->path1 = NULL; //这句可以不要;		
 	}
 	else
 	{		
-		//*pEdgeTmp = pEdgeTmp->path1;
-		while(pEdgeTmp != NULL)
+		//*pEdgePro = pEdgePro->path1;
+		while(pEdgePro != NULL)
 		{
-			if(pEdgeTmp->path1 == pedge)
+			if(pEdgePro->path1 == pedge)  
 			{
 				break;
 			}
-			pEdgeTmp = pEdgeTmp->path1; 
+			pEdgePro = pEdgePro->path1; 
 		}
 		//断开index1连接;
-		if(pEdgeTmp != NULL)
+		if(pEdgePro != NULL)   //不仅要判断pEdgeTmp是否null，还要判断是否等于pEdge;
 		{
-			pEdgeTmp->path1 = pEdgeTmp->path1->path1; 
+			pEdgePro->path1 = (pEdgePro->path1 == NULL)?NULL:pEdgePro->path1->path1; 
 			//pedge->path1->path1 = NULL;
 		}
 		else
@@ -2403,28 +2404,28 @@ CGraphEnts::delEdge(CEdge* pedge)
 
 
 	//找到上游指针->index2;	
-	pEdgeTmp = NULL;
-	pEdgeTmp = m_vertexTable[index2]->adj;
-	if(pEdgeTmp == pedge)  //第一个边就需要删除
+	pEdgePro = NULL;
+	pEdgePro = m_vertexTable[index2]->adj;
+	if(pEdgePro == pedge)  //第一个边就需要删除
 	{
-		m_vertexTable[index2]->adj = pEdgeTmp->path2;
-		//pEdgeTmp->path1 = NULL; //这句可以不要;
+		m_vertexTable[index2]->adj = pEdgePro->path2;
+		//pEdgePro->path1 = NULL; //这句可以不要;	
 	}
 	else
 	{
-		while(pEdgeTmp != NULL)
-		{		
-			if(pEdgeTmp == pedge)
+		while(pEdgePro != NULL)
+		{
+			if(pEdgePro == pedge)
 			{
 				break;
 			}
-			pEdgeTmp = pEdgeTmp->path2;
+			pEdgePro = pEdgePro->path2;
 		}
 		//断开index1连接;
-		if(pEdgeTmp != NULL)
+		if(pEdgePro != NULL)
 		{
-			pEdgeTmp->path2 = pEdgeTmp->path2->path2;
-			//pEdgeTmp->path2->path2 = NULL;
+			pEdgePro->path2 = (pEdgePro->path2 == NULL)?NULL:pEdgePro->path2->path2; 
+			//pEdgePro->path2->path2 = NULL;
 		}
 		else
 		{
@@ -3006,7 +3007,7 @@ CGraphEnts::chopEdgeLinks()
 
 
 //对某个顶点进行判断，若度数大于2，则拆分;
-//每个顶点只允许度数为2;
+//拆分后每个顶点只允许度数为2;
 //拆分方法：
 //1.没隔2条边拆分一次；
 //2.每拆分一次，剩余边链表必须即时更新顶点，每条边的重叠边也要即时更新;
@@ -3103,12 +3104,15 @@ CGraphEnts::insertSameVertex(IN const int vtxIndex)
 	pt = m_vertexTable[vtxIndex]->pt;
 	if(vtxIndex >= 0)  //顶点合法；
 	{
-		CVertex* pobjVertex = new CVertex(pt);  //建立对象；
-		m_vertexTable.push_back(pobjVertex);
-		visited.push_back(0); //随之插入访问标记;
+		CVertex* pobjVertex = new CVertex(pt);  //建立对象； 
+		m_vertexTable.push_back(pobjVertex);  
+		visited.push_back(0); //随之插入访问标记;  
 
 		numVertexs++;
 		int index = numVertexs -1;  //序号从0开始；	
+#ifdef DEBUG_TO_PL_PRINT
+		acutPrintf(_T("\ninsert new point: %d"),index); 
+#endif
 		return index; 
 	}
 	else  //找到了该点存在于顶点表中。则不插入该点，返回-1；一般不会出现此种情况;
