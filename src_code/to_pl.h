@@ -205,7 +205,6 @@ private:
 	
 	bool m_isclosed;  //指示多义线是否闭合;
 
-
 public:
 	CToPolyline(vector<CEdge*>*& pEdgeLink,IN const AcGeTol equalPointTol);
 	~CToPolyline();
