@@ -18,7 +18,10 @@ David 96/10/12 1.0 build this moudle
 #include  "to_pl.h"
 #include "selectss.h"
 #include "TCHAR.h"
-//=============CEdge类========================================start=======
+
+//==================================
+//CEdge类
+//==================================
 //构造函数
 CEdge::CEdge()
 {
@@ -41,11 +44,51 @@ CEdge::CEdge()
 CEdge::~CEdge()
 {
 }
-//=============CEdge类========================================end=======
+
+
+//根据输入index，决定获取对应下一个指针;
+//返回空，表示输入错误;
+CEdge*
+CEdge::getNextPathPtr(IN const int iIndex)
+{
+	switch(iIndex)
+	{
+	case index1:
+		return path1;
+	case index2:
+		return path2;
+	default:
+		return NULL;
+	}
+}
 
 
 
-//=============CVertex类========================================start=======
+//设置(重置)相应的path指针;
+//设置成功返回true，否则false;
+bool
+CEdge::setNextPathPtr(IN const int iIndex,IN CEdge* pEdge)
+{
+	switch(iIndex)
+	{
+	case index1:
+		path1 = pEdge;
+		return true;
+	case index2:
+		path2 = pEdge;
+		return true;
+	default:
+		return false;
+	}
+}
+
+
+
+
+//==================================
+//CVertex类
+//==================================
+
 //构造函数
 CVertex::CVertex()
 {
@@ -68,14 +111,16 @@ CVertex::getPoint(AcGePoint3d& ptretn)
 {
 	ptretn.set(pt.x,pt.y,pt.z);
 }
-//=============CVertex类========================================end=======
 
 
 
 
 
-//=============CArcLink类========================================start=======
+//==================================
+//CArcLink类
 //边集合类；
+//==================================
+
 //构造函数；
 CArcLink::CArcLink()
 {
@@ -2376,7 +2421,7 @@ CGraphEnts::delEdge(CEdge* pedge)
 	pEdgePro = m_vertexTable[index1]->adj;  
 	if(pEdgePro == pedge)  //第一个边就需要删除
 	{
-		m_vertexTable[index1]->adj = pEdgePro->path1;
+		m_vertexTable[index1]->adj = pEdgePro->getNextPathPtr(index1);
 		//pEdgePro->path1 = NULL; //这句可以不要;		
 	}
 	else
@@ -2384,16 +2429,17 @@ CGraphEnts::delEdge(CEdge* pedge)
 		//*pEdgePro = pEdgePro->path1;
 		while(pEdgePro != NULL)
 		{
-			if(pEdgePro->path1 == pedge)  
+			if(pEdgePro->getNextPathPtr(index1) == pedge)  
 			{
 				break;
 			}
-			pEdgePro = pEdgePro->path1; 
+			pEdgePro = pEdgePro->getNextPathPtr(index1); 
 		}
 		//断开index1连接;
 		if(pEdgePro != NULL)   //不仅要判断pEdgeTmp是否null，还要判断是否等于pEdge;
 		{
-			pEdgePro->path1 = (pEdgePro->path1 == NULL)?NULL:pEdgePro->path1->path1; 
+			CEdge* pEdgeTemp = pEdgePro->getNextPathPtr(index1); 
+			pEdgePro->setNextPathPtr(index1,)
 			//pedge->path1->path1 = NULL;
 		}
 		else

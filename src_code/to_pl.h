@@ -282,14 +282,14 @@ public:
 public:
 	int index1;    //顶点1在图中的序号；
 	int index2;     //顶点2在图中的序号；
-	CEdge* path1;  //第一个顶点的下一个邻接边；
-	CEdge* path2;   //第二个顶点的下一个邻接边； 
+	CEdge* path1;  //第一个顶点的下一个邻接边； 
+	CEdge* path2;   //第二个顶点的下一个邻接边；  
 
 	AcGePoint3d ptstart;  //线段起点；
 	AcGePoint3d ptend;   //线段终点；
 	CEdge* ptrSameEdges;  //同一条边可能有多个实体图元（line，arc，polyline）;
 	AcDbEntity* ptrEnt;
-	AcGe::EntityId enttype;   //表明实体是什么类：line，or arc，polyline。。。
+	AcGe::EntityId enttype;   //表明实体是什么类：line，or arc，polyline。。。 
 	//AcDbEntity* pEnt;   //指向一个实体；指针比较省空间。 
 
 	int m_numSameEdges;   //此边（图结构）上有几个实体图元边，重叠的;
@@ -297,6 +297,8 @@ public:
 
 public:
 	bool m_isJoinedIntoNewPolyline;  //标记此实体是否加入了新的多义线（完成了topl之后); 
+	CEdge* getNextPathPtr(IN const int iIndex);  //根据输入序号，和index1和index2对比，决定返回path1还是path2;
+	bool setNextPathPtr(IN const int iIndex,IN CEdge* pEdge);  //设置path1或path2的值;即改变path指针;
 };
 
 
