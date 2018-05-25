@@ -51,13 +51,16 @@ CEdge::~CEdge()
 CEdge*
 CEdge::getNextPathPtr(IN const int iIndex)
 {
-	switch(iIndex)
+	if(iIndex == index1)
 	{
-	case index1:
 		return path1;
-	case index2:
+	}
+	else if(iIndex == index2)
+	{
 		return path2;
-	default:
+	}
+	else
+	{
 		return NULL;
 	}
 }
@@ -69,15 +72,18 @@ CEdge::getNextPathPtr(IN const int iIndex)
 bool
 CEdge::setNextPathPtr(IN const int iIndex,IN CEdge* pEdge)
 {
-	switch(iIndex)
+	if(iIndex == index1)
 	{
-	case index1:
 		path1 = pEdge;
 		return true;
-	case index2:
+	}
+	else if(iIndex == index2)
+	{
 		path2 = pEdge;
 		return true;
-	default:
+	}
+	else
+	{
 		return false;
 	}
 }
@@ -984,7 +990,7 @@ CArcLinkArray::toPolylines()
 		objToPl.inputEdgelink((vector<CEdge*> *)(&(*itr))); //传入参数; 
 		objToPl.to_polyline(pline);
 		//m_vecPolylines.push_back(pline);
-		join2database(pline);  //加入数据库；不收集起来了;
+		join2database(pline);  //加入数据库；不收集起来了; 
 
 		pline->close();
 	}	
@@ -2424,7 +2430,7 @@ CGraphEnts::delEdge(CEdge* pedge)
 		m_vertexTable[index1]->adj = pEdgePro->getNextPathPtr(index1);
 		//pEdgePro->path1 = NULL; //这句可以不要;		
 	}
-	else
+	else //第N条边删除处理;
 	{		
 		//*pEdgePro = pEdgePro->path1;
 		while(pEdgePro != NULL)
@@ -2438,8 +2444,11 @@ CGraphEnts::delEdge(CEdge* pedge)
 		//断开index1连接;
 		if(pEdgePro != NULL)   //不仅要判断pEdgeTmp是否null，还要判断是否等于pEdge;
 		{
+			//获取下下边指针;
 			CEdge* pEdgeTemp = pEdgePro->getNextPathPtr(index1); 
-			pEdgePro->setNextPathPtr(index1,)
+			pEdgeTemp = (pEdgeTemp == NULL)?NULL:pEdgeTemp->getNextPathPtr(index1);
+			//本边指针path 指向下下边; 
+			pEdgePro->setNextPathPtr(index1,pEdgeTemp);
 			//pedge->path1->path1 = NULL;
 		}
 		else
@@ -2454,24 +2463,29 @@ CGraphEnts::delEdge(CEdge* pedge)
 	pEdgePro = m_vertexTable[index2]->adj;
 	if(pEdgePro == pedge)  //第一个边就需要删除
 	{
-		m_vertexTable[index2]->adj = pEdgePro->path2;
-		//pEdgePro->path1 = NULL; //这句可以不要;	
+		m_vertexTable[index2]->adj = pEdgePro->getNextPathPtr(index2);
+		//pEdgePro->path1 = NULL; //这句可以不要;		
 	}
-	else
-	{
+	else //第N条边删除处理;
+	{		
+		//*pEdgePro = pEdgePro->path1;
 		while(pEdgePro != NULL)
 		{
-			if(pEdgePro == pedge)
+			if(pEdgePro->getNextPathPtr(index2) == pedge)  
 			{
 				break;
 			}
-			pEdgePro = pEdgePro->path2;
+			pEdgePro = pEdgePro->getNextPathPtr(index2); 
 		}
 		//断开index1连接;
-		if(pEdgePro != NULL)
+		if(pEdgePro != NULL)   //不仅要判断pEdgeTmp是否null，还要判断是否等于pEdge;
 		{
-			pEdgePro->path2 = (pEdgePro->path2 == NULL)?NULL:pEdgePro->path2->path2; 
-			//pEdgePro->path2->path2 = NULL;
+			//获取下下边指针;
+			CEdge* pEdgeTemp = pEdgePro->getNextPathPtr(index2); 
+			pEdgeTemp = (pEdgeTemp == NULL)?NULL:pEdgeTemp->getNextPathPtr(index2);
+			//本边指针path 指向下下边; 
+			pEdgePro->setNextPathPtr(index2,pEdgeTemp);
+			//pedge->path1->path1 = NULL;
 		}
 		else
 		{
