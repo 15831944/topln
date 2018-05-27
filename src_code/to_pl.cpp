@@ -1098,6 +1098,7 @@ CToPolyline::inputEdgelink(vector<CEdge*>* pEdgeLink)
 	if(pEdgeLink != NULL)
 	{
 		m_edgeLink = pEdgeLink;
+		m_nNumOfEdges = pEdgeLink->size();
 		printEdgeLink();  //(m_edgeLink);
 	}
 	else
@@ -1922,24 +1923,25 @@ CToPolyline::printEdgeLink()
 	}
 
 	vector<CEdge*>::const_iterator itr = m_edgeLink->begin();
-	acutPrintf(_T("\n此路径信息如下:\n"));
+	acutPrintf(_T("\nCToPolyline::printEdgeLink()-此路径信息如下:"));
+	acutPrintf(_T("\nCToPolyline::printEdgeLink()-此路径包含%d边:"),m_nNumOfEdges);
 	for(; itr != m_edgeLink->end(); itr++)
 	{
 		//检查是否有NULL指针
 		if((CEdge*)(*itr) == NULL)
 		{
-			acutPrintf(_T("********************************************************************"));
-			acutPrintf(_T("********************************************************************"));
-			acutPrintf(_T("********************************************************************"));
+			acutPrintf(_T("\n********有null pointer of edge************************************"));
+			
 			continue;
 		}
 		//acutPrintf(_T("\n顶点序号(%d,%d)"),((CEdge*)(*itr))->index1,((CEdge*)(*itr))->index2);
 		//acutPrintf(_T("顶点坐标(%f,%f)"),((CEdge*)(*itr))->ptstart.x,((CEdge*)(*itr))->ptstart.y);
 		//acutPrintf(_T("顶点坐标(%f,%f)\n"),((CEdge*)(*itr))->ptend.x,((CEdge*)(*itr))->ptend.y);
 		acutPrintf(_T("\n顶点序号(%d,%d)"),(*itr)->index1,(*itr)->index2);
-		acutPrintf(_T("顶点坐标(%f,%f)"),(*itr)->ptstart.x,(*itr)->ptstart.y);
-		acutPrintf(_T("顶点坐标(%f,%f)\n"),(*itr)->ptend.x,(*itr)->ptend.y);
+		acutPrintf(_T("  顶点坐标(%f,%f)"),(*itr)->ptstart.x,(*itr)->ptstart.y);
+		acutPrintf(_T("  顶点坐标(%f,%f)"),(*itr)->ptend.x,(*itr)->ptend.y);
 	}
+	acutPrintf(_T("\nCToPolyline::printEdgeLink()-此路径信息如上!====\n"));
 	m_edgeLink;
 
 #endif  //#ifdef DEBUG_TO_PL_PRINT

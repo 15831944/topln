@@ -204,6 +204,7 @@ private:
 	int m_startPointIndex;  //temp var; 用于记录取顶点过程中，某边的起点的顶点序号;
 	
 	bool m_isclosed;  //指示多义线是否闭合;
+	int m_nNumOfEdges; //m_edgeLink有几条边;
 
 public:
 	CToPolyline(vector<CEdge*>*& pEdgeLink,IN const AcGeTol equalPointTol);
