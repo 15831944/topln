@@ -74,4 +74,18 @@ topln.ncb
 >>>>>>> b3f1df4fce18861880436f27c6cfee47f19413a7
 topln.ncb
 topln.ncb
+<<<<<<< HEAD
 topln.ncb
+=======
+x64/debug/topln.lib
+x64/debug/owaltopln.ilk
+x64/debug/topln.exp
+Drawing1.dwl
+Drawing1.dwl2
+topln.ncb
+topln.vcproj.PC-201705141018.Administrator.user
+x64/debug/BuildLog.htm
+x64/debug/mt.dep
+x64/debug/owaltopln.ilk
+x64/debug/topln.exp
+>>>>>>> 9bff6cb234e7abdf7f36810e47e2b68804eb6ef5
