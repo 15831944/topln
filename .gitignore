@@ -89,3 +89,13 @@ x64/debug/mt.dep
 x64/debug/owaltopln.ilk
 x64/debug/topln.exp
 >>>>>>> 9bff6cb234e7abdf7f36810e47e2b68804eb6ef5
+x64/debug/owaltopln.ilk
+x64/debug/selectss.obj
+x64/debug/topln.exp
+x64/debug/topln.lib
+x64/debug/topln.pdb
+x64/debug/vc90.idb
+x64/debug/vc90.pdb
+topln.ncb
+x64/debug/BuildLog.htm
+x64/debug/mt.dep

@@ -583,7 +583,6 @@ CArcLink::extractLoopsOfOverlappedEdges(OUT vector<vector<CEdge*>> & pEdgeLinks)
 //前提:重叠边已经被提取过了;
 //其实每条边剩余重叠边不是0就是1；只能提取一次了；
 //根据边的重叠数量提取边链表：m_leftSameEdges；
-//
 void 
 CArcLink::extractPathNotClosed(vector<vector<CEdge*>> & pEdgeLinks)
 {
@@ -625,6 +624,14 @@ CArcLink::extractPathNotClosed(vector<vector<CEdge*>> & pEdgeLinks)
 	{
 		pEdgeLinks.push_back((vector<CEdge*>)(*itrlist));
 	}
+}
+
+
+//
+void
+CArcLink::justExtractEdgesLink(OUT vector<vector<CEdge*>> & pEdgesLinks)
+{
+	pEdgesLinks.push_back(m_edgesLink);
 }
 
 
@@ -872,23 +879,20 @@ CArcLinkArray::correctByRealEdges()
 {
 	vector<CArcLink>::iterator itr = this->m_edgeLinkArray.begin();	
 
-	//对carclink进行整理，去掉closed path中非环部分进行剥离;
-	//for(; itr < m_edgeLinkArray.end(); itr++)
-	//{
-	//	if((*itr).isPathClosed())
-	//	{
-	//		(*itr).correctLinks(this);
-	//	}
-	//}
-
-	//非环路提取;
+	//仅仅是将CArcLink中的边表取出赋予m_edgeLinkArrayToPolyline; 写法很不好，差劲！！！
 	for(itr = m_edgeLinkArray.begin(); itr < m_edgeLinkArray.end(); itr++)
 	{
-		//(*itr).numOfLoops(); //获取carclink内部真实loop数量；因为carclink的CEdge可能已经变动了；
-		//(*itr).extractLoops(m_edgeLinkArrayToPolyline);
-		(*itr).extractLoopsOfOverlappedEdges(m_edgeLinkArrayToPolyline);
-		(*itr).extractPathNotClosed(m_edgeLinkArrayToPolyline);
+		(*itr).justExtractEdgesLink(m_edgeLinkArrayToPolyline);
 	}
+
+	//非环路提取;
+	//for(itr = m_edgeLinkArray.begin(); itr < m_edgeLinkArray.end(); itr++)
+	//{
+	//	//(*itr).numOfLoops(); //获取carclink内部真实loop数量；因为carclink的CEdge可能已经变动了；
+	//	//(*itr).extractLoops(m_edgeLinkArrayToPolyline);
+	//	(*itr).extractLoopsOfOverlappedEdges(m_edgeLinkArrayToPolyline);
+	//	(*itr).extractPathNotClosed(m_edgeLinkArrayToPolyline);
+	//}
 	return true;
 }
 
@@ -2059,6 +2063,7 @@ CGraphEnts::CGraphEnts()
 	numVertexs = 0;
 	m_ssLength = -1;
 	m_nDotNum = -1;
+	m_stackEdges.clear();  
 }
 
 
@@ -2718,8 +2723,8 @@ CGraphEnts::extractEdgeLinks(IN const int iIndex)
 	}
 	visited[iIndex] = 1; //set;
 
-	//init;	
-	m_stackEdges.clear();
+	//init;	  
+	m_stackEdges.clear();  
 
 	//check iIndex
 	if(!isVertexIndexValid(iIndex))
@@ -3251,7 +3256,7 @@ CGraphEnts::to_polyline(IN ads_name ssUsr)
 	//打印获取的路径；测试完了后删除;
 	m_allLoops.testPrintOriginalPath();
 
-	m_allLoops.correctByRealEdges();
+	m_allLoops.correctByRealEdges(); //仅仅提取边表;
 
 	////输出用来生成多义线的路径（已经调整好的路径）;
 	m_allLoops.testm_edgeLinkArrayToPolyline();
