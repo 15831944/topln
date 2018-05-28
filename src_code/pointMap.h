@@ -123,9 +123,9 @@ public:
 	bool find(IN const AcGePoint3d pt,OUT int& ptIndex);
 	bool erase(IN const double x,IN const double y);  //删除;
 	bool erase(IN const AcGePoint3d pt);
-	bool setDotNum(IN const int nDotNum);
+	bool setDotNum(IN const int nDotNum); 
 	void print();
-	bool printMap();  //打印出map的点;
+	bool printMap();  //打印出map的点; 
 
 public:
 	static double transByDotNum(IN const double xyVal,IN const int nDotNum); //对xy值进行过滤，保留指定位数的小数;
