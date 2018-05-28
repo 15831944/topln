@@ -78,8 +78,8 @@ struct SYData
 	SYData();
 	SYData(IN const SYData& src);  //copy constructor;
 	~SYData();
-	double m_y;
-	AcGePoint3d pt;
+	double m_y;   //y坐标;
+	AcGePoint3d pt;  
 	int m_PointIndex;  //点的序号（在图结构中）   
 };
 
@@ -91,7 +91,7 @@ struct SXData
 	SXData();
 	~SXData();
 	SXData(IN const SXData& src);  //copy constructor;
-	double m_x;
+	double m_x;     //x坐标;
 	int m_nDotNum; //小数保留多少位;
 	map<double,SYData,dblcmp> m_pPointMap;  //嵌套map;
 
