@@ -181,12 +181,6 @@ CPointMap::insert(IN const double x,IN const double y,IN const int ptIndex)
 	double xf = x;
 	double yf = y;
 
-	//int iIndex = -1;
-	//if(this->find(xf,yf,iIndex))
-	//{
-	//	return; //不插入;
-	//}
-
 	//插入x值;
 	map<double,SXData,dblcmp>::iterator itrRtnX;
 	bool bFlag = false;
