@@ -56,6 +56,7 @@ eg： Date:	Author: 	Modification:
 
 using namespace std;
 
+#define  DEBUG_TO_PL_PRINT
 void testPointMapClass();
 
 //map比较函数
@@ -80,8 +81,13 @@ struct SYData
 	~SYData();
 	double m_y;   //y坐标;
 	AcGePoint3d pt;  
+<<<<<<< HEAD
 	int m_PointIndex;  //点的序号（在图结构中）  
 	void* m_dataPtr;   //void指针，用来挂其他任意扩展数据;
+=======
+	int m_PointIndex;  //点的序号（在图结构中）   
+	void* m_dataVoidPtr;  //挂载其他数据;
+>>>>>>> 6f9491eff6a3a4bf4b6afb44d472ad9ea9e72c1c
 };
 
 
@@ -114,7 +120,7 @@ public:
 private:
 	map<double,SXData,dblcmp> m_mapXcoord;  
 	int m_nDotNum;   //小数的位数;
-	bool isDotNumSet; //判断小数位数是否已经设置，设置过了就不能再设置了;
+	bool isDotNumSet; //判断小数位数是否已经设置，设置过了就不能再设置了;  
 	
 
 public:
@@ -122,11 +128,17 @@ public:
 	void insert(IN const AcGePoint3d pt,IN const int ptIndex);
 	bool find(IN const double x,IN const double y,OUT int& ptIndex);   //查找;
 	bool find(IN const AcGePoint3d pt,OUT int& ptIndex);
-	bool erase(IN const double x,IN const double y);  //删除;
+	bool erase(IN const double x,IN const double y);  //删除; 
 	bool erase(IN const AcGePoint3d pt);
-	bool setDotNum(IN const int nDotNum); 
+	bool setDotNum(IN const int nDotNum);  
 	void print();
 	bool printMap();  //打印出map的点; 
+
+public:
+	//二期函数，用void* m_dataVoidPtr来扩展附加数据;更有扩展性; 
+	void insert(IN const double xc,IN const double yc,IN void* voidPtr);
+	bool find(IN const double xc,IN const double yc,OUT void* voidPtr);   
+	void findPointPairs(IN const double dist,OUT vector<pair<void*,void*>> pointPairs);   //发现距离小于dist的点对;  
 
 public:
 	static double transByDotNum(IN const double xyVal,IN const int nDotNum); //对xy值进行过滤，保留指定位数的小数;
