@@ -91,13 +91,13 @@ SXData::print()
 {
 	#ifdef DEBUG_TO_PL_PRINT
 
-	//map<double,SYData,dblcmp>::iterator itr = m_pPointMap.begin();
-	//AcGePoint3d pt;
-	//SYData stY;
-	//for(; itr != m_pPointMap.end(); itr++)
-	//{
-	//	acutPrintf(_T("\n(%15f,%15f)%d"),itr->second.pt.x,itr->second.pt.y,itr->second.m_PointIndex);
-	//}
+	map<double,SYData,dblcmp>::iterator itr = m_pPointMap.begin();
+	AcGePoint3d pt;
+	SYData stY;
+	for(; itr != m_pPointMap.end(); itr++)
+	{
+		acutPrintf(_T("\n(%15f,%15f)%d"),itr->second.pt.x,itr->second.pt.y,itr->second.m_PointIndex);
+	}
 
 	#endif  DEBUG_TO_PL_PRINT
 }
@@ -258,11 +258,23 @@ CPointMap::setDotNum(IN const int nDotNum)
 void
 CPointMap::print()
 {
+#ifdef DEBUG_TO_PL_PRINT	 
 	map<double,SXData,dblcmp>::iterator itr = m_mapXcoord.begin();
 	for(; itr != m_mapXcoord.end(); itr++)
 	{
 		itr->second.print();
 	}
+#endif
+}
+
+
+
+//寻找距离小于dist的点对
+void
+CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>> pointPairs)
+{
+	map<double,SXData,dblcmp>::iterator itr = m_mapXcoord.begin();
+	itr->second;
 }
 
 
@@ -279,7 +291,7 @@ testPointMapClass()
 	CTimeElapse objTimesElpased;
 	
 	long nNumSS = 0;
-	acedSSLength(ss,&nNumSS);
+	acedSSLength(ss,&nNumSS);  
 
 	AcDbObjectId id;
 	AcDbEntity* pEnt;
@@ -332,11 +344,15 @@ testPointMapClass()
 	testAcPoint.set(adsPoint[0],adsPoint[1],adsPoint[2]);
 	if(objPtMap.find(testAcPoint,ptIndex))
 	{
-		//acutPrintf(_T("\nfind it(%f,%f,%f)%d!"),adsPoint[0],adsPoint[1],adsPoint[2],ptIndex);
+		#ifdef DEBUG_TO_PL_PRINT
+		acutPrintf(_T("\nfind it(%f,%f,%f)%d!"),adsPoint[0],adsPoint[1],adsPoint[2],ptIndex);
+		#endif
 	}
 	else
 	{
-		//acutPrintf(_T("\n not find it(%f,%f,%f)!"),adsPoint[0],adsPoint[1],adsPoint[2]);
+		#ifdef DEBUG_TO_PL_PRINT
+		acutPrintf(_T("\n not find it(%f,%f,%f)!"),adsPoint[0],adsPoint[1],adsPoint[2]);
+		#endif
 	}
 	acedSSFree(ss);
 }

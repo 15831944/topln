@@ -110,3 +110,4 @@ x64/debug/BuildLog.htm
 topln.ncb
 x64/debug/vc90.pdb
 topln.ncb
+*.obj

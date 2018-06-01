@@ -56,6 +56,7 @@ eg： Date:	Author: 	Modification:
 
 using namespace std;
 
+#define  DEBUG_TO_PL_PRINT
 void testPointMapClass();
 
 //map比较函数
@@ -131,7 +132,8 @@ public:
 public:
 	//二期函数，用void* m_dataVoidPtr来扩展附加数据;更有扩展性; 
 	void insert(IN const double xc,IN const double yc,IN void* voidPtr);
-	bool find(IN const double xc,IN const double yc,OUT void* voidPtr);
+	bool find(IN const double xc,IN const double yc,OUT void* voidPtr);   
+	void findPointPairs(IN const double dist,OUT vector<pair<void*,void*>> pointPairs);   //发现距离小于dist的点对;  
 
 public:
 	static double transByDotNum(IN const double xyVal,IN const int nDotNum); //对xy值进行过滤，保留指定位数的小数;
