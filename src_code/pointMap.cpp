@@ -142,7 +142,7 @@ CPointMap::~CPointMap()
 //返回：改造后的double变量;
 //这种改造是不精准的，并不能完全消除两个“相等”的double变量误差；
 //比如7.0和6.99999，在这里没法改造成相等;
-//所以这个函数要弃用！！！！！！！
+//所以这个函数要弃用！没卵用.
 double
 CPointMap::transByDotNum(IN const double xyVal,IN const int nDotNum)
 {
@@ -184,10 +184,10 @@ CPointMap::insert(IN const double x,IN const double y,IN const int ptIndex)
 	//插入x值;
 	map<double,SXData,dblcmp>::iterator itrRtnX;
 	bool bFlag = false;
-	pair<map<double,SXData,dblcmp>::iterator,bool> pairRtnX;
+	pair<map<double,SXData,dblcmp>::iterator,bool> pairRtnX; 
 	SXData sx;
 	sx.m_x = xf;
-	pairRtnX = m_mapXcoord.insert(pair<double,SXData>(xf,sx));
+	pairRtnX = m_mapXcoord.insert(pair<double,SXData>(xf,sx));  
 	itrRtnX = pairRtnX.first;
 
 	//插入y;
