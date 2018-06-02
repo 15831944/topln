@@ -583,7 +583,6 @@ CArcLink::extractLoopsOfOverlappedEdges(OUT vector<vector<CEdge*>> & pEdgeLinks)
 //前提:重叠边已经被提取过了;
 //其实每条边剩余重叠边不是0就是1；只能提取一次了；
 //根据边的重叠数量提取边链表：m_leftSameEdges；
-//
 void 
 CArcLink::extractPathNotClosed(vector<vector<CEdge*>> & pEdgeLinks)
 {
@@ -625,6 +624,14 @@ CArcLink::extractPathNotClosed(vector<vector<CEdge*>> & pEdgeLinks)
 	{
 		pEdgeLinks.push_back((vector<CEdge*>)(*itrlist));
 	}
+}
+
+
+//
+void
+CArcLink::justExtractEdgesLink(OUT vector<vector<CEdge*>> & pEdgesLinks)
+{
+	pEdgesLinks.push_back(m_edgesLink);
 }
 
 
@@ -872,23 +879,20 @@ CArcLinkArray::correctByRealEdges()
 {
 	vector<CArcLink>::iterator itr = this->m_edgeLinkArray.begin();	
 
-	//对carclink进行整理，去掉closed path中非环部分进行剥离;
-	//for(; itr < m_edgeLinkArray.end(); itr++)
-	//{
-	//	if((*itr).isPathClosed())
-	//	{
-	//		(*itr).correctLinks(this);
-	//	}
-	//}
-
-	//非环路提取;
+	//仅仅是将CArcLink中的边表取出赋予m_edgeLinkArrayToPolyline; 写法很不好，差劲！！！
 	for(itr = m_edgeLinkArray.begin(); itr < m_edgeLinkArray.end(); itr++)
 	{
-		//(*itr).numOfLoops(); //获取carclink内部真实loop数量；因为carclink的CEdge可能已经变动了；
-		//(*itr).extractLoops(m_edgeLinkArrayToPolyline);
-		(*itr).extractLoopsOfOverlappedEdges(m_edgeLinkArrayToPolyline);
-		(*itr).extractPathNotClosed(m_edgeLinkArrayToPolyline);
+		(*itr).justExtractEdgesLink(m_edgeLinkArrayToPolyline);
 	}
+
+	//非环路提取;
+	//for(itr = m_edgeLinkArray.begin(); itr < m_edgeLinkArray.end(); itr++)
+	//{
+	//	//(*itr).numOfLoops(); //获取carclink内部真实loop数量；因为carclink的CEdge可能已经变动了；
+	//	//(*itr).extractLoops(m_edgeLinkArrayToPolyline);
+	//	(*itr).extractLoopsOfOverlappedEdges(m_edgeLinkArrayToPolyline);
+	//	(*itr).extractPathNotClosed(m_edgeLinkArrayToPolyline);
+	//}
 	return true;
 }
 
@@ -1098,6 +1102,7 @@ CToPolyline::inputEdgelink(vector<CEdge*>* pEdgeLink)
 	if(pEdgeLink != NULL)
 	{
 		m_edgeLink = pEdgeLink;
+		m_nNumOfEdges = pEdgeLink->size();
 		printEdgeLink();  //(m_edgeLink);
 	}
 	else
@@ -1922,24 +1927,25 @@ CToPolyline::printEdgeLink()
 	}
 
 	vector<CEdge*>::const_iterator itr = m_edgeLink->begin();
-	acutPrintf(_T("\n此路径信息如下:\n"));
+	acutPrintf(_T("\nCToPolyline::printEdgeLink()-此路径信息如下:"));
+	acutPrintf(_T("\nCToPolyline::printEdgeLink()-此路径包含%d边:"),m_nNumOfEdges);
 	for(; itr != m_edgeLink->end(); itr++)
 	{
 		//检查是否有NULL指针
 		if((CEdge*)(*itr) == NULL)
 		{
-			acutPrintf(_T("********************************************************************"));
-			acutPrintf(_T("********************************************************************"));
-			acutPrintf(_T("********************************************************************"));
+			acutPrintf(_T("\n********有null pointer of edge************************************"));
+			
 			continue;
 		}
 		//acutPrintf(_T("\n顶点序号(%d,%d)"),((CEdge*)(*itr))->index1,((CEdge*)(*itr))->index2);
 		//acutPrintf(_T("顶点坐标(%f,%f)"),((CEdge*)(*itr))->ptstart.x,((CEdge*)(*itr))->ptstart.y);
 		//acutPrintf(_T("顶点坐标(%f,%f)\n"),((CEdge*)(*itr))->ptend.x,((CEdge*)(*itr))->ptend.y);
 		acutPrintf(_T("\n顶点序号(%d,%d)"),(*itr)->index1,(*itr)->index2);
-		acutPrintf(_T("顶点坐标(%f,%f)"),(*itr)->ptstart.x,(*itr)->ptstart.y);
-		acutPrintf(_T("顶点坐标(%f,%f)\n"),(*itr)->ptend.x,(*itr)->ptend.y);
+		acutPrintf(_T("  顶点坐标(%f,%f)"),(*itr)->ptstart.x,(*itr)->ptstart.y);
+		acutPrintf(_T("  顶点坐标(%f,%f)"),(*itr)->ptend.x,(*itr)->ptend.y);
 	}
+	acutPrintf(_T("\nCToPolyline::printEdgeLink()-此路径信息如上!====\n"));
 	m_edgeLink;
 
 #endif  //#ifdef DEBUG_TO_PL_PRINT
@@ -2057,6 +2063,7 @@ CGraphEnts::CGraphEnts()
 	numVertexs = 0;
 	m_ssLength = -1;
 	m_nDotNum = -1;
+	m_stackEdges.clear();  
 }
 
 
@@ -2716,8 +2723,8 @@ CGraphEnts::extractEdgeLinks(IN const int iIndex)
 	}
 	visited[iIndex] = 1; //set;
 
-	//init;	
-	m_stackEdges.clear();
+	//init;	  
+	m_stackEdges.clear();  
 
 	//check iIndex
 	if(!isVertexIndexValid(iIndex))
@@ -3249,7 +3256,7 @@ CGraphEnts::to_polyline(IN ads_name ssUsr)
 	//打印获取的路径；测试完了后删除;
 	m_allLoops.testPrintOriginalPath();
 
-	m_allLoops.correctByRealEdges();
+	m_allLoops.correctByRealEdges(); //仅仅提取边表;
 
 	////输出用来生成多义线的路径（已经调整好的路径）;
 	m_allLoops.testm_edgeLinkArrayToPolyline();

@@ -138,6 +138,7 @@ public:
 	void extractLoops(vector<vector<CEdge*>> & pEdgesLinks);  // 首先对闭合的arclink提取闭合圈；有几圈提取几圈；剩下的另外函数处理；//没用上；算法改了.
 	void extractLoopsOfOverlappedEdges(OUT vector<vector<CEdge*>> & pEdgesLinks);// 其次，提取重叠边上的环；即由两条重叠边组成的环；
 	void extractPathNotClosed(vector<vector<CEdge*>> & pEdgesLinks);  //最后，提取剩下的路径，都是不闭合的；
+	void justExtractEdgesLink(OUT vector<vector<CEdge*>> & pEdgesLinks);
 
 	//提取路径后，第一条路径和最后一条路径“可能”要合并才行；
 	bool isEdgeLeftAfterLoopsExtacted(const CEdge* pEdge);  //判断一条边在提取环后，是否为空边;
@@ -157,13 +158,14 @@ public:
 
 //=================================
 //边表集合;
+//不对路径进行整理了，无需整理； 在图类中已经整理;
 //=================================
 class CArcLinkArray
 {
 private:
 	vector<CArcLink> m_edgeLinkArray;  //多个路径；
 	//vector<CArcLink* > m_edgeLinkArrayToPolyline;  //在m_edgeLinkArray基础上整理得到，直接用来生成多义线的；
-	vector<vector<CEdge*>> m_edgeLinkArrayToPolyline ;   //在m_edgeLinkArray基础上整理得到，直接用来生成多义线的；
+	vector<vector<CEdge*>> m_edgeLinkArrayToPolyline ;   //在m_edgeLinkArray基础上整理得到，直接用来生成多义线的；用不上了，作废！
 	vector<AcDbPolyline*> m_vecPolylines;  //最终生成的多义线。	
 public:
 	CArcLinkArray();  //构造函数; 
@@ -175,7 +177,7 @@ public:
 
 	// 整理回路CArcLink：回路不是完整回路，可能带有尾巴；需要将多余边去掉，剩下的是完整回路；
 	// 尾巴是由DFS深度遍历造成的；	
-	bool correctByRealEdges();    //根据实际边实体来整理出新的路径path；
+	bool correctByRealEdges();    //根据实际边实体来整理出新的路径path；	
 
 	//生成多义线；
 	void toPolylines();   //对m_edgeLinkArrayToPolyline加工，生成多义线。 
@@ -204,6 +206,7 @@ private:
 	int m_startPointIndex;  //temp var; 用于记录取顶点过程中，某边的起点的顶点序号;
 	
 	bool m_isclosed;  //指示多义线是否闭合;
+	int m_nNumOfEdges; //m_edgeLink有几条边;
 
 public:
 	CToPolyline(vector<CEdge*>*& pEdgeLink,IN const AcGeTol equalPointTol);

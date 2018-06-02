@@ -91,13 +91,13 @@ SXData::print()
 {
 	#ifdef DEBUG_TO_PL_PRINT
 
-	//map<double,SYData,dblcmp>::iterator itr = m_pPointMap.begin();
-	//AcGePoint3d pt;
-	//SYData stY;
-	//for(; itr != m_pPointMap.end(); itr++)
-	//{
-	//	acutPrintf(_T("\n(%15f,%15f)%d"),itr->second.pt.x,itr->second.pt.y,itr->second.m_PointIndex);
-	//}
+	map<double,SYData,dblcmp>::iterator itr = m_pPointMap.begin();
+	AcGePoint3d pt;
+	SYData stY;
+	for(; itr != m_pPointMap.end(); itr++)
+	{
+		acutPrintf(_T("\n(%15f,%15f)%d"),itr->second.pt.x,itr->second.pt.y,itr->second.m_PointIndex);
+	}
 
 	#endif  DEBUG_TO_PL_PRINT
 }
@@ -137,11 +137,12 @@ CPointMap::~CPointMap()
 }
 
 
+//弃用.
 //对double变量取指定小数位;
 //返回：改造后的double变量;
 //这种改造是不精准的，并不能完全消除两个“相等”的double变量误差；
 //比如7.0和6.99999，在这里没法改造成相等;
-//所以这个函数要弃用！！！！！！！
+//所以这个函数要弃用！没卵用.
 double
 CPointMap::transByDotNum(IN const double xyVal,IN const int nDotNum)
 {
@@ -180,19 +181,13 @@ CPointMap::insert(IN const double x,IN const double y,IN const int ptIndex)
 	double xf = x;
 	double yf = y;
 
-	//int iIndex = -1;
-	//if(this->find(xf,yf,iIndex))
-	//{
-	//	return; //不插入;
-	//}
-
 	//插入x值;
 	map<double,SXData,dblcmp>::iterator itrRtnX;
 	bool bFlag = false;
-	pair<map<double,SXData,dblcmp>::iterator,bool> pairRtnX;
+	pair<map<double,SXData,dblcmp>::iterator,bool> pairRtnX; 
 	SXData sx;
 	sx.m_x = xf;
-	pairRtnX = m_mapXcoord.insert(pair<double,SXData>(xf,sx));
+	pairRtnX = m_mapXcoord.insert(pair<double,SXData>(xf,sx));  
 	itrRtnX = pairRtnX.first;
 
 	//插入y;
@@ -263,11 +258,23 @@ CPointMap::setDotNum(IN const int nDotNum)
 void
 CPointMap::print()
 {
+#ifdef DEBUG_TO_PL_PRINT	 
 	map<double,SXData,dblcmp>::iterator itr = m_mapXcoord.begin();
 	for(; itr != m_mapXcoord.end(); itr++)
 	{
 		itr->second.print();
 	}
+#endif
+}
+
+
+
+//寻找距离小于dist的点对
+void
+CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>> pointPairs)
+{
+	map<double,SXData,dblcmp>::iterator itr = m_mapXcoord.begin();
+	itr->second;
 }
 
 
@@ -284,7 +291,7 @@ testPointMapClass()
 	CTimeElapse objTimesElpased;
 	
 	long nNumSS = 0;
-	acedSSLength(ss,&nNumSS);
+	acedSSLength(ss,&nNumSS);  
 
 	AcDbObjectId id;
 	AcDbEntity* pEnt;
@@ -337,11 +344,15 @@ testPointMapClass()
 	testAcPoint.set(adsPoint[0],adsPoint[1],adsPoint[2]);
 	if(objPtMap.find(testAcPoint,ptIndex))
 	{
-		//acutPrintf(_T("\nfind it(%f,%f,%f)%d!"),adsPoint[0],adsPoint[1],adsPoint[2],ptIndex);
+		#ifdef DEBUG_TO_PL_PRINT
+		acutPrintf(_T("\nfind it(%f,%f,%f)%d!"),adsPoint[0],adsPoint[1],adsPoint[2],ptIndex);
+		#endif
 	}
 	else
 	{
-		//acutPrintf(_T("\n not find it(%f,%f,%f)!"),adsPoint[0],adsPoint[1],adsPoint[2]);
+		#ifdef DEBUG_TO_PL_PRINT
+		acutPrintf(_T("\n not find it(%f,%f,%f)!"),adsPoint[0],adsPoint[1],adsPoint[2]);
+		#endif
 	}
 	acedSSFree(ss);
 }
