@@ -273,8 +273,14 @@ CPointMap::print()
 void
 CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>> pointPairs)
 {
-	map<double,SXData,dblcmp>::iterator itr = m_mapXcoord.begin();
-	itr->second;
+	map<double,SXData,dblcmp>::iterator itrx = m_mapXcoord.begin();
+	map<double,SYData,dblcmp>::iterator itry;
+
+	//two level loop;
+	for(; itrx != m_mapXcoord.end(); itrx++)
+	{
+		;
+	}
 }
 
 
