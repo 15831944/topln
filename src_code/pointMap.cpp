@@ -283,7 +283,9 @@ CPointMap::print()
 void
 CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>> pointPairs)
 {
-	map<double,SXData,dblcmp>::iterator itrx = m_mapXcoord.begin();
+	map<double,SXData,dblcmp>::iterator itrxFirst = m_mapXcoord.begin(); //取出的x列，用来对比；
+	map<double,SXData,dblcmp>::iterator itrxNext;    //取出的x+n列，用来被对比; x + n > x;
+	map<double,SYData,dblcmp>::iterator itry;
 	
 	//two level loop;
 	for(; itrx != m_mapXcoord.end(); itrx++)
