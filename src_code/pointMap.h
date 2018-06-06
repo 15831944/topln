@@ -79,10 +79,10 @@ struct SYData
 	SYData();
 	SYData(IN const SYData& src);  //copy constructor;
 	~SYData();
-	double m_y;   //y坐标;
+	double m_y;   //y坐标;  
 	AcGePoint3d pt;  
 
-	int m_PointIndex;  //点的序号（在图结构中）   
+	int m_PointIndex;  //点的序号（在图结构中）    
 	void* m_dataVoidPtr;  //挂载其他数据;
 };
 
@@ -93,24 +93,24 @@ struct SXData
 {
 	SXData();
 	~SXData();
-	SXData(IN const SXData& src);  //copy constructor;
+	SXData(IN const SXData& src);  //copy constructor;   
 	double m_x;     //x坐标;
 	int m_nDotNum; //小数保留多少位;  
-	map<double,SYData,dblcmp> m_pPointMap;  //嵌套map;
+	map<double,SYData,dblcmp> m_pPointMap;  //嵌套map;    
 
-	bool find(IN const double yVal,OUT int& ptIndex);  //查找y-key; 
-	map<double,SYData,dblcmp>::iterator insert(IN const double yVal,IN const int ptIndex); //插入y key; 
-	unsigned int erase(IN const double yVal);  //delete;   
-	void print();  //测试，打印信息;
+	bool find(IN const double yVal,OUT int& ptIndex);  //查找y-key;     
+	map<double,SYData,dblcmp>::iterator insert(IN const double yVal,IN const int ptIndex); //插入y key;    
+	unsigned int erase(IN const double yVal);  //delete;    
+	void print();  //测试，打印信息;  
 
-	//查找upper_bound及lower_bound
-	map<double,SYData,dblcmp>::iterator upper_bound(IN const double ycoord);
-	map<double,SYData,dblcmp>::iterator lower_bound(IN const double ycoord);
+	//查找和输入坐标点距离小于dist的点;     
+	//查找upper_bound及lower_bound     
+	void chkLessDistPoints(IN const double xcoord,IN const SYData syData, OUT vector<pair<void*,void*>>& vPointPairs);     
 };
 
 
 //用x和y坐标做为key，建立嵌套map，提供插入、查询、删除等功能;    
-//希望能提高点坐标查询速度;  
+//希望能提高点坐标查询速度;     
 class CPointMap
 {
 public:
@@ -124,25 +124,25 @@ private:
 	
 
 public:
-	void insert(IN const double x,IN const double y,IN const int ptIndex);  //插入
-	void insert(IN const AcGePoint3d pt,IN const int ptIndex);
-	bool find(IN const double x,IN const double y,OUT int& ptIndex);   //查找;
-	bool find(IN const AcGePoint3d pt,OUT int& ptIndex);
-	bool erase(IN const double x,IN const double y);  //删除; 
-	bool erase(IN const AcGePoint3d pt);
-	bool setDotNum(IN const int nDotNum);  
-	void print();
-	bool printMap();  //打印出map的点; 
+	void insert(IN const double x,IN const double y,IN const int ptIndex);  //插入   
+	void insert(IN const AcGePoint3d pt,IN const int ptIndex);      
+	bool find(IN const double x,IN const double y,OUT int& ptIndex);   //查找;       
+	bool find(IN const AcGePoint3d pt,OUT int& ptIndex);       
+	bool erase(IN const double x,IN const double y);  //删除;      
+	bool erase(IN const AcGePoint3d pt);      
+	bool setDotNum(IN const int nDotNum);           
+	void print();    //打印出map的点;   
+	//bool printMap();  //打印出map的点;        
 
 public:
-	//以下为二期函数，用void* m_dataVoidPtr来扩展附加数据;更有扩展性; 
-	void insert(IN const double xc,IN const double yc,IN void* voidPtr);
-	bool find(IN const double xc,IN const double yc,OUT void* voidPtr);   
-	void findPointPairs(IN const double dist,OUT vector<pair<void*,void*>> pointPairs);   //发现距离小于dist的点对;  
+	//以下为二期函数，用void* m_dataVoidPtr来扩展附加数据;更有扩展性;     
+	void insert(IN const double xc,IN const double yc,IN void* voidPtr);     
+	bool find(IN const double xc,IN const double yc,OUT void* voidPtr);     
+	void findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& vPointPairs);   //发现距离小于dist的点对;     
 
-public:
-	static double transByDotNum(IN const double xyVal,IN const int nDotNum); //对xy值进行过滤，保留指定位数的小数;
-	static bool isEqual(IN const double d1,IN const double d2,IN const int m_nDotNum); //检查是否相等（在误差范围内);
+public:   
+	static double transByDotNum(IN const double xyVal,IN const int nDotNum); //对xy值进行过滤，保留指定位数的小数;    
+	static bool isEqual(IN const double dstn,IN const double d2,IN const int m_nDotNum); //检查是否相等（在误差范围内);    
 };
 
 
