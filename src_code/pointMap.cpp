@@ -103,6 +103,17 @@ SXData::print()
 }
 
 
+//在SDataX中查找和输入坐标距离小于dist的点；做成点对； 
+void
+SXData::chkLessDistPoints(IN const double xcoord,IN const double ycoord,OUT vector<pair<void*,void*>>& vPointPairs)
+{
+	;
+}
+
+
+//=============================
+//SXData struct
+//=============================
 //constructor
 SYData::SYData()
 {
@@ -268,14 +279,12 @@ CPointMap::print()
 }
 
 
-
 //寻找距离小于dist的点对
 void
 CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>> pointPairs)
 {
 	map<double,SXData,dblcmp>::iterator itrx = m_mapXcoord.begin();
-	map<double,SYData,dblcmp>::iterator itry;
-
+	
 	//two level loop;
 	for(; itrx != m_mapXcoord.end(); itrx++)
 	{
