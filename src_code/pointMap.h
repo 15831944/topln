@@ -105,7 +105,9 @@ struct SXData
 
 	//查找和输入坐标点距离小于dist的点;     
 	//查找upper_bound及lower_bound     
-	void chkLessDistPoints(IN const double xcoord,IN const SYData syData, OUT vector<pair<void*,void*>>& vPointPairs);     
+	map<double,SYData,dblcmp>::iterator syDataBegin();  //返回m_pPointMap遍历器起始指针;
+	map<double,SYData,dblcmp>::iterator syDataEnd();    //返回m_pPointMap遍历器结束指针;
+	void chkLessDistPoints(IN const double dist,IN const double xcoord,IN const SYData syData, OUT vector<pair<void*,void*>>& vPointPairs);     
 };
 
 
