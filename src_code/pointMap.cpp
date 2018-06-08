@@ -297,7 +297,7 @@ CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>> poi
 	for(; itrxFirst != m_mapXcoord.end(); itrxFirst++)
 	{
 		mx = itrxFirst->second->m_x;
-		//继续取得y坐标
+		//继续取得y坐标及挂载数据;
 		itry = itrxFirst->second()->syDataBegin();		
 		syData = (SYData)(*itry);
 		for(; itry != itrxFirst->second->syDataEnd(); itry++)
