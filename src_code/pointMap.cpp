@@ -293,8 +293,8 @@ CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>> poi
 	double my = 0;
 	SYData syData;
 	void* voidDataPtr = NULL;
-	bool flag = false;  //判断是否不用继续查找下一个sxdata;
-	for(; itrxFirst != m_mapXcoord.end(); itrxFirst++)
+	bool flag = false;  //判断是否不用继续查找下一个sxdata; 
+	for(; itrxFirst != m_mapXcoord.end(); itrxFirst++) 
 	{
 		mx = itrxFirst->second->m_x;
 		//继续取得y坐标及挂载数据;
@@ -307,10 +307,10 @@ CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>> poi
 			//third loop
 			for(itrxNext = itrxFirst; itrxNext != m_mapXcoord.end();itrxNext++)
 			{
-				flag = itrxNext->second->chkLessDistPoints(dist,mx,syData,pointPairs);
-				if(!flag)
+				flag = itrxNext->second->chkLessDistPoints(dist,mx,syData,pointPairs); 
+				if(!flag)  //返回false，说明x1和x2距离太远了，可以退出本层循环了;
 				{
-					break;
+					break;  
 				}
 			}
 		}
