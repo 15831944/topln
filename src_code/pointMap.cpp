@@ -104,7 +104,10 @@ SXData::print()
 
 
 //在SDataX中查找和输入坐标距离小于dist的点；做成点对； 
-void
+//返回值：如果x1和x2距离超过dist，返回false；其他返回true;
+//注意：如果x1 == x2 则只需要向下查找y； 否则，应该双向查找y；
+
+bool
 SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const SYData syData,OUT vector<pair<void*,void*>>& vPointPairs)
 {
 	;
