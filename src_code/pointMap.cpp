@@ -104,13 +104,29 @@ SXData::print()
 
 
 //在SDataX中查找和输入坐标距离小于dist的点；做成点对； 
-//返回值：如果x1和x2距离超过dist，返回false；其他返回true;
-//注意：如果x1 == x2 则只需要向下查找y； 否则，应该双向查找y；
+//返回值：如果x1和x2距离超过dist，返回false；其他返回true;  
+//注意：如果x1 == x2 则只需要向下查找y； 否则，应该双向查找y；  
 
 bool
 SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const SYData syData,OUT vector<pair<void*,void*>>& vPointPairs)
 {
-	;
+	double x1 = 0;   //本地坐标x
+	double x2 = 0;   //输入坐标x;
+	double yTemp = syData.m_y; //临时变量;
+	x1 = m_x;
+	x2 = xcoord;
+	if(abs(x1-x2) > dist)
+	{
+		return false;
+	}
+
+	//x1 == x2
+	if()
+	map<double,syData,dblcmp>::iterator itrYc = m_pPointMap.begin();  
+	while(itrYc != m_pPointMap.end())
+	{
+		itrYc = m_pPointMap.lower_bound(yTemp);  
+	}
 }
 
 
