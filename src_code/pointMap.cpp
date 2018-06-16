@@ -104,10 +104,29 @@ SXData::print()
 
 
 //在SDataX中查找和输入坐标距离小于dist的点；做成点对； 
-void
+//返回值：如果x1和x2距离超过dist，返回false；其他返回true;  
+//注意：如果x1 == x2 则只需要向下查找y； 否则，应该双向查找y；  
+
+bool
 SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const SYData syData,OUT vector<pair<void*,void*>>& vPointPairs)
 {
-	;
+	double x1 = 0;   //本地坐标x
+	double x2 = 0;   //输入坐标x;
+	double yTemp = syData.m_y; //临时变量;
+	x1 = m_x;
+	x2 = xcoord;
+	if(abs(x1-x2) > dist)
+	{
+		return false;
+	}
+
+	//x1 == x2
+	if()
+	map<double,syData,dblcmp>::iterator itrYc = m_pPointMap.begin();  
+	while(itrYc != m_pPointMap.end())
+	{
+		itrYc = m_pPointMap.lower_bound(yTemp);  
+	}
 }
 
 
@@ -293,8 +312,8 @@ CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>> poi
 	double my = 0;
 	SYData syData;
 	void* voidDataPtr = NULL;
-	bool flag = false;  //判断是否不用继续查找下一个sxdata;
-	for(; itrxFirst != m_mapXcoord.end(); itrxFirst++)
+	bool flag = false;  //判断是否不用继续查找下一个sxdata; 
+	for(; itrxFirst != m_mapXcoord.end(); itrxFirst++) 
 	{
 		mx = itrxFirst->second->m_x;
 		//继续取得y坐标及挂载数据;
@@ -307,10 +326,10 @@ CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>> poi
 			//third loop
 			for(itrxNext = itrxFirst; itrxNext != m_mapXcoord.end();itrxNext++)
 			{
-				flag = itrxNext->second->chkLessDistPoints(dist,mx,syData,pointPairs);
-				if(!flag)
+				flag = itrxNext->second->chkLessDistPoints(dist,mx,syData,pointPairs); 
+				if(!flag)  //返回false，说明x1和x2距离太远了，可以退出本层循环了;
 				{
-					break;
+					break;  
 				}
 			}
 		}
