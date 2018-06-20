@@ -110,6 +110,7 @@ struct SXData
 	bool chkLessDistPoints(IN const double dist,IN const double xcoord,IN const SYData syData, OUT vector<pair<void*,void*>>& vPointPairs);
 	bool isDistGreater(IN const double x1,IN const double y1,IN const double x2,IN const double y2,IN const double dist);
 	bool isDigitGreater(IN const double d1,IN const double d2); //比较俩double大小;  
+	bool isEqual(IN const double d1, IN const double d2);  //判断俩double是否相等;
 };
 
 

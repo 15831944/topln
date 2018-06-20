@@ -112,21 +112,53 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 {
 	double x1 = 0;   //本地坐标x
 	double x2 = 0;   //输入坐标x;
-	double yTemp = syData.m_y; //临时变量;
+	double y1 = syData.m_y; //第一个点坐标y;   
+	double y2 = 0; //第二点坐标y;	
 	x1 = m_x;
 	x2 = xcoord;
-	if(abs(x1-x2) > dist)
+	if(abs(x1-x2) > dist) 
 	{
-		return false;
+		return false;   
 	}
 
-	//x1 == x2
-	if()
-	map<double,syData,dblcmp>::iterator itrYc = m_pPointMap.begin();  
-	while(itrYc != m_pPointMap.end())
+	//x1 == x2  ;只向下寻找更大的y值;    
+	if(isEqual(x1,x2))    
 	{
-		itrYc = m_pPointMap.lower_bound(yTemp);  
+		map<double,syData,dblcmp>::iterator itrYc = m_pPointMap.begin();       
+		while(itrYc != m_pPointMap.end())  
+		{
+			itrYc = m_pPointMap.lower_bound(y1);      
+			y2 = itrYc->second.m_y;
+			if(isDistGreater(x1,y1,x2,y2,dist))
+			{
+				break;
+			}
+			else
+			{
+				pair<void*,void*> pairData(syData.m_dataVoidPtr,itrYc->second.m_dataVoidPtr);
+				vPointPairs.push_back(pairData);
+			}
+		} 
 	}
+	else  //x1 != x2,向上及向下寻找y值;    
+	{
+		map<double,syData,dblcmp>::iterator itrYc = m_pPointMap.begin();       
+		while(itrYc != m_pPointMap.end())  
+		{
+			itrYc = m_pPointMap.lower_bound(y1);      
+			y2 = itrYc->second.m_y;
+			if(isDistGreater(x1,y1,x2,y2,dist))
+			{
+				break;
+			}
+			else
+			{
+				pair<void*,void*> pairData(syData.m_dataVoidPtr,itrYc->second.m_dataVoidPtr);
+				vPointPairs.push_back(pairData);
+			}
+		} 
+	}
+	
 }
 
 
