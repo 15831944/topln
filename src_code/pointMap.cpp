@@ -121,15 +121,16 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 		return false;   
 	}
 
-	//x1 == x2  ;只向下寻找更大的y值;    
+	//x1 == x2  ;只向下寻找更大的y值; 
+	map<double,SYData,dblcmp>::iterator itrYc = m_pPointMap.begin();
 	if(isEqual(x1,x2))    
 	{
-		map<double,syData,dblcmp>::iterator itrYc = m_pPointMap.begin();       
+		itrYc = m_pPointMap.begin();       
 		while(itrYc != m_pPointMap.end())  
 		{
-			itrYc = m_pPointMap.lower_bound(y1);      
-			y2 = itrYc->second.m_y;
-			if(isDistGreater(x1,y1,x2,y2,dist))
+			itrYc = m_pPointMap.lower_bound(y1);  
+			y2 = itrYc->second.m_y;  
+			if(isDistGreater(x1,y1,x2,y2,dist))  
 			{
 				break;
 			}
@@ -137,24 +138,45 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 			{
 				pair<void*,void*> pairData(syData.m_dataVoidPtr,itrYc->second.m_dataVoidPtr);
 				vPointPairs.push_back(pairData);
+				itrYc++;
 			}
 		} 
 	}
 	else  //x1 != x2,向上及向下寻找y值;    
 	{
-		map<double,syData,dblcmp>::iterator itrYc = m_pPointMap.begin();       
+		//先向上找
+		itrYc = m_pPointMap.begin();       
+		while(itrYc != m_pPointMap.end())  
+		{
+			itrYc = m_pPointMap.upper_bound(y1);      
+			y2 = itrYc->second.m_y;
+			if(isDistGreater(x1,y1,x2,y2,dist))  
+			{
+				break;  
+			}
+			else  
+			{
+				pair<void*,void*> pairData(syData.m_dataVoidPtr,itrYc->second.m_dataVoidPtr);
+				vPointPairs.push_back(pairData);
+				itrYc++;
+			}
+		} 
+
+		//再向下找;
+		itrYc = m_pPointMap.begin();       
 		while(itrYc != m_pPointMap.end())  
 		{
 			itrYc = m_pPointMap.lower_bound(y1);      
 			y2 = itrYc->second.m_y;
-			if(isDistGreater(x1,y1,x2,y2,dist))
+			if(isDistGreater(x1,y1,x2,y2,dist))  
 			{
-				break;
+				break;  
 			}
-			else
+			else  
 			{
 				pair<void*,void*> pairData(syData.m_dataVoidPtr,itrYc->second.m_dataVoidPtr);
-				vPointPairs.push_back(pairData);
+				vPointPairs.push_back(pairData);  
+				itrYc++;   
 			}
 		} 
 	}
@@ -332,7 +354,7 @@ CPointMap::print()
 
 //寻找距离小于dist的点对
 void
-CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>> pointPairs)
+CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& pointPairs)
 {
 	map<double,SXData,dblcmp>::iterator itrxFirst = m_mapXcoord.begin(); //取出的x列，用来对比；
 	map<double,SXData,dblcmp>::iterator itrxNext;    //取出的x+n列，用来被对比; x + n > x;
@@ -347,18 +369,18 @@ CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>> poi
 	bool flag = false;  //判断是否不用继续查找下一个sxdata; 
 	for(; itrxFirst != m_mapXcoord.end(); itrxFirst++) 
 	{
-		mx = itrxFirst->second->m_x;
+		mx = itrxFirst->second.m_x;   
 		//继续取得y坐标及挂载数据;
-		itry = itrxFirst->second()->syDataBegin();		
-		syData = (SYData)(*itry);
-		for(; itry != itrxFirst->second->syDataEnd(); itry++)
+		itry = itrxFirst->second.syDataBegin();		
+		syData = (SYData)(itry->second);
+		for(; itry != itrxFirst->second.syDataEnd(); itry++)   
 		{
-			my = itry->second->m_y;
-			voidDataPtr = itry->second->m_dataVoidPtr;
+			my = itry->second.m_y;
+			voidDataPtr = itry->second.m_dataVoidPtr;
 			//third loop
-			for(itrxNext = itrxFirst; itrxNext != m_mapXcoord.end();itrxNext++)
+			for(itrxNext = itrxFirst; itrxNext != m_mapXcoord.end();itrxNext++)  
 			{
-				flag = itrxNext->second->chkLessDistPoints(dist,mx,syData,pointPairs); 
+				flag = itrxNext->second.chkLessDistPoints(dist,mx,syData,pointPairs); 
 				if(!flag)  //返回false，说明x1和x2距离太远了，可以退出本层循环了;
 				{
 					break;  
