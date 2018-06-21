@@ -103,6 +103,57 @@ SXData::print()
 }
 
 
+//计算两点距离，并与输入距离相比较
+bool
+SXData::isDistGreater(IN const double x1,IN const double y1,IN const double x2,IN const double y2,IN const double dist)
+{
+	 double distWork = 0;
+	 distWork = sqrt((x1-x2)*(x1-x2) +(y1-y2)*(y1-y2));   
+	 AcGeTol objTol;
+	 if(distWork > dist && abs(distWork - dist) <= objTol.euqalPoint())
+	 {
+		 return true;
+	 }
+	 else
+	 {
+		 return false;
+	 }
+}
+
+
+//比较俩double大小;  
+//d1大于d2，返回true;
+//误差值设置：
+bool
+SXData::isDigitGreater(IN const double d1,IN const double d2)
+{
+	AcGeTol objTol;
+	if(d1 > d2 && abs(d1 - d2) > objTol.equalPoint())
+	{
+		return true;
+	}
+	else
+	{
+		return false;   
+	}
+}
+
+
+//判断俩实数是否相等
+bool
+SXData::isEqual(IN const double d1, IN const double d2)
+{
+	if(isDigitGreater(d1,d2) || isDigitGreater(d2,d1))
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+
 //在SDataX中查找和输入坐标距离小于dist的点；做成点对； 
 //返回值：如果x1和x2距离超过dist，返回false；其他返回true;  
 //注意：如果x1 == x2 则只需要向下查找y； 否则，应该双向查找y；  
@@ -366,7 +417,7 @@ CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& po
 	double my = 0;
 	SYData syData;
 	void* voidDataPtr = NULL;
-	bool flag = false;  //判断是否不用继续查找下一个sxdata; 
+	bool flag = false;  //判断是否不用继续查找下一个sxdata;   
 	for(; itrxFirst != m_mapXcoord.end(); itrxFirst++) 
 	{
 		mx = itrxFirst->second.m_x;   

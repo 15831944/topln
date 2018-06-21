@@ -58,6 +58,8 @@ using namespace std;
 
 #define  DEBUG_TO_PL_PRINT
 void testPointMapClass();
+//定义一个误差值； 比较俩double时用;
+//.....;
 
 //map比较函数
 //知道为啥这么定义比较函数吗？：因为在map内部是这么使用dblcmp的：
