@@ -110,7 +110,7 @@ SXData::isDistGreater(IN const double x1,IN const double y1,IN const double x2,I
 	 double distWork = 0;
 	 distWork = sqrt((x1-x2)*(x1-x2) +(y1-y2)*(y1-y2));   
 	 AcGeTol objTol;
-	 if(distWork > dist && abs(distWork - dist) <= objTol.euqalPoint())
+	 if(distWork > dist && abs(distWork - dist) <= objTol.equalPoint())
 	 {
 		 return true;
 	 }
@@ -136,6 +136,22 @@ SXData::isDigitGreater(IN const double d1,IN const double d2)
 	{
 		return false;   
 	}
+}
+
+
+//返回m_pPointMap遍历器起始指针;
+map<double,SYData,dblcmp>::iterator 
+SXData::syDataBegin()
+{
+	return m_pPointMap.begin();
+}
+
+
+ //返回m_pPointMap遍历器结束指针;
+map<double,SYData,dblcmp>::iterator 
+SXData::syDataEnd()
+{
+	return m_pPointMap.end();
 }
 
 
@@ -225,13 +241,14 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 			}
 			else  
 			{
-				pair<void*,void*> pairData(syData.m_dataVoidPtr,itrYc->second.m_dataVoidPtr);
+				pair<void*,void*> pairData(syData.m_dataVoidPtr,itrYc->second.m_dataVoidPtr);  
 				vPointPairs.push_back(pairData);  
-				itrYc++;   
+				itrYc++;    
 			}
 		} 
-	}
-	
+	}	
+
+	return true;  //除了x2-x1>dist,其它情况返回true; 
 }
 
 
