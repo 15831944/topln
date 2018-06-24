@@ -103,6 +103,73 @@ SXData::print()
 }
 
 
+//计算两点距离，并与输入距离相比较
+bool
+SXData::isDistGreater(IN const double x1,IN const double y1,IN const double x2,IN const double y2,IN const double dist)
+{
+	 double distWork = 0;
+	 distWork = sqrt((x1-x2)*(x1-x2) +(y1-y2)*(y1-y2));   
+	 AcGeTol objTol;
+	 if(distWork > dist && abs(distWork - dist) <= objTol.equalPoint())
+	 {
+		 return true;
+	 }
+	 else
+	 {
+		 return false;
+	 }
+}
+
+
+//比较俩double大小;  
+//d1大于d2，返回true;
+//误差值设置：
+bool
+SXData::isDigitGreater(IN const double d1,IN const double d2)
+{
+	AcGeTol objTol;
+	if(d1 > d2 && abs(d1 - d2) > objTol.equalPoint())
+	{
+		return true;
+	}
+	else
+	{
+		return false;   
+	}
+}
+
+
+//返回m_pPointMap遍历器起始指针;
+map<double,SYData,dblcmp>::iterator 
+SXData::syDataBegin()
+{
+	return m_pPointMap.begin();
+}
+
+
+ //返回m_pPointMap遍历器结束指针;
+map<double,SYData,dblcmp>::iterator 
+SXData::syDataEnd()
+{
+	return m_pPointMap.end();
+}
+
+
+//判断俩实数是否相等
+bool
+SXData::isEqual(IN const double d1, IN const double d2)
+{
+	if(isDigitGreater(d1,d2) || isDigitGreater(d2,d1))
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+
 //在SDataX中查找和输入坐标距离小于dist的点；做成点对； 
 //返回值：如果x1和x2距离超过dist，返回false；其他返回true;  
 //注意：如果x1 == x2 则只需要向下查找y； 否则，应该双向查找y；  
@@ -112,21 +179,76 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 {
 	double x1 = 0;   //本地坐标x
 	double x2 = 0;   //输入坐标x;
-	double yTemp = syData.m_y; //临时变量;
+	double y1 = syData.m_y; //第一个点坐标y;   
+	double y2 = 0; //第二点坐标y;	
 	x1 = m_x;
 	x2 = xcoord;
-	if(abs(x1-x2) > dist)
+	if(abs(x1-x2) > dist) 
 	{
-		return false;
+		return false;   
 	}
 
-	//x1 == x2
-	if()
-	map<double,syData,dblcmp>::iterator itrYc = m_pPointMap.begin();  
-	while(itrYc != m_pPointMap.end())
+	//x1 == x2  ;只向下寻找更大的y值; 
+	map<double,SYData,dblcmp>::iterator itrYc = m_pPointMap.begin();
+	if(isEqual(x1,x2))    
 	{
-		itrYc = m_pPointMap.lower_bound(yTemp);  
+		itrYc = m_pPointMap.begin();       
+		while(itrYc != m_pPointMap.end())  
+		{
+			itrYc = m_pPointMap.lower_bound(y1);  
+			y2 = itrYc->second.m_y;  
+			if(isDistGreater(x1,y1,x2,y2,dist))  
+			{
+				break;
+			}
+			else
+			{
+				pair<void*,void*> pairData(syData.m_dataVoidPtr,itrYc->second.m_dataVoidPtr);
+				vPointPairs.push_back(pairData);
+				itrYc++;
+			}
+		} 
 	}
+	else  //x1 != x2,向上及向下寻找y值;    
+	{
+		//先向上找
+		itrYc = m_pPointMap.begin();       
+		while(itrYc != m_pPointMap.end())  
+		{
+			itrYc = m_pPointMap.upper_bound(y1);      
+			y2 = itrYc->second.m_y;
+			if(isDistGreater(x1,y1,x2,y2,dist))  
+			{
+				break;  
+			}
+			else  
+			{
+				pair<void*,void*> pairData(syData.m_dataVoidPtr,itrYc->second.m_dataVoidPtr);
+				vPointPairs.push_back(pairData);
+				itrYc++;
+			}
+		} 
+
+		//再向下找;
+		itrYc = m_pPointMap.begin();       
+		while(itrYc != m_pPointMap.end())  
+		{
+			itrYc = m_pPointMap.lower_bound(y1);      
+			y2 = itrYc->second.m_y;
+			if(isDistGreater(x1,y1,x2,y2,dist))  
+			{
+				break;  
+			}
+			else  
+			{
+				pair<void*,void*> pairData(syData.m_dataVoidPtr,itrYc->second.m_dataVoidPtr);  
+				vPointPairs.push_back(pairData);  
+				itrYc++;    
+			}
+		} 
+	}	
+
+	return true;  //除了x2-x1>dist,其它情况返回true; 
 }
 
 
@@ -300,7 +422,7 @@ CPointMap::print()
 
 //寻找距离小于dist的点对
 void
-CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>> pointPairs)
+CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& pointPairs)
 {
 	map<double,SXData,dblcmp>::iterator itrxFirst = m_mapXcoord.begin(); //取出的x列，用来对比；
 	map<double,SXData,dblcmp>::iterator itrxNext;    //取出的x+n列，用来被对比; x + n > x;
@@ -312,21 +434,21 @@ CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>> poi
 	double my = 0;
 	SYData syData;
 	void* voidDataPtr = NULL;
-	bool flag = false;  //判断是否不用继续查找下一个sxdata; 
+	bool flag = false;  //判断是否不用继续查找下一个sxdata;   
 	for(; itrxFirst != m_mapXcoord.end(); itrxFirst++) 
 	{
-		mx = itrxFirst->second->m_x;
+		mx = itrxFirst->second.m_x;   
 		//继续取得y坐标及挂载数据;
-		itry = itrxFirst->second()->syDataBegin();		
-		syData = (SYData)(*itry);
-		for(; itry != itrxFirst->second->syDataEnd(); itry++)
+		itry = itrxFirst->second.syDataBegin();		
+		syData = (SYData)(itry->second);
+		for(; itry != itrxFirst->second.syDataEnd(); itry++)   
 		{
-			my = itry->second->m_y;
-			voidDataPtr = itry->second->m_dataVoidPtr;
+			my = itry->second.m_y;
+			voidDataPtr = itry->second.m_dataVoidPtr;
 			//third loop
-			for(itrxNext = itrxFirst; itrxNext != m_mapXcoord.end();itrxNext++)
+			for(itrxNext = itrxFirst; itrxNext != m_mapXcoord.end();itrxNext++)  
 			{
-				flag = itrxNext->second->chkLessDistPoints(dist,mx,syData,pointPairs); 
+				flag = itrxNext->second.chkLessDistPoints(dist,mx,syData,pointPairs); 
 				if(!flag)  //返回false，说明x1和x2距离太远了，可以退出本层循环了;
 				{
 					break;  

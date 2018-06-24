@@ -58,6 +58,8 @@ using namespace std;
 
 #define  DEBUG_TO_PL_PRINT
 void testPointMapClass();
+//定义一个误差值； 比较俩double时用;
+//.....;
 
 //map比较函数
 //知道为啥这么定义比较函数吗？：因为在map内部是这么使用dblcmp的：
@@ -110,6 +112,7 @@ struct SXData
 	bool chkLessDistPoints(IN const double dist,IN const double xcoord,IN const SYData syData, OUT vector<pair<void*,void*>>& vPointPairs);
 	bool isDistGreater(IN const double x1,IN const double y1,IN const double x2,IN const double y2,IN const double dist);
 	bool isDigitGreater(IN const double d1,IN const double d2); //比较俩double大小;  
+	bool isEqual(IN const double d1, IN const double d2);  //判断俩double是否相等;
 };
 
 
