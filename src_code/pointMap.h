@@ -75,6 +75,16 @@ struct dblcmp
 };
 
 
+//定义SYData所挂载数据格式;
+//根据需要可以定义不同格式;
+struct SAttachData
+{
+	AcGePoint3d m_pt3d;
+	AcDbEntity* m_pEnt;  //点所属实体;  
+};
+
+
+
 //key为y坐标
 struct SYData
 {
@@ -143,9 +153,10 @@ public:
 
 public:
 	//以下为二期函数，用void* m_dataVoidPtr来扩展附加数据;更有扩展性;     
-	void insert(IN const double xc,IN const double yc,IN void* voidPtr);     
+	void insert(IN const double xc,IN const double yc,IN void* voidPtr);      
 	bool find(IN const double xc,IN const double yc,OUT void* voidPtr);     
-	void findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& vPointPairs);   //发现距离小于dist的点对;     
+	void findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& vPointPairs);   //发现距离小于dist的点对;  
+	void printPointPairs(IN vector<pair<void*,void*>>& vPointPairs);  //打印点对;    
 
 public:   
 	static double transByDotNum(IN const double xyVal,IN const int nDotNum); //对xy值进行过滤，保留指定位数的小数;    
