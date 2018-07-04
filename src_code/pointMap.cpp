@@ -556,5 +556,9 @@ testPointMapClass()
 		acutPrintf(_T("\n not find it(%f,%f,%f)!"),adsPoint[0],adsPoint[1],adsPoint[2]);
 		#endif
 	}
+
+	vector<pair<void*,void*>> vPoints;
+	objPtMap.findPointPairs(0.005,vPoints);  
+	objPtMap.printPointPairs(vPoints);      
 	acedSSFree(ss);
 }
