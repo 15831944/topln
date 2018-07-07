@@ -143,7 +143,7 @@ SXData::isDigitGreater(IN const double d1,IN const double d2)
 map<double,SYData,dblcmp>::iterator 
 SXData::syDataBegin()
 {
-	return m_pPointMap.begin();
+	return m_pPointMap.begin();   
 }
 
 
@@ -459,9 +459,30 @@ CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& po
 }
 
 
+//打印获取的点对
+void
+CPointMap::printPointPairs(IN vector<pair<void*,void*>>& vPointPairs)
+{
+	double x1 = 0;
+	double y1 = 0;
+	double x2 = 0;
+	double y2 = 0; 
+	AcGePoint3d ptTemp;
+	vector<pair<void*,void*>>::iterator itr = vPointPairs.begin();
+	for(; itr != vPointPairs.end(); itr++)
+	{
+		x1 = ((SAttachData*)(itr->first))->m_pt3d.x;  
+		y1 = ((SAttachData*)(itr->first))->m_pt3d.y; 
+		x2 = ((SAttachData*)(itr->second))->m_pt3d.x;  
+		y2 = ((SAttachData*)(itr->second))->m_pt3d.y;
+		acutPrintf(_T("\nPoint pair %nth is (%.7f,%.7f)-(%.7f,%.7f)")); 
+	}
+}
+   
+
 //test point map class
 void
-testPointMapClass()
+testPointMapClass()  
 {
 	ads_name ss;
 	ads_name ssUnit;
@@ -489,7 +510,7 @@ testPointMapClass()
 		{
 			AcDbLine* pLine = (AcDbLine*)pEnt;
 			objPtMap.insert(pLine->startPoint(),i);
-			objPtMap.insert(pLine->endPoint(),i);
+			objPtMap.insert(pLine->endPoint(),i);  
 			pEnt->close();
 		}
 		else if(pEnt->isA() == AcDbPolyline::desc())
@@ -535,5 +556,9 @@ testPointMapClass()
 		acutPrintf(_T("\n not find it(%f,%f,%f)!"),adsPoint[0],adsPoint[1],adsPoint[2]);
 		#endif
 	}
+
+	vector<pair<void*,void*>> vPoints;
+	objPtMap.findPointPairs(0.005,vPoints);  
+	objPtMap.printPointPairs(vPoints);      
 	acedSSFree(ss);
 }
