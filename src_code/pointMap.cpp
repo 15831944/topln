@@ -447,11 +447,11 @@ CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& po
 		for(; itry != itrxFirst->second.syDataEnd(); itry++)           
 		{
 			my = itry->second.m_y;   
-			voidDataPtr = itry->second.m_dataVoidPtr;    
-			//third loop
+			voidDataPtr = itry->second.m_dataVoidPtr;     
+			//third loop：比较每一个x列;
 			for(itrxNext = itrxFirst; itrxNext != m_mapXcoord.end();itrxNext++)      
 			{
-				flag = itrxNext->second.chkLessDistPoints(dist,mx,syData,pointPairs);     
+				flag = itrxNext->second.chkLessDistPoints(dist,mx,syData,pointPairs);       
 				if(!flag)  //返回false，说明x1和x2距离太远了，可以退出本层循环了;
 				{
 					break;     
