@@ -420,38 +420,39 @@ CPointMap::print()
 }
 
 
-//寻找距离小于dist的点对
+//寻找距离小于dist的点对;  
+//在所有点坐标中寻找; 遍历真个坐标点集合;
 void
 CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& pointPairs)
 {
-	map<double,SXData,dblcmp>::iterator itrxFirst = m_mapXcoord.begin(); //取出的x列，用来对比；
-	map<double,SXData,dblcmp>::iterator itrxNext;    //取出的x+n列，用来被对比; x + n > x;
-	map<double,SYData,dblcmp>::iterator itry;  //取得y坐标;
+	map<double,SXData,dblcmp>::iterator itrxFirst = m_mapXcoord.begin(); //取出的x列，用来对比；     
+	map<double,SXData,dblcmp>::iterator itrxNext;    //取出的x+n列，用来被对比; x + n > x;   
+	map<double,SYData,dblcmp>::iterator itry;  //取得y坐标;   
 	
-	//three level loops;
-	//取得x坐标;
-	double mx = 0;
-	double my = 0;
+	//three level loops;   
+	//取得x坐标;          
+	double mx = 0;       
+	double my = 0;   
 	SYData syData;
-	void* voidDataPtr = NULL;
-	bool flag = false;  //判断是否不用继续查找下一个sxdata;   
-	for(; itrxFirst != m_mapXcoord.end(); itrxFirst++) 
+	void* voidDataPtr = NULL;   
+	bool flag = false;  //判断是否不用继续查找下一个sxdata;     
+	for(; itrxFirst != m_mapXcoord.end(); itrxFirst++)           
 	{
 		mx = itrxFirst->second.m_x;   
 		//继续取得y坐标及挂载数据;
-		itry = itrxFirst->second.syDataBegin();		
+		itry = itrxFirst->second.syDataBegin();	    	  
 		syData = (SYData)(itry->second);
-		for(; itry != itrxFirst->second.syDataEnd(); itry++)   
+		for(; itry != itrxFirst->second.syDataEnd(); itry++)           
 		{
-			my = itry->second.m_y;
+			my = itry->second.m_y;   
 			voidDataPtr = itry->second.m_dataVoidPtr;
 			//third loop
-			for(itrxNext = itrxFirst; itrxNext != m_mapXcoord.end();itrxNext++)  
+			for(itrxNext = itrxFirst; itrxNext != m_mapXcoord.end();itrxNext++)      
 			{
-				flag = itrxNext->second.chkLessDistPoints(dist,mx,syData,pointPairs); 
+				flag = itrxNext->second.chkLessDistPoints(dist,mx,syData,pointPairs);    
 				if(!flag)  //返回false，说明x1和x2距离太远了，可以退出本层循环了;
 				{
-					break;  
+					break;     
 				}
 			}
 		}
