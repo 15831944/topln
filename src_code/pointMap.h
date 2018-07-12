@@ -123,7 +123,7 @@ struct SXData
 	bool isDistGreater(IN const double x1,IN const double y1,IN const double x2,IN const double y2,IN const double dist);
 	bool isDigitGreater(IN const double d1,IN const double d2); //比较俩double大小;     
 	bool isEqual(IN const double d1, IN const double d2);  //判断俩double是否相等;   
-	bool isDistEqual(IN const double x1,IN const double y1,IN const double x2,IN const double y2,IN const double dist);
+	bool isDistZero(IN const double x1,IN const double y1,IN const double x2,IN const double y2);
 };
 
 
