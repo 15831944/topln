@@ -104,6 +104,7 @@ SXData::print()
 
 
 //计算两点距离，并与输入距离相比较
+//如果不大于，则要排除相等的情况;
 bool
 SXData::isDistGreater(IN const double x1,IN const double y1,IN const double x2,IN const double y2,IN const double dist)
 {
@@ -137,6 +138,27 @@ SXData::isDigitGreater(IN const double d1,IN const double d2)
 		return false;   
 	}
 }
+
+
+//比较俩double大小;  
+//d1大于d2，返回true;
+//误差值设置：
+bool
+SXData::isDistZero(IN const double x1,IN const double y1,IN const double x2,IN const double y2)
+{
+	double distWork = 0;
+	distWork = sqrt((x1-x2)*(x1-x2) +(y1-y2)*(y1-y2));   
+	AcGeTol objTol;
+	if(distWork <= objTol.equalPoint())
+	{
+		return true;
+	}
+	else
+	{
+		return false;  
+	}
+}
+
 
 
 //返回m_pPointMap遍历器起始指针;
@@ -177,34 +199,39 @@ SXData::isEqual(IN const double d1, IN const double d2)
 bool
 SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const SYData syData,OUT vector<pair<void*,void*>>& vPointPairs)
 {
-	double x1 = 0;   //本地坐标x
-	double x2 = 0;   //输入坐标x;
-	double y1 = syData.m_y; //第一个点坐标y;   
+	double x1 = 0;   //用来被比较的本地坐标x;
+	double x2 = 0;   //输入源坐标x;  
+	double y1 = syData.m_y; //第一个点坐标y;      
 	double y2 = 0; //第二点坐标y;	
+	double ytemp = y1; //temp y;    
 	x1 = m_x;
-	x2 = xcoord;
-	if(abs(x1-x2) > dist) 
+	x2 = xcoord;         
+	if(abs(x1-x2) > dist)          
 	{
-		return false;   
+		return false;     
 	}
 
 	//x1 == x2  ;只向下寻找更大的y值; 
-	map<double,SYData,dblcmp>::iterator itrYc = m_pPointMap.begin();
+	map<double,SYData,dblcmp>::iterator itrYc; // = m_pPointMap.begin();	
 	if(isEqual(x1,x2))    
 	{
-		itrYc = m_pPointMap.begin();       
+		itrYc = m_pPointMap.lower_bound(ytemp); 
 		while(itrYc != m_pPointMap.end())  
-		{
-			itrYc = m_pPointMap.lower_bound(y1);  
-			y2 = itrYc->second.m_y;  
-			if(isDistGreater(x1,y1,x2,y2,dist))  
+		{			      
+			y2 = itrYc->second.m_y;  			
+			if(isDistGreater(x1,y1,x2,y2,dist))     
 			{
-				break;
+				break;   
+			}
+			else if(isDistZero(x1,y1,x2,y2))    
+			{
+				itrYc++; 
+				continue;   
 			}
 			else
 			{
 				pair<void*,void*> pairData(syData.m_dataVoidPtr,itrYc->second.m_dataVoidPtr);
-				vPointPairs.push_back(pairData);
+				vPointPairs.push_back(pairData);  
 				itrYc++;
 			}
 		} 
@@ -212,32 +239,41 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 	else  //x1 != x2,向上及向下寻找y值;    
 	{
 		//先向上找
-		itrYc = m_pPointMap.begin();       
-		while(itrYc != m_pPointMap.end())  
-		{
-			itrYc = m_pPointMap.upper_bound(y1);      
+		itrYc = m_pPointMap.upper_bound(ytemp); 
+		while(itrYc != m_pPointMap.begin())  
+		{			     
 			y2 = itrYc->second.m_y;
 			if(isDistGreater(x1,y1,x2,y2,dist))  
 			{
 				break;  
+			}
+			else if(isDistZero(x1,y1,x2,y2))   
+			{
+				itrYc--;
+				continue;
 			}
 			else  
 			{
 				pair<void*,void*> pairData(syData.m_dataVoidPtr,itrYc->second.m_dataVoidPtr);
 				vPointPairs.push_back(pairData);
-				itrYc++;
+				itrYc--;
 			}
 		} 
 
 		//再向下找;
-		itrYc = m_pPointMap.begin();       
+		itrYc = m_pPointMap.lower_bound(ytemp);    
 		while(itrYc != m_pPointMap.end())  
-		{
-			itrYc = m_pPointMap.lower_bound(y1);      
+		{			  
 			y2 = itrYc->second.m_y;
+			ytemp = y2;
 			if(isDistGreater(x1,y1,x2,y2,dist))  
 			{
 				break;  
+			}
+			else if(isDistZero(x1,y1,x2,y2))   
+			{
+				itrYc++;
+				continue;
 			}
 			else  
 			{
