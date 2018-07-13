@@ -41,7 +41,7 @@ SXData::SXData(IN const SXData& src)
 
 //insert
 map<double,SYData,dblcmp>::iterator
-SXData::insert(IN const double yVal,IN const int ptInex)
+SXData::insert(IN const double yVal,IN const int ptInex,OUT void* voidPtr = NULL)
 {
 	pair<map<double,SYData,dblcmp>::iterator,bool> pairRtn;
 	map<double,SYData,dblcmp>::iterator itrY;
@@ -50,6 +50,7 @@ SXData::insert(IN const double yVal,IN const int ptInex)
 	stY.m_y = yVal;
 	stY.pt.set(m_x,yVal,0);
 	stY.m_PointIndex = ptInex;
+	stY.m_dataVoidPtr = voidPtr;  //附加数据;
 	pairRtn = m_pPointMap.insert(pair<double,SYData>(yVal,stY));
 	itrY = pairRtn.first;
 	return itrY;
@@ -362,7 +363,7 @@ CPointMap::isEqual(IN const double d1,IN const double d2,IN const int m_nDotNum)
 //ptIndex: 顶点序号;
 //返回：void;
 void
-CPointMap::insert(IN const double x,IN const double y,IN const int ptIndex)
+CPointMap::insert(IN const double x,IN const double y,IN const int ptIndex,IN  void* voidPtr = NULL)
 {
 	//double xf = transByDotNum(x,m_nDotNum);
 	//double yf = transByDotNum(y,m_nDotNum);
@@ -375,20 +376,20 @@ CPointMap::insert(IN const double x,IN const double y,IN const int ptIndex)
 	pair<map<double,SXData,dblcmp>::iterator,bool> pairRtnX; 
 	SXData sx;
 	sx.m_x = xf;
-	pairRtnX = m_mapXcoord.insert(pair<double,SXData>(xf,sx));  
+	pairRtnX = m_mapXcoord.insert(pair<double,SXData>(xf,sx));   
 	itrRtnX = pairRtnX.first;
 
 	//插入y;
 	map<double,SYData,dblcmp>::iterator itrY;
-	itrY = itrRtnX->second.insert(yf,ptIndex);  //这里insert是SXData的成员函数;
+	itrY = itrRtnX->second.insert(yf,ptIndex,voidPtr);  //这里insert是SXData的成员函数;
 }
 
 
 //insert
 void
-CPointMap::insert(IN const AcGePoint3d pt,IN const int ptIndex)
+CPointMap::insert(IN const AcGePoint3d pt,IN const int ptIndex,IN  void* voidPtr = NULL)
 {
-	insert(pt.x,pt.y,ptIndex);
+	insert(pt.x,pt.y,ptIndex,voidPtr);   
 }
 
 
@@ -532,7 +533,7 @@ testPointMapClass()
 	CTimeElapse objTimesElpased;
 	
 	long nNumSS = 0;
-	acedSSLength(ss,&nNumSS);  
+	acedSSLength(ss,&nNumSS);   
 
 	AcDbObjectId id;
 	AcDbEntity* pEnt;
@@ -540,7 +541,7 @@ testPointMapClass()
 	CPointMap objPtMap;
 	objPtMap.setDotNum(6);
 	AcGePoint3d pt;
-	for(long i = 0; i < nNumSS; i++)
+	for(long i = 0; i < nNumSS; i++)  
 	{
 		acedSSName(ss,i,ssUnit);
 		acdbGetObjectId(id,ssUnit);
@@ -563,11 +564,11 @@ testPointMapClass()
 			objPtMap.insert(pt,i);
 			pEnt->close();
 		}
-		else if(pEnt->isA() == AcDbArc::desc())
+		else if(pEnt->isA() == AcDbArc::desc())  
 		{
 			/*AcDbArc* pArc = (AcDbArc*)pEnt;
 			objPtMap.insert(pArc->start());
-			objPtMap.insert(pArc->endPoint());*/
+			objPtMap.insert(pArc->endPoint());*/  
 			pEnt->close();
 			continue;
 		}
