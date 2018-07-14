@@ -111,13 +111,10 @@ struct SXData
 	map<double,SYData,dblcmp> m_pPointMap;  //嵌套map;    
 
 	bool find(IN const double yVal,OUT int& ptIndex);  //查找y-key;     
-<<<<<<< HEAD
-	map<double,SYData,dblcmp>::iterator insert(IN const double yVal,IN const int ptIndex); //插入y key;     
-	unsigned int erase(IN const double yVal);  //delete;    
-=======
+
 	map<double,SYData,dblcmp>::iterator insert(IN const double yVal,IN const int ptIndex,OUT void* voidPtr = NULL); //插入y key;    
 	unsigned int erase(IN const double yVal);  //delete;     
->>>>>>> bd9bb9b21d0b105d1c3cacb0ae2731edf9952eb2
+
 	void print();  //测试，打印信息;  
 
 	//查找和输入坐标点距离小于dist的点;      

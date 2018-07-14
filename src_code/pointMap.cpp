@@ -41,7 +41,7 @@ SXData::SXData(IN const SXData& src)
 
 //insert
 map<double,SYData,dblcmp>::iterator
-SXData::insert(IN const double yVal,IN const int ptInex,OUT void* voidPtr = NULL)
+SXData::insert(IN const double yVal,IN const int ptInex,OUT void* voidPtr)
 {
 	pair<map<double,SYData,dblcmp>::iterator,bool> pairRtn;
 	map<double,SYData,dblcmp>::iterator itrY;
@@ -363,7 +363,7 @@ CPointMap::isEqual(IN const double d1,IN const double d2,IN const int m_nDotNum)
 //ptIndex: 顶点序号;
 //返回：void;
 void
-CPointMap::insert(IN const double x,IN const double y,IN const int ptIndex,IN  void* voidPtr = NULL)
+CPointMap::insert(IN const double x,IN const double y,IN const int ptIndex,IN  void* voidPtr)
 {
 	//double xf = transByDotNum(x,m_nDotNum);
 	//double yf = transByDotNum(y,m_nDotNum);
@@ -387,7 +387,7 @@ CPointMap::insert(IN const double x,IN const double y,IN const int ptIndex,IN  v
 
 //insert
 void
-CPointMap::insert(IN const AcGePoint3d pt,IN const int ptIndex,IN  void* voidPtr = NULL)
+CPointMap::insert(IN const AcGePoint3d pt,IN const int ptIndex,IN void* voidPtr)
 {
 	insert(pt.x,pt.y,ptIndex,voidPtr);   
 }
@@ -397,7 +397,7 @@ CPointMap::insert(IN const AcGePoint3d pt,IN const int ptIndex,IN  void* voidPtr
 //因为key是double类型，所以不能依靠等于运算来查找，应该依靠upper_bound和lower_bound;
 //返回：1.是否查找到了;
 bool
-CPointMap::find(IN const double x,IN const double y,OUT int& ptIndex)
+CPointMap::find(IN const double x,IN const double y,OUT int& ptIndex,OUT void* voidPtr)
 {
 	//double xc = transByDotNum(x,m_nDotNum);  //修剪成为指定位数的小数;
 	//double yc = transByDotNum(y,m_nDotNum);
