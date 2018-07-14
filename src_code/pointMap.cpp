@@ -41,7 +41,7 @@ SXData::SXData(IN const SXData& src)
 
 //insert
 map<double,SYData,dblcmp>::iterator
-SXData::insert(IN const double yVal,IN const int ptInex)
+SXData::insert(IN const double yVal,IN const int ptInex,OUT void* voidPtr = NULL)
 {
 	pair<map<double,SYData,dblcmp>::iterator,bool> pairRtn;
 	map<double,SYData,dblcmp>::iterator itrY;
@@ -50,6 +50,7 @@ SXData::insert(IN const double yVal,IN const int ptInex)
 	stY.m_y = yVal;
 	stY.pt.set(m_x,yVal,0);
 	stY.m_PointIndex = ptInex;
+	stY.m_dataVoidPtr = voidPtr;  //附加数据;
 	pairRtn = m_pPointMap.insert(pair<double,SYData>(yVal,stY));
 	itrY = pairRtn.first;
 	return itrY;
@@ -104,6 +105,7 @@ SXData::print()
 
 
 //计算两点距离，并与输入距离相比较
+//如果不大于，则要排除相等的情况;
 bool
 SXData::isDistGreater(IN const double x1,IN const double y1,IN const double x2,IN const double y2,IN const double dist)
 {
@@ -137,6 +139,27 @@ SXData::isDigitGreater(IN const double d1,IN const double d2)
 		return false;   
 	}
 }
+
+
+//比较俩double大小;  
+//d1大于d2，返回true;
+//误差值设置：
+bool
+SXData::isDistZero(IN const double x1,IN const double y1,IN const double x2,IN const double y2)
+{
+	double distWork = 0;
+	distWork = sqrt((x1-x2)*(x1-x2) +(y1-y2)*(y1-y2));   
+	AcGeTol objTol;
+	if(distWork <= objTol.equalPoint())
+	{
+		return true;
+	}
+	else
+	{
+		return false;  
+	}
+}
+
 
 
 //返回m_pPointMap遍历器起始指针;
@@ -177,34 +200,39 @@ SXData::isEqual(IN const double d1, IN const double d2)
 bool
 SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const SYData syData,OUT vector<pair<void*,void*>>& vPointPairs)
 {
-	double x1 = 0;   //本地坐标x
-	double x2 = 0;   //输入坐标x;
-	double y1 = syData.m_y; //第一个点坐标y;   
+	double x1 = 0;   //用来被比较的本地坐标x;
+	double x2 = 0;   //输入源坐标x;  
+	double y1 = syData.m_y; //第一个点坐标y;      
 	double y2 = 0; //第二点坐标y;	
+	double ytemp = y1; //temp y;    
 	x1 = m_x;
-	x2 = xcoord;
-	if(abs(x1-x2) > dist) 
+	x2 = xcoord;         
+	if(abs(x1-x2) > dist)          
 	{
-		return false;   
+		return false;     
 	}
 
 	//x1 == x2  ;只向下寻找更大的y值; 
-	map<double,SYData,dblcmp>::iterator itrYc = m_pPointMap.begin();
+	map<double,SYData,dblcmp>::iterator itrYc; // = m_pPointMap.begin();	
 	if(isEqual(x1,x2))    
 	{
-		itrYc = m_pPointMap.begin();       
+		itrYc = m_pPointMap.lower_bound(ytemp); 
 		while(itrYc != m_pPointMap.end())  
-		{
-			itrYc = m_pPointMap.lower_bound(y1);  
-			y2 = itrYc->second.m_y;  
-			if(isDistGreater(x1,y1,x2,y2,dist))  
+		{			      
+			y2 = itrYc->second.m_y;  			
+			if(isDistGreater(x1,y1,x2,y2,dist))     
 			{
-				break;
+				break;   
+			}
+			else if(isDistZero(x1,y1,x2,y2))    
+			{
+				itrYc++; 
+				continue;   
 			}
 			else
 			{
 				pair<void*,void*> pairData(syData.m_dataVoidPtr,itrYc->second.m_dataVoidPtr);
-				vPointPairs.push_back(pairData);
+				vPointPairs.push_back(pairData);  
 				itrYc++;
 			}
 		} 
@@ -212,32 +240,41 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 	else  //x1 != x2,向上及向下寻找y值;    
 	{
 		//先向上找
-		itrYc = m_pPointMap.begin();       
-		while(itrYc != m_pPointMap.end())  
-		{
-			itrYc = m_pPointMap.upper_bound(y1);      
+		itrYc = m_pPointMap.upper_bound(ytemp); 
+		while(itrYc != m_pPointMap.begin())  
+		{			     
 			y2 = itrYc->second.m_y;
 			if(isDistGreater(x1,y1,x2,y2,dist))  
 			{
 				break;  
+			}
+			else if(isDistZero(x1,y1,x2,y2))   
+			{
+				itrYc--;
+				continue;
 			}
 			else  
 			{
 				pair<void*,void*> pairData(syData.m_dataVoidPtr,itrYc->second.m_dataVoidPtr);
 				vPointPairs.push_back(pairData);
-				itrYc++;
+				itrYc--;
 			}
 		} 
 
 		//再向下找;
-		itrYc = m_pPointMap.begin();       
+		itrYc = m_pPointMap.lower_bound(ytemp);    
 		while(itrYc != m_pPointMap.end())  
-		{
-			itrYc = m_pPointMap.lower_bound(y1);      
+		{			  
 			y2 = itrYc->second.m_y;
+			ytemp = y2;
 			if(isDistGreater(x1,y1,x2,y2,dist))  
 			{
 				break;  
+			}
+			else if(isDistZero(x1,y1,x2,y2))   
+			{
+				itrYc++;
+				continue;
 			}
 			else  
 			{
@@ -326,7 +363,7 @@ CPointMap::isEqual(IN const double d1,IN const double d2,IN const int m_nDotNum)
 //ptIndex: 顶点序号;
 //返回：void;
 void
-CPointMap::insert(IN const double x,IN const double y,IN const int ptIndex)
+CPointMap::insert(IN const double x,IN const double y,IN const int ptIndex,IN  void* voidPtr = NULL)
 {
 	//double xf = transByDotNum(x,m_nDotNum);
 	//double yf = transByDotNum(y,m_nDotNum);
@@ -339,20 +376,20 @@ CPointMap::insert(IN const double x,IN const double y,IN const int ptIndex)
 	pair<map<double,SXData,dblcmp>::iterator,bool> pairRtnX; 
 	SXData sx;
 	sx.m_x = xf;
-	pairRtnX = m_mapXcoord.insert(pair<double,SXData>(xf,sx));  
+	pairRtnX = m_mapXcoord.insert(pair<double,SXData>(xf,sx));   
 	itrRtnX = pairRtnX.first;
 
 	//插入y;
 	map<double,SYData,dblcmp>::iterator itrY;
-	itrY = itrRtnX->second.insert(yf,ptIndex);  //这里insert是SXData的成员函数;
+	itrY = itrRtnX->second.insert(yf,ptIndex,voidPtr);  //这里insert是SXData的成员函数;
 }
 
 
 //insert
 void
-CPointMap::insert(IN const AcGePoint3d pt,IN const int ptIndex)
+CPointMap::insert(IN const AcGePoint3d pt,IN const int ptIndex,IN  void* voidPtr = NULL)
 {
-	insert(pt.x,pt.y,ptIndex);
+	insert(pt.x,pt.y,ptIndex,voidPtr);   
 }
 
 
@@ -420,10 +457,13 @@ CPointMap::print()
 }
 
 
-//寻找距离小于dist的点对
+//寻找距离小于dist的点对;  
+//在所有点坐标中寻找; 遍历整个坐标点集合;   
+//三重循环：
 void
-CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& pointPairs)
+CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& pointPairs)   
 {
+<<<<<<< HEAD
 	map<double,SXData,dblcmp>::iterator itrxFirst = m_mapXcoord.begin(); //取出的x列，用来对比；
 	map<double,SXData,dblcmp>::iterator itrxNext;    //取出的x+n列，用来被对比; x + n > x;
 	map<double,SYData,dblcmp>::iterator itry;  //取得y坐标;   
@@ -432,26 +472,37 @@ CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& po
 	//取得x坐标;
 	double mx = 0;
 	double my = 0;
+=======
+	map<double,SXData,dblcmp>::iterator itrxFirst = m_mapXcoord.begin(); //取出的x列，用来对比；     
+	map<double,SXData,dblcmp>::iterator itrxNext;    //取出的x+n列，用来被对比; x + n > x;        
+	map<double,SYData,dblcmp>::iterator itry;  //取得y坐标;   
+	
+	//three level loops;    
+	//取得x坐标;          
+	double mx = 0;       
+	double my = 0;   
+>>>>>>> 5940f100d675ff6cbceb29132e396006fa11e9bc
 	SYData syData;
-	void* voidDataPtr = NULL;
-	bool flag = false;  //判断是否不用继续查找下一个sxdata;   
-	for(; itrxFirst != m_mapXcoord.end(); itrxFirst++) 
+	void* voidDataPtr = NULL;   
+	bool flag = false;  //判断是否不用继续查找下一个sxdata;     
+	for(; itrxFirst != m_mapXcoord.end(); itrxFirst++)           
 	{
 		mx = itrxFirst->second.m_x;   
+
 		//继续取得y坐标及挂载数据;
-		itry = itrxFirst->second.syDataBegin();		
+		itry = itrxFirst->second.syDataBegin();	    	  
 		syData = (SYData)(itry->second);
-		for(; itry != itrxFirst->second.syDataEnd(); itry++)   
+		for(; itry != itrxFirst->second.syDataEnd(); itry++)           
 		{
-			my = itry->second.m_y;
-			voidDataPtr = itry->second.m_dataVoidPtr;
-			//third loop
-			for(itrxNext = itrxFirst; itrxNext != m_mapXcoord.end();itrxNext++)  
+			my = itry->second.m_y;   
+			voidDataPtr = itry->second.m_dataVoidPtr;     
+			//third loop：比较每一个x列;
+			for(itrxNext = itrxFirst; itrxNext != m_mapXcoord.end();itrxNext++)      
 			{
-				flag = itrxNext->second.chkLessDistPoints(dist,mx,syData,pointPairs); 
+				flag = itrxNext->second.chkLessDistPoints(dist,mx,syData,pointPairs);       
 				if(!flag)  //返回false，说明x1和x2距离太远了，可以退出本层循环了;
 				{
-					break;  
+					break;     
 				}
 			}
 		}
@@ -493,7 +544,7 @@ testPointMapClass()
 	CTimeElapse objTimesElpased;
 	
 	long nNumSS = 0;
-	acedSSLength(ss,&nNumSS);  
+	acedSSLength(ss,&nNumSS);   
 
 	AcDbObjectId id;
 	AcDbEntity* pEnt;
@@ -501,7 +552,7 @@ testPointMapClass()
 	CPointMap objPtMap;
 	objPtMap.setDotNum(6);
 	AcGePoint3d pt;
-	for(long i = 0; i < nNumSS; i++)
+	for(long i = 0; i < nNumSS; i++)  
 	{
 		acedSSName(ss,i,ssUnit);
 		acdbGetObjectId(id,ssUnit);
@@ -524,11 +575,11 @@ testPointMapClass()
 			objPtMap.insert(pt,i);
 			pEnt->close();
 		}
-		else if(pEnt->isA() == AcDbArc::desc())
+		else if(pEnt->isA() == AcDbArc::desc())  
 		{
 			/*AcDbArc* pArc = (AcDbArc*)pEnt;
 			objPtMap.insert(pArc->start());
-			objPtMap.insert(pArc->endPoint());*/
+			objPtMap.insert(pArc->endPoint());*/  
 			pEnt->close();
 			continue;
 		}
