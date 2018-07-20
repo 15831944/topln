@@ -47,11 +47,11 @@ SXData::insert(IN const double yVal,IN const int ptInex,OUT void* voidPtr)
 	map<double,SYData,dblcmp>::iterator itrY;
 	bool bflag = false;
 	SYData stY;
-	stY.m_y = yVal;
+	stY.m_y = yVal;    
 	stY.pt.set(m_x,yVal,0);
 	stY.m_PointIndex = ptInex;
 	stY.m_dataVoidPtr = voidPtr;  //附加数据;
-	pairRtn = m_pPointMap.insert(pair<double,SYData>(yVal,stY));
+	pairRtn = m_pPointMap.insert(pair<double,SYData>(yVal,stY)); 
 	itrY = pairRtn.first;
 	return itrY;
 }
@@ -420,7 +420,7 @@ CPointMap::find(IN const double x,IN const double y,OUT int& ptIndex,OUT void* v
 
 //find
 bool
-CPointMap::find(IN const AcGePoint3d pt,OUT int& ptIndex)
+CPointMap::find(IN const AcGePoint3d pt,OUT int& ptIndex,OUT void* voidPtr)
 {
 	return find(pt.x,pt.y,ptIndex);
 }
@@ -463,16 +463,6 @@ CPointMap::print()
 void
 CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& pointPairs)   
 {
-<<<<<<< HEAD
-	map<double,SXData,dblcmp>::iterator itrxFirst = m_mapXcoord.begin(); //取出的x列，用来对比；
-	map<double,SXData,dblcmp>::iterator itrxNext;    //取出的x+n列，用来被对比; x + n > x;
-	map<double,SYData,dblcmp>::iterator itry;  //取得y坐标;   
-	
-	//three level loops;   
-	//取得x坐标;
-	double mx = 0;
-	double my = 0;
-=======
 	map<double,SXData,dblcmp>::iterator itrxFirst = m_mapXcoord.begin(); //取出的x列，用来对比；     
 	map<double,SXData,dblcmp>::iterator itrxNext;    //取出的x+n列，用来被对比; x + n > x;        
 	map<double,SYData,dblcmp>::iterator itry;  //取得y坐标;   
@@ -481,10 +471,10 @@ CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& po
 	//取得x坐标;          
 	double mx = 0;       
 	double my = 0;   
->>>>>>> 5940f100d675ff6cbceb29132e396006fa11e9bc
+
 	SYData syData;
 	void* voidDataPtr = NULL;   
-	bool flag = false;  //判断是否不用继续查找下一个sxdata;     
+	bool flag = false;  //判断是否不用继续查找下一个sxdata;      
 	for(; itrxFirst != m_mapXcoord.end(); itrxFirst++)           
 	{
 		mx = itrxFirst->second.m_x;   
