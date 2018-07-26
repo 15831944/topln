@@ -81,7 +81,7 @@ unsigned int
 SXData::erase(IN const double yVal)
 {
 	unsigned int uNum;
-	uNum = m_pPointMap.erase(yVal);
+	uNum = m_pPointMap.erase(yVal);   
 	return uNum;
 }
 
@@ -546,11 +546,11 @@ testPointMapClass()
 	{
 		acedSSName(ss,i,ssUnit);
 		acdbGetObjectId(id,ssUnit);
-		acdbOpenAcDbEntity(pEnt,id,AcDb::kForRead);
+		acdbOpenAcDbEntity(pEnt,id,AcDb::kForRead);   
 		if(pEnt->isA() == AcDbLine::desc())
 		{
 			AcDbLine* pLine = (AcDbLine*)pEnt;
-			objPtMap.insert(pLine->startPoint(),i);
+			objPtMap.insert(pLine->startPoint(),i); 
 			objPtMap.insert(pLine->endPoint(),i);  
 			pEnt->close();
 		}
