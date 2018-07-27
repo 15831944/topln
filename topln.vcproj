@@ -525,10 +525,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src_code\pointMap.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src_code\selectss.cpp"
 				>
 			</File>
@@ -845,6 +841,10 @@
 				</File>
 				<File
 					RelativePath=".\src_code\opt.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src_code\pointMap.cpp"
 					>
 				</File>
 				<File
