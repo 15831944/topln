@@ -81,6 +81,7 @@ struct SAttachData
 {
 	AcGePoint3d m_pt3d;
 	AcDbEntity* m_pEnt;  //点所属实体;  
+	void print();  //print itself;   
 };
 
 
@@ -142,9 +143,8 @@ private:
 	int m_nDotNum;   //小数的位数;
 	bool isDotNumSet; //判断小数位数是否已经设置，设置过了就不能再设置了;  
 	
-
 public:
-	void insert(IN const double x,IN const double y,IN const int ptIndex,IN void* voidPtr = NULL);  //插入   
+	void insert(IN const double x,IN const double y,IN const int ptIndex,IN void* voidPtr = NULL);  //插入    
 	void insert(IN const AcGePoint3d pt,IN const int ptIndex,IN void* voidPtr = NULL);      
 	bool find(IN const double x,IN const double y,OUT int& ptIndex,OUT void* voidPtr = NULL);   //查找;       
 	bool find(IN const AcGePoint3d pt,OUT int& ptIndex,OUT void* voidPtr = NULL);       
