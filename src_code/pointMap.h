@@ -76,12 +76,13 @@ struct dblcmp
 
 
 //定义SYData所挂载数据格式;
-//根据需要可以定义不同格式;
+//根据需要可以定义不同内容;
 struct SAttachData
 {
 	AcGePoint3d m_pt3d;
-	AcDbEntity* m_pEnt;  //点所属实体;  
-	void print();  //print itself;   
+	AcDbObjectId m_entId;  //点所属实体ID;      
+	void print();  //print itself;       
+	void init(const AcGePoint3d& pt,const AcDbEntity* pEnt);    //initialize self;
 };
 
 

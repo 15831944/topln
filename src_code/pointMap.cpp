@@ -194,7 +194,7 @@ SXData::isEqual(IN const double d1, IN const double d2)
 
 
 //在SDataX中查找和输入坐标距离小于dist的点；做成点对； 
-//返回值：如果x1和x2距离超过dist，返回false；其他返回true;  
+//返回值：如果x1和x2距离超过dist，返回false；如果两个点距离等于0，返回false； 其他返回true;  
 //注意：如果x1 == x2 则只需要向下查找y； 否则，应该双向查找y；  
 
 bool
@@ -373,7 +373,7 @@ CPointMap::insert(IN const double x,IN const double y,IN const int ptIndex,IN  v
 	//插入x值;
 	map<double,SXData,dblcmp>::iterator itrRtnX;
 	bool bFlag = false;
-	pair<map<double,SXData,dblcmp>::iterator,bool> pairRtnX; 
+	pair<map<double,SXData,dblcmp>::iterator,bool> pairRtnX;   
 	SXData sx;
 	sx.m_x = xf;
 	pairRtnX = m_mapXcoord.insert(pair<double,SXData>(xf,sx));   
@@ -542,6 +542,7 @@ testPointMapClass()
 	CPointMap objPtMap;
 	objPtMap.setDotNum(6);
 	AcGePoint3d pt;
+	SAttachData objData;  //附加数据;
 	for(long i = 0; i < nNumSS; i++)  
 	{
 		acedSSName(ss,i,ssUnit);
@@ -550,9 +551,11 @@ testPointMapClass()
 		if(pEnt->isA() == AcDbLine::desc())
 		{
 			AcDbLine* pLine = (AcDbLine*)pEnt;
-			objPtMap.insert(pLine->startPoint(),i); 
-			objPtMap.insert(pLine->endPoint(),i);  
-			pEnt->close();
+			objData.init(pLine->startPoint(),pEnt);
+			objPtMap.insert(pLine->startPoint(),i,&objData);    
+			objData.init(pLine->endPoint(),pEnt);
+			objPtMap.insert(pLine->endPoint(),i,&objData);      
+			pEnt->close();   
 		}
 		else if(pEnt->isA() == AcDbPolyline::desc())
 		{
@@ -560,9 +563,11 @@ testPointMapClass()
 			int nNum = 0;
 			nNum =  pPline->numVerts();
 			pPline->getPointAt(0,pt);
-			objPtMap.insert(pt,i);
+			objData.init(pt,pEnt);
+			objPtMap.insert(pt,i,&objData);
 			pPline->getPointAt(nNum-1,pt);
-			objPtMap.insert(pt,i);
+			objData.init(pt,pEnt);
+			objPtMap.insert(pt,i,&objData);
 			pEnt->close();
 		}
 		else if(pEnt->isA() == AcDbArc::desc())  
@@ -598,6 +603,8 @@ testPointMapClass()
 		#endif
 	}
 
+
+	//测试：寻找不重叠，且距离不超过dist的点对;
 	vector<pair<void*,void*>> vPoints;
 	objPtMap.findPointPairs(0.005,vPoints);  
 	objPtMap.printPointPairs(vPoints);      
