@@ -96,8 +96,8 @@ struct SYData
 	double m_y;   //y坐标;  
 	AcGePoint3d pt;  
 
-	int m_PointIndex;  //点的序号（在图结构中）    
-	void* m_dataVoidPtr;  //挂载其他数据;
+	int m_PointIndex;  //点的序号（在图结构中）       
+	void* m_dataAttach;  //挂载其他数据;
 };
 
 

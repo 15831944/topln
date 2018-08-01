@@ -50,7 +50,7 @@ SXData::insert(IN const double yVal,IN const int ptInex,OUT void* voidPtr)
 	stY.m_y = yVal;    
 	stY.pt.set(m_x,yVal,0);
 	stY.m_PointIndex = ptInex;
-	stY.m_dataVoidPtr = voidPtr;  //附加数据;
+	stY.m_dataAttach = voidPtr;  //附加数据;
 	pairRtn = m_pPointMap.insert(pair<double,SYData>(yVal,stY)); 
 	itrY = pairRtn.first;
 	return itrY;
@@ -231,7 +231,7 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 			}
 			else
 			{
-				pair<void*,void*> pairData(syData.m_dataVoidPtr,itrYc->second.m_dataVoidPtr);
+				pair<void*,void*> pairData(syData.m_dataAttach,itrYc->second.m_dataAttach);
 				vPointPairs.push_back(pairData);  
 				itrYc++;
 			}
@@ -255,7 +255,7 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 			}
 			else  
 			{
-				pair<void*,void*> pairData(syData.m_dataVoidPtr,itrYc->second.m_dataVoidPtr);
+				pair<void*,void*> pairData(syData.m_dataAttach,itrYc->second.m_dataAttach);
 				vPointPairs.push_back(pairData);
 				itrYc--;
 			}
@@ -278,7 +278,7 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 			}
 			else  
 			{
-				pair<void*,void*> pairData(syData.m_dataVoidPtr,itrYc->second.m_dataVoidPtr);  
+				pair<void*,void*> pairData(syData.m_dataAttach,itrYc->second.m_dataAttach);  
 				vPointPairs.push_back(pairData);  
 				itrYc++;    
 			}
@@ -287,6 +287,29 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 
 	return true;  //除了x2-x1>dist,其它情况返回true; 
 }
+
+
+
+
+//=============================
+//struct SAttachData
+//=============================
+//初始化，或者赋值；
+void
+SAttachData::init(const AcGePoint3d& pt,const AcDbEntity* pEnt)
+{
+	m_pt3d = pt;
+	m_entId = pEnt->objectId();
+}
+
+
+//打印信息;
+void
+SAttachData::print()
+{
+	acutPrintf(_T("\n(%15f,%15f)"),m_pt3d.x,m_pt3d.y);
+}
+
 
 
 //=============================
@@ -485,7 +508,7 @@ CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& po
 		for(; itry != itrxFirst->second.syDataEnd(); itry++)           
 		{
 			my = itry->second.m_y;   
-			voidDataPtr = itry->second.m_dataVoidPtr;     
+			voidDataPtr = itry->second.m_dataAttach;     
 			//third loop：比较每一个x列;
 			for(itrxNext = itrxFirst; itrxNext != m_mapXcoord.end();itrxNext++)      
 			{
@@ -542,7 +565,8 @@ testPointMapClass()
 	CPointMap objPtMap;
 	objPtMap.setDotNum(6);
 	AcGePoint3d pt;
-	SAttachData objData;  //附加数据;
+	SAttachData* objData;  //附加数据;
+	vector<SAttachData*> dataPtrVec; //收集之，用来释放动态分配的内存;
 	for(long i = 0; i < nNumSS; i++)  
 	{
 		acedSSName(ss,i,ssUnit);
