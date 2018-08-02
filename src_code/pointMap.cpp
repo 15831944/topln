@@ -204,7 +204,7 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 	double x2 = 0;   //输入源坐标x;  
 	double y1 = syData.m_y; //第一个点坐标y;      
 	double y2 = 0; //第二点坐标y;	
-	double ytemp = y1; //temp y;    
+	double ytemp = y1; //temp y;     
 	x1 = m_x;
 	x2 = xcoord;         
 	if(abs(x1-x2) > dist)          
@@ -484,7 +484,7 @@ CPointMap::print()
 //在所有点坐标中寻找; 遍历整个坐标点集合;   
 //三重循环：
 void
-CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& pointPairs)   
+CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& pointPairs)     
 {
 	map<double,SXData,dblcmp>::iterator itrxFirst = m_mapXcoord.begin(); //取出的x列，用来对比；     
 	map<double,SXData,dblcmp>::iterator itrxNext;    //取出的x+n列，用来被对比; x + n > x;        
@@ -513,7 +513,7 @@ CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& po
 			for(itrxNext = itrxFirst; itrxNext != m_mapXcoord.end();itrxNext++)      
 			{
 				flag = itrxNext->second.chkLessDistPoints(dist,mx,syData,pointPairs);       
-				if(!flag)  //返回false，说明x1和x2距离太远了，可以退出本层循环了;
+				if(!flag)  //返回false，说明x1和x2距离太远了，可以退出本层循环了; 
 				{
 					break;     
 				}
@@ -527,19 +527,26 @@ CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& po
 void
 CPointMap::printPointPairs(IN vector<pair<void*,void*>>& vPointPairs)
 {
-	double x1 = 0;
-	double y1 = 0;
-	double x2 = 0;
-	double y2 = 0; 
-	AcGePoint3d ptTemp;
 	vector<pair<void*,void*>>::iterator itr = vPointPairs.begin();
 	for(; itr != vPointPairs.end(); itr++)
 	{
-		x1 = ((SAttachData*)(itr->first))->m_pt3d.x;  
-		y1 = ((SAttachData*)(itr->first))->m_pt3d.y; 
-		x2 = ((SAttachData*)(itr->second))->m_pt3d.x;  
-		y2 = ((SAttachData*)(itr->second))->m_pt3d.y;
-		acutPrintf(_T("\nPoint pair %nth is (%.7f,%.7f)-(%.7f,%.7f)")); 
+		if((void*)(itr->first) != NULL)
+		{
+			((SAttachData*)(itr->first))->print();
+		}
+		else
+		{
+			acutPrintf(_T("\n CPointMap::printPointPairs: null pointer"));
+		}
+
+		if((void*)(itr->second) != NULL)
+		{
+			((SAttachData*)(itr->second))->print();
+		}
+		else
+		{
+			acutPrintf(_T("\n CPointMap::printPointPairs: null pointer"));
+		}
 	}
 }
    
@@ -574,23 +581,37 @@ testPointMapClass()
 		acdbOpenAcDbEntity(pEnt,id,AcDb::kForRead);   
 		if(pEnt->isA() == AcDbLine::desc())
 		{
+			objData = new SAttachData;
+			dataPtrVec.push_back(objData);
+
 			AcDbLine* pLine = (AcDbLine*)pEnt;
-			objData.init(pLine->startPoint(),pEnt);
-			objPtMap.insert(pLine->startPoint(),i,&objData);    
-			objData.init(pLine->endPoint(),pEnt);
+			objData->init(pLine->startPoint(),pEnt);
+			objPtMap.insert(pLine->startPoint(),i,&objData);
+
+			objData = new SAttachData;
+			dataPtrVec.push_back(objData);   
+
+			objData->init(pLine->endPoint(),pEnt);
 			objPtMap.insert(pLine->endPoint(),i,&objData);      
 			pEnt->close();   
 		}
 		else if(pEnt->isA() == AcDbPolyline::desc())
 		{
+			objData = new SAttachData;
+			dataPtrVec.push_back(objData);
+
 			AcDbPolyline* pPline = (AcDbPolyline*)pEnt;
 			int nNum = 0;
 			nNum =  pPline->numVerts();
 			pPline->getPointAt(0,pt);
-			objData.init(pt,pEnt);
+			objData->init(pt,pEnt);
 			objPtMap.insert(pt,i,&objData);
+
+			objData = new SAttachData;
+			dataPtrVec.push_back(objData);
+
 			pPline->getPointAt(nNum-1,pt);
-			objData.init(pt,pEnt);
+			objData->init(pt,pEnt);
 			objPtMap.insert(pt,i,&objData);
 			pEnt->close();
 		}
@@ -603,11 +624,11 @@ testPointMapClass()
 			continue;
 		}
 	}
-	objPtMap.print();  //打印，测试;
+	objPtMap.print();  //打印，测试;   
 
 	//测试寻找一个点;
 	//objTimesElpased.~CTimeElapse();
-	ads_point adsPoint;
+	ads_point adsPoint;    
 	
 	acedGetPoint(NULL,_T("\nPlease select a point:"),adsPoint);
 	int ptIndex = -1;
@@ -632,5 +653,16 @@ testPointMapClass()
 	vector<pair<void*,void*>> vPoints;
 	objPtMap.findPointPairs(0.005,vPoints);  
 	objPtMap.printPointPairs(vPoints);      
+
+
+	//最后，释放分配的内存
+	vector<SAttachData*>::iterator itrAttData = dataPtrVec.begin();
+	SAttachData* pAttData = NULL;
+	for(; itrAttData != dataPtrVec.end(); itrAttData++)
+	{
+		SAttachData* pAttData = (SAttachData*)(*itrAttData);
+		delete pAttData;
+		pAttData = NULL;
+	}
 	acedSSFree(ss);
 }
