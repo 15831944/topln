@@ -112,9 +112,9 @@ SXData::isDistGreater(IN const double x1,IN const double y1,IN const double x2,I
 	 double distWork = 0;
 	 distWork = sqrt((x1-x2)*(x1-x2) +(y1-y2)*(y1-y2));   
 	 AcGeTol objTol;
-	 if(distWork > dist && abs(distWork - dist) <= objTol.equalPoint())
+	 if(distWork > dist && abs(distWork - dist) > objTol.equalPoint())
 	 {
-		 return true;
+		 return true;   
 	 }
 	 else
 	 {
@@ -216,7 +216,7 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 	map<double,SYData,dblcmp>::iterator itrYc; // = m_pPointMap.begin();	
 	if(isEqual(x1,x2))    
 	{
-		itrYc = m_pPointMap.lower_bound(ytemp); 
+		itrYc = m_pPointMap.lower_bound(ytemp);   
 		while(itrYc != m_pPointMap.end())  
 		{			      
 			y2 = itrYc->second.m_y;  			
@@ -527,12 +527,14 @@ CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& po
 void
 CPointMap::printPointPairs(IN vector<pair<void*,void*>>& vPointPairs)
 {
+	SAttachData* pAtt = NULL;
 	vector<pair<void*,void*>>::iterator itr = vPointPairs.begin();
 	for(; itr != vPointPairs.end(); itr++)
 	{
 		if((void*)(itr->first) != NULL)
 		{
-			((SAttachData*)(itr->first))->print();
+			pAtt = ((SAttachData*)(itr->first));
+			pAtt->print();
 		}
 		else
 		{
@@ -541,7 +543,8 @@ CPointMap::printPointPairs(IN vector<pair<void*,void*>>& vPointPairs)
 
 		if((void*)(itr->second) != NULL)
 		{
-			((SAttachData*)(itr->second))->print();
+			pAtt = ((SAttachData*)(itr->first));
+			pAtt->print();
 		}
 		else
 		{
@@ -586,33 +589,33 @@ testPointMapClass()
 
 			AcDbLine* pLine = (AcDbLine*)pEnt;
 			objData->init(pLine->startPoint(),pEnt);
-			objPtMap.insert(pLine->startPoint(),i,&objData);
+			objPtMap.insert(pLine->startPoint(),i,objData);
 
 			objData = new SAttachData;
 			dataPtrVec.push_back(objData);   
 
 			objData->init(pLine->endPoint(),pEnt);
-			objPtMap.insert(pLine->endPoint(),i,&objData);      
+			objPtMap.insert(pLine->endPoint(),i,objData);      
 			pEnt->close();   
 		}
 		else if(pEnt->isA() == AcDbPolyline::desc())
 		{
 			objData = new SAttachData;
-			dataPtrVec.push_back(objData);
+			dataPtrVec.push_back(objData);  
 
-			AcDbPolyline* pPline = (AcDbPolyline*)pEnt;
+			AcDbPolyline* pPline = (AcDbPolyline*)pEnt;  
 			int nNum = 0;
 			nNum =  pPline->numVerts();
 			pPline->getPointAt(0,pt);
 			objData->init(pt,pEnt);
-			objPtMap.insert(pt,i,&objData);
+			objPtMap.insert(pt,i,objData);
 
 			objData = new SAttachData;
 			dataPtrVec.push_back(objData);
 
 			pPline->getPointAt(nNum-1,pt);
 			objData->init(pt,pEnt);
-			objPtMap.insert(pt,i,&objData);
+			objPtMap.insert(pt,i,objData);
 			pEnt->close();
 		}
 		else if(pEnt->isA() == AcDbArc::desc())  
