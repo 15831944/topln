@@ -130,7 +130,7 @@ struct SXData
 	bool isDistZero(IN const double x1,IN const double y1,IN const double x2,IN const double y2);
 
 	//查找元素的函数
-	bool first(OUT vector<double,SXData,dblcmp>::iterator itrSxdata,OUT SYData& sydata);
+	bool first(OUT vector<double,SXData,dblcmp>::iterator itrSxdata,OUT vector<double,SYData,dblcmp>::itrSydata,OUT SYData& sydata);  
 	bool next();   //获取下一个sydata;   
 	bool last();  //最后一个;
 };
