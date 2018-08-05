@@ -82,7 +82,7 @@ struct SAttachData
 	AcGePoint3d m_pt3d;
 	AcDbObjectId m_entId;  //点所属实体ID;      
 	void print();  //print itself;       
-	void init(const AcGePoint3d& pt,const AcDbEntity* pEnt);    //initialize self;
+	void init(const AcGePoint3d& pt,const AcDbEntity* pEnt);    //initialize self;   
 };
 
 
@@ -91,10 +91,10 @@ struct SAttachData
 struct SYData
 {
 	SYData();
-	SYData(IN const SYData& src);  //copy constructor;
+	SYData(IN const SYData& src);  //copy constructor;   
 	~SYData();
 	double m_y;   //y坐标;  
-	AcGePoint3d pt;  
+	AcGePoint3d pt;    
 
 	int m_PointIndex;  //点的序号（在图结构中）       
 	void* m_dataAttach;  //挂载其他数据;
@@ -124,10 +124,15 @@ struct SXData
 	map<double,SYData,dblcmp>::iterator syDataBegin();  //返回m_pPointMap遍历器起始指针;     
 	map<double,SYData,dblcmp>::iterator syDataEnd();    //返回m_pPointMap遍历器结束指针;     
 	bool chkLessDistPoints(IN const double dist,IN const double xcoord,IN const SYData syData, OUT vector<pair<void*,void*>>& vPointPairs);
-	bool isDistGreater(IN const double x1,IN const double y1,IN const double x2,IN const double y2,IN const double dist);
+	bool isDistGreater(IN const double x1,IN const double y1,IN const double x2,IN const double y2,IN const double dist);  
 	bool isDigitGreater(IN const double d1,IN const double d2); //比较俩double大小;     
 	bool isEqual(IN const double d1, IN const double d2);  //判断俩double是否相等;   
 	bool isDistZero(IN const double x1,IN const double y1,IN const double x2,IN const double y2);
+
+	//查找元素的函数
+	bool first(OUT vector<double,SXData,dblcmp>::iterator itrSxdata,OUT SYData& sydata);
+	bool next();   //获取下一个sydata;   
+	bool last();  //最后一个;
 };
 
 
@@ -142,12 +147,12 @@ public:
 private:
 	map<double,SXData,dblcmp> m_mapXcoord;  
 	int m_nDotNum;   //小数的位数;
-	bool isDotNumSet; //判断小数位数是否已经设置，设置过了就不能再设置了;  
+	bool isDotNumSet; //判断小数位数是否已经设置，设置过了就不能再设置了;    
 	
 public:
 	void insert(IN const double x,IN const double y,IN const int ptIndex,IN void* voidPtr = NULL);  //插入    
 	void insert(IN const AcGePoint3d pt,IN const int ptIndex,IN void* voidPtr = NULL);      
-	bool find(IN const double x,IN const double y,OUT int& ptIndex,OUT void* voidPtr = NULL);   //查找;       
+	bool find(IN const double x,IN const double y,OUT int& ptIndex,OUT void* voidPtr = NULL);   //查找;        
 	bool find(IN const AcGePoint3d pt,OUT int& ptIndex,OUT void* voidPtr = NULL);       
 	bool erase(IN const double x,IN const double y);  //删除;      
 	bool erase(IN const AcGePoint3d pt);       
