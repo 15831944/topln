@@ -500,15 +500,17 @@ CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& po
 	bool flag = false;  //判断是否不用继续查找下一个sxdata;      
 	for(; itrxFirst != m_mapXcoord.end(); itrxFirst++)           
 	{
+		//取得x坐标;
 		mx = itrxFirst->second.m_x;   
-
-		//继续取得y坐标及挂载数据;
-		itry = itrxFirst->second.syDataBegin();	    	  
-		syData = (SYData)(itry->second);
+		
+		itry = itrxFirst->second.syDataBegin();	    			        
 		for(; itry != itrxFirst->second.syDataEnd(); itry++)           
 		{
+			//继续取得y坐标及挂载数据;
+			syData = (SYData)(itry->second);    
 			my = itry->second.m_y;   
-			voidDataPtr = itry->second.m_dataAttach;     
+			voidDataPtr = itry->second.m_dataAttach;    
+
 			//third loop：比较每一个x列;
 			for(itrxNext = itrxFirst; itrxNext != m_mapXcoord.end();itrxNext++)      
 			{
