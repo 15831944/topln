@@ -196,35 +196,34 @@ SXData::isEqual(IN const double d1, IN const double d2)
 //在SDataX中查找和输入坐标距离小于dist的点；做成点对； 
 //返回值：如果x1和x2距离超过dist，返回false；如果两个点距离等于0，返回false； 其他返回true;  
 //注意：如果x1 == x2 则只需要向下查找y； 否则，应该双向查找y；  
-
 bool
 SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const SYData syData,OUT vector<pair<void*,void*>>& vPointPairs)
 {
-	double x1 = 0;   //用来被比较的本地坐标x;
-	double x2 = 0;   //输入源坐标x;  
-	double y1 = syData.m_y; //第一个点坐标y;      
-	double y2 = 0; //第二点坐标y;	
+	double x1 = 0;   //（输入）源坐标点x；
+	double x2 = 0;   //目标坐标点x;  
+	double y1 = syData.m_y; //（输入）源坐标点y;      
+	double y2 = 0; //目标坐标点y;	
 	double ytemp = y1; //temp y;     
-	x1 = m_x;
-	x2 = xcoord;         
-	if(abs(x1-x2) > dist)          
+	x1 = xcoord;   
+	x2 = m_x;
+	if(abs(x1-x2) > dist)    
 	{
 		return false;     
 	}
 
-	//x1 == x2  ;只向下寻找更大的y值; 
+	//x1 == x2  ;只向下寻找更大的y值;    
 	map<double,SYData,dblcmp>::iterator itrYc; // = m_pPointMap.begin();	
 	if(isEqual(x1,x2))    
 	{
 		itrYc = m_pPointMap.lower_bound(ytemp);   
-		while(itrYc != m_pPointMap.end())  
+		while(itrYc != m_pPointMap.end()) 
 		{			      
 			y2 = itrYc->second.m_y;  			
 			if(isDistGreater(x1,y1,x2,y2,dist))     
 			{
-				break;   
+				break;     
 			}
-			else if(isDistZero(x1,y1,x2,y2))    
+			else if(isDistZero(x1,y1,x2,y2))     
 			{
 				itrYc++; 
 				continue;   
@@ -233,8 +232,8 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 			{
 				pair<void*,void*> pairData(syData.m_dataAttach,itrYc->second.m_dataAttach);
 				vPointPairs.push_back(pairData);  
-				itrYc++;
-			}
+				itrYc++;   
+			}   
 		} 
 	}
 	else  //x1 != x2,向上及向下寻找y值;    
@@ -512,7 +511,7 @@ CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& po
 			voidDataPtr = itry->second.m_dataAttach;    
 
 			//third loop：比较每一个x列;
-			for(itrxNext = itrxFirst; itrxNext != m_mapXcoord.end();itrxNext++)      
+			for(itrxNext = itrxFirst; itrxNext != m_mapXcoord.end();itrxNext++)  //    
 			{
 				flag = itrxNext->second.chkLessDistPoints(dist,mx,syData,pointPairs);            
 				if(!flag)  //返回false，说明x1和x2距离太远了，可以退出本层循环了; 
