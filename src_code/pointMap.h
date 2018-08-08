@@ -70,7 +70,7 @@ struct dblcmp
 {
 	bool operator()(const double i,const double j) const
 	{
-		return (i < j && abs(i - j) > 0.000001);
+		return (i < j && abs(i - j) > 0.000001);  
 	}
 };
 

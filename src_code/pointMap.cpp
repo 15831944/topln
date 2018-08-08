@@ -41,7 +41,7 @@ SXData::SXData(IN const SXData& src)
 
 //insert
 map<double,SYData,dblcmp>::iterator
-SXData::insert(IN const double yVal,IN const int ptInex,OUT void* voidPtr)
+SXData::insert(IN const double yVal,IN const int ptInex,OUT void* voidPtr)   
 {
 	pair<map<double,SYData,dblcmp>::iterator,bool> pairRtn;
 	map<double,SYData,dblcmp>::iterator itrY;
@@ -239,7 +239,7 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 	else  //x1 != x2,向上及向下寻找y值;    
 	{
 		//先向上找
-		itrYc = m_pPointMap.upper_bound(ytemp); 
+		itrYc = m_pPointMap.lower_bound(ytemp); 
 		while(itrYc != m_pPointMap.begin())  
 		{			     
 			y2 = itrYc->second.m_y;
@@ -395,7 +395,7 @@ CPointMap::insert(IN const double x,IN const double y,IN const int ptIndex,IN  v
 	//插入x值;
 	map<double,SXData,dblcmp>::iterator itrRtnX;
 	bool bFlag = false;
-	pair<map<double,SXData,dblcmp>::iterator,bool> pairRtnX;   
+	pair<map<double,SXData,dblcmp>::iterator,bool> pairRtnX;    
 	SXData sx;
 	sx.m_x = xf;
 	pairRtnX = m_mapXcoord.insert(pair<double,SXData>(xf,sx));   
@@ -508,7 +508,7 @@ CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& po
 			//继续取得y坐标及挂载数据;
 			syData = (SYData)(itry->second);    
 			my = itry->second.m_y;   
-			voidDataPtr = itry->second.m_dataAttach;    
+			voidDataPtr = itry->second.m_dataAttach;     
 
 			//third loop：比较每一个x列;
 			for(itrxNext = itrxFirst; itrxNext != m_mapXcoord.end();itrxNext++)  //    
