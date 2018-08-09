@@ -51,7 +51,7 @@ SXData::insert(IN const double yVal,IN const int ptInex,OUT void* voidPtr)
 	stY.pt.set(m_x,yVal,0);
 	stY.m_PointIndex = ptInex;
 	stY.m_dataAttach = voidPtr;  //附加数据;
-	pairRtn = m_pPointMap.insert(pair<double,SYData>(yVal,stY)); 
+	pairRtn = m_pPointMap.insert(pair<double,SYData>(yVal,stY));    
 	itrY = pairRtn.first;
 	return itrY;
 }
@@ -238,10 +238,17 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 	}
 	else  //x1 != x2,向上及向下寻找y值;    
 	{
-		//先向上找
+		//先向上找:不能漏了begin（）这个元素;
 		itrYc = m_pPointMap.lower_bound(ytemp); 
-		while(itrYc != m_pPointMap.begin())  
-		{			     
+		bool isBreak = false;
+		//while(itrYc != m_pPointMap.begin())  
+		while(true)  
+		{	
+			if(itrYc == m_pPointMap.begin())
+			{
+				isBreak = true; //执行完此轮就退出循环;  
+			}
+
 			y2 = itrYc->second.m_y;
 			if(isDistGreater(x1,y1,x2,y2,dist))  
 			{
@@ -249,19 +256,24 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 			}
 			else if(isDistZero(x1,y1,x2,y2))   
 			{
-				itrYc--;
-				continue;
+				itrYc--;  
+				continue;   
 			}
 			else  
 			{
-				pair<void*,void*> pairData(syData.m_dataAttach,itrYc->second.m_dataAttach);
-				vPointPairs.push_back(pairData);
+				pair<void*,void*> pairData(syData.m_dataAttach,itrYc->second.m_dataAttach);    
+				vPointPairs.push_back(pairData);   
 				itrYc--;
+			}
+
+			if(isBreak)  //break;
+			{
+				break;
 			}
 		} 
 
 		//再向下找;
-		itrYc = m_pPointMap.lower_bound(ytemp);    
+		itrYc = m_pPointMap.upper_bound(ytemp);    
 		while(itrYc != m_pPointMap.end())  
 		{			  
 			y2 = itrYc->second.m_y;
@@ -332,6 +344,7 @@ SYData::SYData(IN const SYData& src)
 	m_y = src.m_y;
 	pt = src.pt;
 	m_PointIndex = src.m_PointIndex;
+	m_dataAttach = src.m_dataAttach;
 }
 
 
@@ -532,6 +545,7 @@ CPointMap::printPointPairs(IN vector<pair<void*,void*>>& vPointPairs)
 	vector<pair<void*,void*>>::iterator itr = vPointPairs.begin();
 	for(; itr != vPointPairs.end(); itr++)
 	{
+		acutPrintf(_T("\n point pair -----"));
 		if((void*)(itr->first) != NULL)
 		{
 			pAtt = ((SAttachData*)(itr->first));
@@ -544,7 +558,7 @@ CPointMap::printPointPairs(IN vector<pair<void*,void*>>& vPointPairs)
 
 		if((void*)(itr->second) != NULL)
 		{
-			pAtt = ((SAttachData*)(itr->first));
+			pAtt = ((SAttachData*)(itr->second));
 			pAtt->print();
 		}
 		else
@@ -590,7 +604,7 @@ testPointMapClass()
 
 			AcDbLine* pLine = (AcDbLine*)pEnt;
 			objData->init(pLine->startPoint(),pEnt);
-			objPtMap.insert(pLine->startPoint(),i,objData);
+			objPtMap.insert(pLine->startPoint(),i,objData);  
 
 			objData = new SAttachData;
 			dataPtrVec.push_back(objData);   
