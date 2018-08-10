@@ -242,15 +242,19 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 		itrYc = m_pPointMap.lower_bound(ytemp); 
 		bool isBreak = false;
 		//while(itrYc != m_pPointMap.begin())  
-		while(true)  
+		while(true)   //有可能itrYc直接到了end;
 		{	
+			if(itrYc == m_pPointMap.end()) //不能让itrYc停留在end处，会崩溃;
+			{
+				itrYc--;
+			}
 			if(itrYc == m_pPointMap.begin())
 			{
 				isBreak = true; //执行完此轮就退出循环;  
 			}
 
-			y2 = itrYc->second.m_y;
-			if(isDistGreater(x1,y1,x2,y2,dist))  
+			y2 = itrYc->second.m_y;      // 调试：到这里崩溃； x1=0；y1=0.001； x2=0.001；y2应该等于0;
+			if(isDistGreater(x1,y1,x2,y2,dist))   
 			{
 				break;  
 			}
@@ -272,8 +276,12 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 			}
 		} 
 
-		//再向下找;
-		itrYc = m_pPointMap.upper_bound(ytemp);    
+		//再向下找; 
+		itrYc = m_pPointMap.lower_bound(ytemp);		
+		if(itrYc != m_pPointMap.end())
+		{
+			itrYc++;//这元素是和向上查找重叠的;所以要剔除;
+		}
 		while(itrYc != m_pPointMap.end())  
 		{			  
 			y2 = itrYc->second.m_y;
