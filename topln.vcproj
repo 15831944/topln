@@ -1046,5 +1046,9 @@
 		</Filter>
 	</Files>
 	<Globals>
+		<Global
+			Name="RESOURCE_FILE"
+			Value="topln.rc"
+		/>
 	</Globals>
 </VisualStudioProject>

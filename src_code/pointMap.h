@@ -53,7 +53,7 @@ eg£º Date:	Author: 	Modification:
 #include  "opt.h"
 #include "elapsetime.h"
 #include "basefunc.h"
-#include "D:\github\topln\topln\findDist.h"
+#include "..\findDist.h"
 
 using namespace std;
 
