@@ -521,6 +521,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\findDist.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\mingap.cpp"
 				>
 			</File>
@@ -998,6 +1002,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\findDist.h"
+				>
+			</File>
+			<File
 				RelativePath=".\mingap.h"
 				>
 			</File>
@@ -1007,6 +1015,10 @@
 			</File>
 			<File
 				RelativePath=".\Resource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\resource1.h"
 				>
 			</File>
 			<File

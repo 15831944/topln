@@ -636,7 +636,7 @@ testPointMapClass()
 			objData = new SAttachData;
 			dataPtrVec.push_back(objData);
 
-			pPline->getPointAt(nNum-1,pt);
+			pPline->getPointAt(nNum-1,pt);  
 			objData->init(pt,pEnt);
 			objPtMap.insert(pt,i,objData);
 			pEnt->close();
@@ -691,4 +691,8 @@ testPointMapClass()
 		pAttData = NULL;
 	}
 	acedSSFree(ss);
+
+	//´°¿Ú
+	findDistDlg myDialog;
+	myDialog.DoModal();
 }
