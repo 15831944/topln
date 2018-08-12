@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "findDist.h"
-#include "resource.h"
+#include "resource1.h"
 
 
 // findDist ¶Ô»°¿ò
