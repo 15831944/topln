@@ -155,14 +155,14 @@ public:
 	void insert(IN const AcGePoint3d pt,IN const int ptIndex,IN void* voidPtr = NULL);      
 	bool find(IN const double x,IN const double y,OUT int& ptIndex,OUT void* voidPtr = NULL);   //查找;        
 	bool find(IN const AcGePoint3d pt,OUT int& ptIndex,OUT void* voidPtr = NULL);       
-	bool erase(IN const double x,IN const double y);  //删除;      
+	bool erase(IN const double x,IN const double y);  //删除;       
 	bool erase(IN const AcGePoint3d pt);       
 	bool setDotNum(IN const int nDotNum);           
 	void print();    //打印出map的点;   
-	//bool printMap();  //打印出map的点;        
+	//bool printMap();  //打印出map的点;          
 
 public:
-	//以下为二期函数，用void* m_dataVoidPtr来扩展附加数据;更有扩展性;     
+	//以下为二期函数，用void* m_dataVoidPtr来扩展附加数据;更有扩展性;       
 	//void insert(IN const double xc,IN const double yc,IN void* voidPtr);      
 	//bool find(IN const double xc,IN const double yc,OUT void* voidPtr);     
 	void findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& vPointPairs);   //发现距离小于dist的点对;  

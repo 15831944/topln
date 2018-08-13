@@ -106,17 +106,20 @@ END
 // Dialog
 //
 
-IDD_DIALOG1 DIALOGEX 0, 0, 327, 204
+IDD_DIALOG1 DIALOGEX 0, 0, 321, 47
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Dialog123"
+CAPTION "断线缺口修补"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    DEFPUSHBUTTON   "确定",IDOK,205,183,50,14
-    PUSHBUTTON      "取消",IDCANCEL,270,183,50,14
-    PUSHBUTTON      "下一个",IDC_BUTTON1,32,130,73,18
-    PUSHBUTTON      "连接_下一个",IDC_BUTTON2,120,131,74,18
-    PUSHBUTTON      "全部连接",IDC_BUTTON3,206,131,73,18
-    LTEXT           "静态",IDC_STATIC,38,18,55,13
+    PUSHBUTTON      "下一个(&N)",IDC_BUTTON_NEXT,66,20,54,18
+    PUSHBUTTON      "连接后跳下一个(&D)",IDC_BUTTON_CONNECT_Next,181,20,74,18
+    PUSHBUTTON      "全部连接(&A)",IDC_BUTTON_Connect_all,260,20,54,18
+    EDITTEXT        IDC_EDIT_Max_dist,114,0,77,18,ES_AUTOHSCROLL
+    LTEXT           "输入缺口最大值(单位mm)：",IDC_STATIC_Max_dist,7,5,106,12
+    PUSHBUTTON      "连 接(&L)",IDC_BUTTON_Connect,124,20,54,18
+    PUSHBUTTON      "帮助(&H)",IDC_BUTTON_Help,260,1,54,18
+    PUSHBUTTON      "第一个(&F)",IDC_BUTTON_First,7,20,54,18
+    PUSHBUTTON      "运行(&R)",IDC_BUTTON_RUN,201,1,54,18
 END
 
 
@@ -131,9 +134,9 @@ BEGIN
     IDD_DIALOG1, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 320
+        RIGHTMARGIN, 314
         TOPMARGIN, 7
-        BOTTOMMARGIN, 197
+        BOTTOMMARGIN, 40
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -147,6 +150,7 @@ END
 STRINGTABLE 
 BEGIN
     IDS_PROJNAME            "ArxProject1"
+    IDS_STRING101           "功能： 1、查找途中轮廓线缺口，缺口最大长度由用户输入 2、观察图形中断线缺口  3、修补轮廓线缺口                                    快捷键：L-连接  N-下一个  A-全部连接 D-连接后跳下一个"
 END
 
 #endif    // 中文(中华人民共和国) resources

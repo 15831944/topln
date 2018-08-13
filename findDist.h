@@ -1,6 +1,7 @@
 #pragma once
 
-#include "resource1.h"
+#include "resource.h"
+#include "afxwin.h"
 
 
 // findDist 对话框
@@ -20,4 +21,8 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnBnClickedCancel();
+	CEdit m_edit_maxDist;
+	afx_msg void OnBnClickedButtonFirst();
 };

@@ -686,13 +686,14 @@ testPointMapClass()
 	SAttachData* pAttData = NULL;
 	for(; itrAttData != dataPtrVec.end(); itrAttData++)
 	{
-		SAttachData* pAttData = (SAttachData*)(*itrAttData);
+		SAttachData* pAttData = (SAttachData*)(*itrAttData);  
 		delete pAttData;
 		pAttData = NULL;
 	}
 	acedSSFree(ss);
 
 	//´°¿Ú
+	CAcModuleResourceOverride resOverride;
 	findDistDlg myDialog;
 	myDialog.DoModal();
 }
