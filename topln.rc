@@ -111,15 +111,15 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSM
 CAPTION "断线缺口修补"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    PUSHBUTTON      "下一个(&N)",IDC_BUTTON_NEXT,66,20,54,18
-    PUSHBUTTON      "连接后跳下一个(&D)",IDC_BUTTON_CONNECT_Next,181,20,74,18
-    PUSHBUTTON      "全部连接(&A)",IDC_BUTTON_Connect_all,260,20,54,18
-    EDITTEXT        IDC_EDIT_Max_dist,114,0,77,18,ES_AUTOHSCROLL
-    LTEXT           "输入缺口最大值(单位mm)：",IDC_STATIC_Max_dist,7,5,106,12
-    PUSHBUTTON      "连 接(&L)",IDC_BUTTON_Connect,124,20,54,18
-    PUSHBUTTON      "帮助(&H)",IDC_BUTTON_Help,260,1,54,18
-    PUSHBUTTON      "第一个(&F)",IDC_BUTTON_First,7,20,54,18
-    PUSHBUTTON      "运行(&R)",IDC_BUTTON_RUN,201,1,54,18
+    PUSHBUTTON      "下一个(&N)",IDC_BUTTON_NEXT,66,22,54,18
+    PUSHBUTTON      "连接后跳下一个(&D)",IDC_BUTTON_CONNECT_Next,181,22,74,18
+    PUSHBUTTON      "全部连接(&A)",IDC_BUTTON_Connect_all,260,22,54,18
+    EDITTEXT        IDC_EDIT_Max_dist,114,2,77,18,ES_AUTOHSCROLL
+    LTEXT           "输入缺口最大值(单位mm)：",IDC_STATIC_Max_dist,7,7,106,12
+    PUSHBUTTON      "连 接(&L)",IDC_BUTTON_Connect,124,22,54,18
+    PUSHBUTTON      "帮助(&H)",IDC_BUTTON_Help,260,3,54,18
+    PUSHBUTTON      "第一个(&F)",IDC_BUTTON_First,7,22,54,18
+    PUSHBUTTON      "运行(&R)",IDC_BUTTON_RUN,201,3,54,18
 END
 
 
