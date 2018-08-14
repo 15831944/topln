@@ -81,7 +81,7 @@ struct dblcmp
 struct SAttachData
 {
 	AcGePoint3d m_pt3d;
-	AcDbObjectId m_entId;  //点所属实体ID;      
+	AcDbObjectId m_entId;  //点所属实体ID;       
 	void print();  //print itself;       
 	void init(const AcGePoint3d& pt,const AcDbEntity* pEnt);    //initialize self;   
 };

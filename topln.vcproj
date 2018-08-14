@@ -756,6 +756,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src_code\findTheGapBtwPoints.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\findTheGapBtwPoints.h"
+					>
+				</File>
+				<File
 					RelativePath=".\src_code\fr_out.cpp"
 					>
 				</File>

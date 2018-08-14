@@ -438,24 +438,48 @@ CPointMap::insert(IN const AcGePoint3d pt,IN const int ptIndex,IN void* voidPtr)
 
 //删除一个元素
 //分两层删除，先找到x，然后删除y；然后判断x是否为空，空就删除x;
+//返回值：true-删除成功； false-删除不成功,可能该元素不存在;
 bool
 CPointMap::erase(IN const double x,IN const double y)
 {
-	map<double,SXData,dblcmp>::iterator itrX = m_mapXcoord.begin();
+	//if(m_mapXcoord.empty())
+	//{		
+	//	return false;  //空的;
+	//}
+
 	//find SXData
+	map<double,SXData,dblcmp>::iterator itrX; // = m_mapXcoord.begin();	
 	itrX = m_mapXcoord.find(x);
-	if(itrX == m_mapXcoord.end())
+	if(itrX == m_mapXcoord.end())  
 	{
 		return false;  //没找到，不删除；返回false；	
 	}
 
 	//找y;
+	SXData objXdata = (SXData)(itrX->second);    
+	int iIndexPt;
+	bool bFlag = false;
+	bFlag = objXdata.find(y,iIndexPt);   
+	if(bFlag) 
+	{
+		objXdata.erase(y);	
+		return true;
+	}
+	return false;
+}
+
+
+//删除某个元素
+bool
+CPointMap::erase(IN const AcGePoint3d pt)
+{
+	return erase(pt.x,pt.y);
 }
 
 
 //查找：查找2次，第一次查x，第二次查y;
-//因为key是double类型，所以不能依靠等于运算来查找，应该依靠upper_bound和lower_bound;
-//返回：1.是否查找到了;
+//因为key是double类型，所以不能依靠等于运算来查找，应该依靠upper_bound和lower_bound;-内部实现;
+//返回：true-找到了;false-没找到;
 bool
 CPointMap::find(IN const double x,IN const double y,OUT int& ptIndex,OUT void* voidPtr)
 {
