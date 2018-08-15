@@ -17,3 +17,102 @@
 #include "..\StdAfx.h"
 #include "TCHAR.h"
 #include "findTheGapBtwPoints.h"
+
+
+
+//=======================
+//class CFindGapBtwPoints
+//1.查找小于指定距离dist的点对，要求点对不重合;
+//2.围绕查找到的点对，做一些功能;
+//=======================
+CFindGapBtwPoints::CFindGapBtwPoints()
+{	
+}
+
+
+//
+CFindGapBtwPoints::~CFindGapBtwPoints()
+{
+}
+
+
+//
+void
+CFindGapBtwPoints::addOneLine(const AcGePoint3d pt1,const AcGePoint3d pt2)
+{
+	AcDbLine* pLine = new AcDbLine;
+	pLine->setStartPoint(pt1);
+	pLine->setEndPoint(pt2);
+	join2database(pLine);
+	pLine->close();
+	//要delete吗？不用delete pLine;
+}
+
+
+//
+void
+CFindGapBtwPoints::addAllLine()
+{
+	;
+}
+
+
+//zoom
+void
+CFindGapBtwPoints::zoomArea(const AcGePoint3d pt1,const AcGePoint3d pt2)
+{
+	//如果过于放大，则需要对放大范围进行处理;
+	AcEdCommand(RTSTR,_T("zoom"),RTPOINT,pt1,RTPOINT,pt2,0);   
+}
+
+
+//插入line的端点
+//retun: true-成功； false-失败;
+bool 
+getLineEndPoints(IN const AcDbLine* linePtr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte)
+{
+	if(linePtr == NULL)
+	{
+		return false;
+	}
+
+	pts = linePtr->startPoint();
+	pte = linePtr->endPoint();
+
+	return true;
+}
+
+
+//插入arc的端点
+//retun: true-成功； false-失败;
+bool 
+getArcEndPoints(const AcDbArc* arcptr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte)
+{
+	if(arcptr == NULL)
+	{
+		return false;
+	}
+
+	//计算弧的两个端点; 用了AcGeVector2d类，比较方便;
+	AcGePoint3d ptCenter = arcptr->center();
+	double dblRadiu = arcptr->radius();
+	AcGeVector2d vectpt;
+	vectpt.set(dblRadiu,0); 
+	double startAngle = arcptr->startAngle();
+	double endAngle = arcptr->endAngle();
+	vectpt.rotateBy(startAngle);
+	pts.set(ptCenter.x + vectpt.x,ptCenter.y + vectpt.y,0);
+	vectpt.rotateBy(endAngle - startAngle)); 
+	pte.set(ptCenter.x + vectpt.x, ptCenter.y + vectpt.y,0);  
+	
+	return true;
+}
+
+
+//插入arc的端点;
+//retun: true-成功； false-失败;
+bool 
+getPolylineEndPoints(const AcDbPolyline* plPtr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte)
+{
+	;
+}
