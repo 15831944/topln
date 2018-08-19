@@ -8,8 +8,6 @@
     )
   (PROGN (setq V_LANGUAGE "zh-cn"))
 )
-
-
 (DEFUN NBTF_GETLANGUAGESTR (STRLST)
   (COND	((= V_LANGUAGE "zh-cn") (CAR STRLST))
 	((= V_LANGUAGE "en") (CADR STRLST))
@@ -22,8 +20,6 @@
 	(T (CAR STRLST))
   )
 )
-
-
 (DEFUN NBTF_LST_SUBSTNTH (INDEX NEW LST / N RE ITEM)
   (setq N 0)
   (FOREACH ITEM	LST
@@ -35,15 +31,11 @@
   )
   RE
 )
-
-
 (DEFUN NBTF_VXACADAPPOBJECT ()
   (COND	(*NBTV-ACAD-OBJECT*)
 	(T (setq *NBTV-ACAD-OBJECT* (vlax-get-acad-object)))
   )
 )
-
-
 (DEFUN NBTF_VXACTIVEDOCUMENT ()
   (if *NBTV-ACTIVE-DOCUMENT*
     (PROGN (vlax-release-object *NBTV-ACTIVE-DOCUMENT*)
@@ -56,8 +48,6 @@
 	 )
   )
 )
-
-
 (DEFUN NBTF_VXMODELSPACE ()
   (if *NBTV-MODEL-SPACE*
     (PROGN (vlax-release-object *NBTV-MODEL-SPACE*)
@@ -66,8 +56,6 @@
   )
   (setq *NBTV-MODEL-SPACE* (vla-get-ModelSpace (NBTF_VXACTIVEDOCUMENT)))
 )
-
-
 (DEFUN NBTF_VXACTIVESPACE (/ STAT)
   (setq STAT (vla-get-ActiveSpace (NBTF_VXACTIVEDOCUMENT)))
   (COND	((= STAT acModelSpace) (setq STAT (NBTF_VXMODELSPACE)))
@@ -75,8 +63,6 @@
   )
   STAT
 )
-
-
 (DEFUN NBTF_VXPAPERSPACE ()
   (if *NBTV-PAPER-SPACE*
     (PROGN (vlax-release-object *NBT-PAPER-SPACE*)
@@ -85,24 +71,18 @@
   )
   (setq *NBTV-PAPER-SPACE* (vla-get-PaperSpace (NBTF_VXACTIVEDOCUMENT)))
 )
-
-
 (DEFUN NBTF_DXF1 (ST SS)
   (if (= (TYPE SS) 'ENAME)
     (PROGN (CDR (ASSOC ST (ENTGET SS '("*")))))
     (PROGN (CDR (ASSOC ST SS)))
   )
 )
-
-
 (DEFUN NBTF_DXF	(ST SS)
   (if (= (TYPE SS) 'ENAME)
     (PROGN (CDR (ASSOC ST (ENTGET SS '("*")))))
     (PROGN (CDR (ASSOC ST SS)))
   )
 )
-
-
 (DEFUN NBTF_ENTSEL (MSG KEYWORD FILTER / KEYINI EL SS PT)
   (INITGET KEYWORD)
   (setq EL (ENTSEL (STRCAT MSG "/<退出选择>:")))
@@ -123,13 +103,9 @@
   )
   EL
 )
-
-
 (DEFUN NBTF_VXLAYERSID ()
   (setq *NBTV-LAYERS* (vla-get-Layers (NBTF_VXACTIVEDOCUMENT)))
 )
-
-
 (DEFUN NBTF_VXACTIVEDOCUMENT ()
   (if *NBTV-ACTIVE-DOCUMENT*
     (PROGN (vlax-release-object *NBTV-ACTIVE-DOCUMENT*)
@@ -142,15 +118,11 @@
 	 )
   )
 )
-
-
 (DEFUN NBTF_VXACADAPPOBJECT ()
   (COND	(*NBTV-ACAD-OBJECT*)
 	(T (setq *NBTV-ACAD-OBJECT* (vlax-get-acad-object)))
   )
 )
-
-
 (DEFUN NBTF_VXADDMYXDATA (OBJ LL / OBJID XLIST BOOL XL)
   (REGAPP "NBT_OBJID")
   (setq OBJID (CAR LL))
@@ -184,8 +156,6 @@
   )
   (FOREACH A XL (NBTF_VXPUTXDATA OBJ A))
 )
-
-
 (DEFUN NBTF_VXPUTXDATA (EOBJ XDATA)
   (setq EOBJ (vlax-ename->vla-object EOBJ))
   (setq	XDATA
@@ -206,8 +176,6 @@
   )
   (vla-SetXData EOBJ (CAR XDATA) (CADR XDATA))
 )
-
-
 (DEFUN NBTF_VXBUILDFILTER (FILTER)
   (MAPCAR '(LAMBDA (LST TYP)
 	     (vlax-make-variant
@@ -221,8 +189,6 @@
 	  (LIST vlax-vbInteger vlax-vbVariant)
   )
 )
-
-
 (DEFUN NBTF_VXGETMYXDATA (OBJ APPID / XLIST XL L1 NA A)
   (setq XLIST (NBTF_VXGETXDATA OBJ APPID))
   (setq NA "ERROR")
@@ -241,8 +207,6 @@
   )
   (CONS NA XL)
 )
-
-
 (DEFUN NBTF_VXGETXDATA (VLAOBJ APPID / XTYPE XDATA)
   (setq VLAOBJ (vlax-ename->vla-object VLAOBJ))
   (vla-GetXData VLAOBJ APPID 'XTYPE 'XDATA)
@@ -264,8 +228,6 @@
     )
   )
 )
-
-
 (DEFUN NBTF_SS_REDRAW (SS A / E I)
   (setq I 0)
   (while (and (setq E (SSNAME SS I)))
@@ -273,8 +235,6 @@
     (setq I (1+ I))
   )
 )
-
-
 (DEFUN NBTF_DCL_VERIFY_DATA (A / STR STRN LP)
   (setq STR (GET_TILE A))
   (setq LP 0)
@@ -295,8 +255,6 @@
     )
   )
 )
-
-
 (DEFUN NBTF_DCL_UPDATE_LIST (KEY STR_LIST K)
   (START_LIST KEY K)
   (MAPCAR '(LAMBDA (X)
@@ -309,8 +267,6 @@
   )
   (END_LIST)
 )
-
-
 (DEFUN NBTF_DCL_LIST_GET (LKEY / L1)
   (setq L1 (EVAL (READ LKEY)))
   (if (AND L1 (LISTP L1))
@@ -324,8 +280,6 @@
     )
   )
 )
-
-
 (DEFUN NBTF_GETPLPTL (ENAME / PLIST PP N I)
   (setq OBJ (vlax-ename->vla-object ENAME))
   (setq	PLIST (vlax-safearray->list
@@ -343,8 +297,6 @@
   )
   PP
 )
-
-
 (DEFUN NBTF_GETLDATA (LDATA / VARS)
   (COND
     ((= (TYPE LDATA) 'STR)
@@ -368,14 +320,10 @@
   )
   VARS
 )
-
-
 (DEFUN NBTF_SETLDATA (LDATA VARS)
   (SET (READ LDATA) VARS)
   (vlax-ldata-put "NBTF_var" LDATA VARS)
 )
-
-
 (DEFUN NBTF_GETTEXTSTYLEWS (STYLENAME / TSTYLE TSTYLELST)
   (OR (setq TSTYLE (TBLOBJNAME "style" STYLENAME))
       (setq TSTYLE (TBLOBJNAME "style" (GETVAR "TEXTSTYLE")))
@@ -383,8 +331,6 @@
   (setq TSTYLELST (ENTGET TSTYLE))
   (CDR (ASSOC 41 TSTYLELST))
 )
-
-
 (DEFUN NBTF_STRPARSE
        (STR DELIMITER / SEARCHSTR STRINGLEN RETURN N CHAR)
   (setq SEARCHSTR STR)
@@ -403,8 +349,6 @@
   )
   (REVERSE RETURN)
 )
-
-
 (DEFUN NBTF_STRUNPARSE (LST DELIMITER / RETURN)
   (setq RETURN "")
   (FOREACH STR LST
@@ -412,8 +356,6 @@
   )
   (SUBSTR RETURN 2)
 )
-
-
 (DEFUN NBTF_SET_SCREEN_CEN (C03 / C08 C04 C05 C07 C06 C09 C01 C02)
   (setq C03 (TRANS C03 1 2))
   (setq C08 (GETVAR "viewsize"))
@@ -427,8 +369,6 @@
   (setq C02 (TRANS C02 2 1))
   (VL-CMDF "_.zoom" "W" C01 C02)
 )
-
-
 (DEFUN NBTF_PT_AB->XY (PTU_XY PTU_AB ANG1 PT)
   (LIST	(+ (* (- (CAR PT) (CAR PTU_AB)) (COS ANG1))
 	   (- 0.0 (* (- (CADR PT) (CADR PTU_AB)) (SIN ANG1)))
@@ -444,8 +384,6 @@
 	)
   )
 )
-
-
 (DEFUN NBTF_BOX_DTEXT (ENT   /	   I	 ENAME ELIST LST   LST2	 TB
 		       TB1   TB2   TLEN	 THI   LL    LR	   UR	 UL
 		       ANG   ANGG  UCSANG      LLX   LRX   URX	 ULX
@@ -474,8 +412,6 @@
   (setq UL (POLAR LL (+ ANG (/ PI 2)) THI))
   (LIST LL LR UR UL)
 )
-
-
 (DEFUN NBTF_BOXMTEXT
        (ENT / ELST TB LL UR UL LR EL PT APT TYP WDT HGT ANG ANG90)
   (AND (LISTP ENT) (setq ENT (CAR ENT)))
@@ -520,8 +456,6 @@
     (PROGN (LIST LL LR UR UL))
   )
 )
-
-
 (DEFUN NBTF_XPKBOXLST (PT SC TF / PKHIGH PKRAD)
   (setq PKHIGH (* (GETVAR "viewsize") SC))
   (setq PKRAD (* 1.4144 PKHIGH))
@@ -536,11 +470,7 @@
     )
   )
 )
-
-
 (DEFUN NBTF_SETCLAYER (SLIST) (NBTF_VXSETLAYER SLIST))
-
-
 (DEFUN NBTF_VXSETLAYER (LL / CTMP LAYNAME COR LSTY TMP LPRINT)
   (setq	CTMP
 	 (STRCAT
@@ -624,8 +554,6 @@
   )
   (PRINC)
 )
-
-
 (DEFUN NBTF_SETTEXTSTYLE (SLIST / TLIST TEXTN TEXTF CTMP TF)
   (setq	CTMP
 	 (STRCAT
@@ -726,8 +654,6 @@
   )
   TF
 )
-
-
 (DEFUN NBTF_POINTXY->AB
        (PT0 ANG SCALE PT1 / PIX2 I PT MATRIX X Y Z X1 Y1 Z1)
   (setq PIX2 (* PI 2))
@@ -760,8 +686,6 @@
   )
   PT
 )
-
-
 (DEFUN NBTF_SETCUSCOORD	(MODE	  /	   PT1	    PT2	     PT3
 			 UCSANG	  PT0	   PT1_XY   PT1_AB   PT2_XY
 			 PT2_AB	  FUN_GET2P	    MYGETN   MYGETE
@@ -1158,8 +1082,6 @@
   )
   (SETVAR "DIMZIN" DIMZIN_OLD)
 )
-
-
 (DEFUN NBTF_SHOWFREEINFO ()
   (ALERT
     (NBTF_GETLANGUAGESTR
@@ -1192,8 +1114,6 @@
     )
   )
 )
-
-
 (DEFUN NBTF_GETLAYERS (/ LAY LAYS)
   (setq LAYS (CONS (CDR (ASSOC 2 (TBLNEXT "layer" T))) LAYS))
   (while (and (setq LAY (TBLNEXT "layer")))
@@ -1201,8 +1121,6 @@
   )
   (REVERSE LAYS)
 )
-
-
 (DEFUN NBTF_GETTEXTSTYLE (/ LAY LAYS)
   (setq LAYS (CONS (CDR (ASSOC 2 (TBLNEXT "Style" T))) LAYS))
   (while (and (setq LAY (TBLNEXT "Style")))
@@ -1210,8 +1128,6 @@
   )
   (REVERSE LAYS)
 )
-
-
 (DEFUN NBTF_SUBSTNTH (INDEX NEW LST / N RE ITEM)
   (setq N 0)
   (FOREACH ITEM	LST
@@ -1223,8 +1139,6 @@
   )
   RE
 )
-
-
 (DEFUN NBTF_REGEXP (PAT STR KEY / REGEX S)
   (setq REGEX (vlax-create-object "Vbscript.RegExp"))
   (vlax-put-property REGEX "IgnoreCase" 0)
@@ -1275,8 +1189,6 @@
   (vlax-release-object REGEX)
   S
 )
-
-
 (NBTF_GETLDATA '("NBTV_Dimzb_sc" 1.0))
 (NBTF_GETLDATA '("NBTV_bzhome" "Xy"))
 (NBTF_GETLDATA
@@ -1309,8 +1221,6 @@
   (PROGN (NBTF_GETLDATA '("NBTV_DimZB_wipeout" 1)))
   (PROGN (NBTF_GETLDATA '("NBTV_DimZB_wipeout" 0)))
 )
-
-
 (vl-ACAD-defun
   (DEFUN C:NBT-DIMCOORD	(/		 TMP
 			 DO_WIPEOUT	 DIMZIN_OLD
@@ -1857,8 +1767,6 @@
       )
       (END_IMAGE)
     )
-
-    
     (DEFUN SETINI_ZB ()
       (setq V_LANGUAGELIST '("简体中文" "English" "繁體中文"))
       (if (NOT (setq V_LANGUAGE (FUN_READREG "Language")))
@@ -2122,9 +2030,7 @@
       (if (<= (SUBSTR (GETVAR "ACADVER") 1 4) "16.0")
 	(PROGN (NBTF_SETLDATA "NBTV_DimZB_wipeout" 0))
       )
-    )   ;SETINI_ZB()
-
-    
+    )
     (DEFUN SETCLOSE_ZB ()
       (SETVAR "textstyle" TEXTSTYLE_OLD)
       (SETVAR "TEXTEVAL" TEXTEVAL_OLD)
@@ -2141,7 +2047,6 @@
       (SETVAR "cmdecho" 1)
       (PRINC)
     )
-    
     (DEFUN ERR_NEW (MSG)
       (if DCL_ID
 	(PROGN (UNLOAD_DIALOG DCL_ID))
@@ -2158,7 +2063,6 @@
       (PRINC MSG)
       (SETCLOSE_ZB)
     )
-    
     (DEFUN PRG_UCS1_2 (PT)
       (NBTF_POINTXY->AB
 	NBTV_DIMZB_UCS_PT0
@@ -4516,11 +4420,11 @@
 		  "\n‖2.54 1.修复捕捉设置丢失的BUG"
 		  "\n‖     2.添加中文/english语言切换功能"
 		  "\n‖     3.添加坐标编号可改功能" "\n‖"
-		  "\n‖                                  "    
-		  "\n‖                                  "                           
-		  "\n‖                                  "                 
-		  "\n‖                                  "                 
-		  "\n‖                                  "             
+		  "\n‖       
+		  "\n‖                           
+		  "\n‖                    
+		  "\n‖                   
+		  "\n‖                   
 		  "\n‖                     2018.08.08"
 		  "\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝")
 	       )
@@ -4528,11 +4432,10 @@
       )
       (ALERT HELP_TEXT)
     )
-    
     (NBTF_SETLDATA "NBTV_dimzb_ShowBH" 0)
     (VLR-remove-all)
     (VLR-remove-all :VLR-Command-Reactor)
-    (SETINI_ZB) ;运行到这里退出了2018-8-19owal;
+    (SETINI_ZB)
     (if	(= NBTV_DIMZB_CFG 0)
       (PROGN (NBTF_SETLDATA "NBTV_DimZB_CFG" 1) (SET_OTHER))
     )
@@ -4543,7 +4446,6 @@
     )
   )
 )
-
 'C:NBT-DIMCOORD
 (vl-ACAD-defun (DEFUN C:ZBBZ () (C:NBT-DIMCOORD)))
 'C:ZBBZ
@@ -4552,7 +4454,6 @@
 (NBTF_GETLDATA '("NBTV_DimZB_fgw_fzx" "1"))
 (NBTF_GETLDATA '("NBTV_DimZB_fgw_dim" "1"))
 (NBTF_GETLDATA '("NBTV_DimZB_fgw_qz" "1"))
-
 (DEFUN NBTF_SETUCS (/ OLDUCS OLDUCSXDIR OLDECHO)
   (setq OLDECHO (GETVAR "cmdecho"))
   (SETVAR "cmdecho" 0)
@@ -4574,12 +4475,9 @@
     )
   )
   (SETVAR "cmdecho" OLDECHO)
-  (PRINC)  
+  (PRINC)
 )
-
 (setq NBTV_ALLFUNSLIST (CONS "NBTF_resetucs" NBTV_ALLFUNSLIST))
-
-
 (DEFUN NBTF_RESETUCS (/ OLDECHO)
   (setq OLDECHO (GETVAR "cmdecho"))
   (SETVAR "cmdecho" 0)
@@ -4590,8 +4488,6 @@
   (PRINC)
   (SETVAR "cmdecho" OLDECHO)
 )
-
-
 (DEFUN NBTF_GETPLPTL (ENAME / PLIST PP N I)
   (setq OBJ (vlax-ename->vla-object ENAME))
   (setq	PLIST (vlax-safearray->list
@@ -4609,15 +4505,11 @@
   )
   PP
 )
-
-
 (DEFUN NBTF_GETPTLBOX (PTL)
   (LIST	(APPLY 'MAPCAR (CONS 'MIN PTL))
 	(APPLY 'MAPCAR (CONS 'MAX PTL))
   )
 )
-
-
 (DEFUN NBTF_VXADDTEXT (TTEXT JUST PT TH / OBJ STYLENAME DBLWID DBLROT)
   (COND
     ((AND (= (TYPE TH) 'LIST)
@@ -4785,8 +4677,6 @@
     )
   )
 )
-
-
 (DEFUN NBTF_POINTAB->XY
        (PT0 ANG SCALE PT1 / PIX2 I PT MATRIX X Y Z X1 Y1 Z1)
   (setq PIX2 (* PI 2))
@@ -4822,8 +4712,6 @@
   )
   PT
 )
-
-
 (vl-ACAD-defun
   (DEFUN C:NBTC_DRAWZBFGW1 (/		 WHAT_NEXT    E
 			    PRG_UCS1_2	 PRG_UCS2_1   FUN_RADIOCHG
@@ -5161,8 +5049,6 @@
 	)
       )
     )
-
-    
     (DEFUN FUN_DCLDEF ()
       (SET_TILE "fgw_distx" (RTOS NBTV_DIMZB_FGWX 2))
       (SET_TILE "fgw_disty" (RTOS NBTV_DIMZB_FGWY 2))
@@ -5174,8 +5060,6 @@
 	    (T (SET_TILE "fgw_qz3" "1"))
       )
     )
-
-    
     (DEFUN FUN_CHKVALUE	()
       (NBTF_DCL_VERIFY_DATA $KEY)
       (COND ((= $KEY "fgw_distx")
@@ -5190,8 +5074,6 @@
 	    )
       )
     )
-
-    
     (DEFUN FUN_TOGGLECHG ()
       (NBTF_SETLDATA (STRCAT "NBTV_DimZB_" $KEY) $VALUE)
     )
@@ -5201,13 +5083,9 @@
 	    ((= $KEY "fgw_qz3") (NBTF_SETLDATA "NBTV_DimZB_fgw_qz" "3"))
       )
     )
-
-    
     (FUN_SETINI)
-    
     (NBTF_SHOWFREEINFO)
-    
-    (setq WHAT_NEXT 8)    
+    (setq WHAT_NEXT 8)
     (while (and (< 2 WHAT_NEXT))
       (if (NOT (NEW_DIALOG
 		 "SetZBFGW"

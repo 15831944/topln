@@ -1,0 +1,94 @@
+p1old:boxed_column{
+label="P1";
+:edit_box{
+label="正北";
+key="p1oldn";
+}
+:edit_box{
+label="正东";
+key="p1olde";
+}
+:button{
+label="拾 取";
+key="getp1old";
+}
+}
+p2old:boxed_column{
+label="P2";
+:edit_box{
+label="正北";
+key="p2oldn";
+}
+:edit_box{
+label="正东";
+key="p2olde";
+}
+:button{
+label="拾 取";
+key="getp2old";
+}
+}
+p1new:boxed_column{
+label="P1";
+:edit_box{
+label="正北";
+key="p1newn";
+}
+:edit_box{
+label="正东";
+key="p1newe";
+}
+:text{label="注意XY方向";}
+}
+p2new:boxed_column{
+label="P2";
+:edit_box{
+label="正北";
+key="p2newn";
+}
+:edit_box{
+label="正东";
+key="p2newe";
+}
+:text{label="注意XY方向";}
+}
+scaleset: button{
+label="====>";
+key="scaleset";
+}
+get2pucs : dialog{label ="★两点定坐标系★--[网蜂工具箱]";
+:text{label="注意：CAD默认为数学坐标系,正东为X，正北为Y，     ";}
+:row{
+:boxed_column{
+label="图中源坐标系";
+p1old;
+p2old;
+}
+:boxed_column{
+label="图中目标坐标系";
+p1new;
+p2new;
+}
+}
+:row{
+:edit_box{label="计算比例";key="calucssc";is_enabled=false;}
+scaleset;
+:edit_box{label="实际比例";key="trueucssc";}
+}
+:row{
+:edit_box{label="距离差";key="ddist";}
+spacer;
+ok_cancel;
+}
+:boxed_column{
+label="说明";
+fixed_width = true; :text{label="比例  =原坐标系距离/新坐标系距离";}
+:text{label="距离差=原坐标系距离-新坐标系距离*实际比例";}
+:text{label="=======================================================";}
+:text{label="郑重提示：计算比例仅供参考，由于实际坐标点会有误差，计算比例";is_bold=true;fixed_width=true;}
+:text{label="          不能作为实际比例，实际比例已知的情况下一定要准确输";}
+:text{label="          入，不然误差太大。比例精度要求在小数点后6位以上。";}
+:text{label="注意：此坐标系转换转换所有精度为小数点后10位";}
+}
+errtile;
+}
