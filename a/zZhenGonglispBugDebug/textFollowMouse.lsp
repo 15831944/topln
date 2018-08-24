@@ -38,7 +38,7 @@
 );复制到记事本以（SX9.lsp）命名，加载到AutoCAD就可以使用。
 ;;;;;;;;;;;;说明一下;;
  ;这个是一个插入文字内容为"1"的程序，如果你有文字内容，那么修改为下面的子程序：
-(defun sx9 (#k / #k %k i gr n pt)
+(defun sx9 (#k #heigth  /  %k i gr n pt)
  (setq %k T  ;循环条件
        i nil ;初始设置
  )
@@ -54,8 +54,9 @@
     (list 
     '(0 . "TEXT")      ;;文字
     (cons 1 #k)        ;;文字内容
-    (cons 40 200)      ;;文字高度
+    (cons 40 #heigth)      ;;文字高度
     (cons 41 0.7)      ;;文字倾斜度
+    ;(cons 50 #rotate)
     (cons 10 pt)       ;;文字插入点
     (cons 7 "standard");; 文字样式
     (cons 8 "0")       ;;文字图层

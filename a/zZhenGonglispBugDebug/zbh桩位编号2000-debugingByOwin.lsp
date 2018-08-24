@@ -1,3 +1,41 @@
+;文字随鼠标移动;
+(defun sx9 (#k #heigth  /  %k i gr n pt)
+ (setq %k T  ;循环条件
+       i nil ;初始设置
+ )
+ (while %k
+  (setq  gr (grread t 4 0);;取得鼠标操作及坐标
+         n (car gr)       ;;鼠标操作
+         pt (cadr gr)     ;;鼠标坐标
+  )
+  (if (= n 5);;没有操作
+   (progn
+    (if (/= i nil) (entdel i) );;如果有文字就删除
+    (entmake 
+    (list 
+    '(0 . "TEXT")      ;;文字
+    (cons 1 #k)        ;;文字内容
+    (cons 40 #heigth)      ;;文字高度
+    (cons 41 0.7)      ;;文字倾斜度
+    ;(cons 50 #rotate)
+    (cons 10 pt)       ;;文字插入点
+    (cons 7 "standard");; 文字样式
+    (cons 8 "0")       ;;文字图层
+    ));;重新生成文字
+    (setq i (entlast));;得到文字图元名
+   )
+  )
+  (if (= n 3) (setq %k nil) );;3表示左键;结束循环
+  (if (or (= n 2) (= n 25));;2表示空格;25表示右键;结束循环并删除文字
+   (progn
+    (setq %k nil)
+    (entdel i)
+   )
+  )
+ )
+)  ; end of defun；
+
+;写桩号;
 (setq bh_began 1)
 (setq text_offset 3.0)
 (setq Newtextsize (getvar "textsize"))
@@ -77,9 +115,10 @@
     ;; 将编号加上前后缀
     (setq zbh_ok (strcat texthome (itoa bh_began) textend))
 
-    (command "_.text" "s" "ZBH" pt1 Newtextsize "0d" zbh_ok) ; (setq bho
+    ;(command "_.text" "s" "ZBH" pt1 Newtextsize "0d" zbh_ok) ; (setq bho
 				       ; (entlast))
 				       ; (command "move" bho "" pt pt1)
+    (sx9 zbh_ok Newtextsize ) ;写桩号文字;
     (setq bh_began (1+ bh_began))
 
     ;; 恢复捕捉方式
