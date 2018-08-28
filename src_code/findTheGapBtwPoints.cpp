@@ -36,7 +36,7 @@ CFindGapBtwPoints::~CFindGapBtwPoints()
 }
 
 
-//
+//画一条直线段；用来连接两个点;
 void
 CFindGapBtwPoints::addOneLine(const AcGePoint3d pt1,const AcGePoint3d pt2)
 {
@@ -57,7 +57,7 @@ CFindGapBtwPoints::addAllLine()
 }
 
 
-//zoom
+//zoom the window created by two points;
 void
 CFindGapBtwPoints::zoomArea(const AcGePoint3d pt1,const AcGePoint3d pt2)
 {
@@ -66,7 +66,7 @@ CFindGapBtwPoints::zoomArea(const AcGePoint3d pt1,const AcGePoint3d pt2)
 }
 
 
-//插入line的端点
+//取得直线段的两个端点
 //retun: true-成功； false-失败;
 bool 
 getLineEndPoints(IN const AcDbLine* linePtr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte)
@@ -83,14 +83,14 @@ getLineEndPoints(IN const AcDbLine* linePtr,OUT AcGePoint3d& pts,OUT AcGePoint3d
 }
 
 
-//插入arc的端点
+//取得弧段的两个的端点；用来插入到点集里;
 //retun: true-成功； false-失败;
 bool 
 getArcEndPoints(const AcDbArc* arcptr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte)
 {
 	if(arcptr == NULL)
 	{
-		return false;
+		return false; 
 	}
 
 	//计算弧的两个端点; 用了AcGeVector2d类，比较方便;
@@ -109,7 +109,7 @@ getArcEndPoints(const AcDbArc* arcptr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte)
 }
 
 
-//插入arc的端点;
+//取得多义线的两个端点;用来插入到点集;
 //retun: true-成功； false-失败;
 bool 
 getPolylineEndPoints(const AcDbPolyline* plPtr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte)
