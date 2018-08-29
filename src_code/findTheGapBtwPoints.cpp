@@ -69,7 +69,7 @@ CFindGapBtwPoints::zoomArea(const AcGePoint3d pt1,const AcGePoint3d pt2)
 //取得直线段的两个端点
 //retun: true-成功； false-失败;
 bool 
-getLineEndPoints(IN const AcDbLine* linePtr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte)
+CFindGapBtwPoints::getLineEndPoints(IN const AcDbLine* linePtr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte)
 {
 	if(linePtr == NULL)
 	{
@@ -86,7 +86,7 @@ getLineEndPoints(IN const AcDbLine* linePtr,OUT AcGePoint3d& pts,OUT AcGePoint3d
 //取得弧段的两个的端点；用来插入到点集里;
 //retun: true-成功； false-失败;
 bool 
-getArcEndPoints(const AcDbArc* arcptr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte)
+CFindGapBtwPoints::getArcEndPoints(const AcDbArc* arcptr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte)
 {
 	if(arcptr == NULL)
 	{
@@ -114,6 +114,37 @@ getArcEndPoints(const AcDbArc* arcptr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte)
 bool 
 CFindGapBtwPoints::getPolylineEndPoints(const AcDbPolyline* plPtr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte)
 {
+	if(plPtr->isClosed())
+	{
+		return false; //多义线是闭合的，没必要继续取端点;
+	}
 	int nNumVtx = 0;
-	plPtr->
+	nNumVtx = plPtr->numVerts();
+	if(nNumVtx == 0)
+	{
+		return false;
+	}
+
+	pts =  plPtr->getPointAt(0);
+	pte = plPtr->getPointAt(nNumVtx -1);
+	//if(pts.isEqualTo(pte))
+	//{
+	//	return false; //两点相等，则不返回？
+	//}
+	return true;
+}
+
+
+//判断两个点是否相等，重叠;
+bool
+CFindGapBtwPoints::isTwoPointsOverlapped(IN AcGePoint3d& pts,IN AcGePoint3d& pte)
+{
+	if(pts.isEqualTo(pte))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
