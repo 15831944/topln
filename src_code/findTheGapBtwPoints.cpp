@@ -112,7 +112,8 @@ getArcEndPoints(const AcDbArc* arcptr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte)
 //取得多义线的两个端点;用来插入到点集;
 //retun: true-成功； false-失败;
 bool 
-getPolylineEndPoints(const AcDbPolyline* plPtr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte)
+CFindGapBtwPoints::getPolylineEndPoints(const AcDbPolyline* plPtr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte)
 {
-	;
+	int nNumVtx = 0;
+	plPtr->
 }

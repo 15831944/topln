@@ -59,7 +59,7 @@ using namespace std;
 //=================
 //class CFindGapBtwPoints
 //查找点对的要求：
-//1.不重叠的点;
+//1.不重叠的点; (CPointMap类已经避免重叠点)
 //2.点对距离不大于指定距离list;
 //3.不在同一线段上;
 //点对之间不能有路径;
@@ -77,17 +77,17 @@ private:
 	bool getArcEndPoints(const AcDbArc* arcptr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte);
 	bool isTwoPointsOverlapped(IN AcGePoint3d& pts,IN AcGePoint3d& pte);  //判断两个点是否重合(相等);  
 	bool insertPoints(const AcGePoint3d* pt3d); 
-	void extrPntsFromEntity(const ads_name ssUnit);   
+	void extrPntsFromEntity(const ads_name ssUnit);     
 
 public:
-	void getPickSet(ads_name ss); 
-	void getPointPair(vector<pair<void*,void*>>& m_vPointPairs);         
+	void getPickSet(ads_name ss);    
+	void getPointPair(vector<pair<void*,void*>>& m_vPointPairs);          
 	void addOneLine(const AcGePoint3d pt1,const AcGePoint3d pt2);  //connect the gap;  
-	void addAllLine();  //全部连接起来;
+	void addAllLine();  //全部连接起来; 
 	void zoomArea(const AcGePoint3d pt1,const AcGePoint3d pt2);  //zoom by two points;   
 
 private:
-	CPointMap m_pointsMap;  //存储点坐标;   
+	CPointMap m_pointsMap;  //存储点坐标;     
 	ads_name ss_all;  //用户选择的、过滤后的实体集合;       
 	AcDbEntity* m_pEnt; 
 	vector<pair<AcGePoint3d,AcGePoint3d>> m_vPointPairs;     
