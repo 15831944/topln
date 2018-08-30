@@ -102,27 +102,34 @@ CSelectEnts::getSSOfOneLayer(ACHAR* layername,ads_name ss)
 	long sslen;
 
 	AcDbLayerTable* lytblPtr;
-	acdbHostApplicationServices()->workingDatabase()->getSymbolTable(lytblPtr, AcDb::kForRead);
+	acdbHostApplicationServices()->workingDatabase()->getSymbolTable(lytblPtr, AcDb::kForRead);   
 
 	AcDbLayerTableRecord *lytblrcdPtr;
 	lytblPtr->getAt(layername,lytblrcdPtr,AcDb::kForRead);						
 	if(lytblrcdPtr->isLocked()||lytblrcdPtr->isFrozen()||lytblrcdPtr->isOff())
 	{
-		acutPrintf(_T("\n%s层被锁定或关闭或冻结."),layername);
+		acutPrintf(_T("\n%s层被锁定或关闭或冻结."),layername);    
 		lytblrcdPtr->close();
 		return ;
 	}
-	else
+	else 
 	{
-		lytblrcdPtr->close();						
+		lytblrcdPtr->close();  						
 	}
 	resbuf layerRb;
 	layerRb.restype = 8;
 	layerRb.resval.rstring = layername;
 	layerRb.rbnext = NULL;
 	flag = acedSSGet(_T("X"),NULL,NULL,&layerRb,ss);
-	if(flag == RTNORM) acedSSLength(ss,&sslen);
-	acutPrintf(_T("\n%s层%ld个实体被选中"),layername,sslen);
+	if(flag == RTNORM) 
+	{
+		acedSSLength(ss,&sslen);
+		acutPrintf(_T("\n%s层%ld个实体被选中"),layername,sslen);
+	}
+	//else
+	//{
+	//	acdbNameClear(ss);
+	//}  //最好由传入ss的函数来设置ss为nil;
 }
 
 
@@ -146,7 +153,7 @@ void CSelectEnts::getSSOfAllDrawing(ads_name ss)
 }
 
 
-
+//过滤掉被冻结的，被锁定的图形实体;
 void
 CSelectEnts::filterFrozenLockedOff(ads_name ss)
 {

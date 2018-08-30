@@ -69,7 +69,7 @@ CFindGapBtwPoints::zoomArea(const AcGePoint3d pt1,const AcGePoint3d pt2)
 //取得直线段的两个端点
 //retun: true-成功； false-失败;
 bool 
-getLineEndPoints(IN const AcDbLine* linePtr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte)
+CFindGapBtwPoints::getLineEndPoints(IN const AcDbLine* linePtr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte)
 {
 	if(linePtr == NULL)
 	{
@@ -86,7 +86,7 @@ getLineEndPoints(IN const AcDbLine* linePtr,OUT AcGePoint3d& pts,OUT AcGePoint3d
 //取得弧段的两个的端点；用来插入到点集里;
 //retun: true-成功； false-失败;
 bool 
-getArcEndPoints(const AcDbArc* arcptr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte)
+CFindGapBtwPoints::getArcEndPoints(const AcDbArc* arcptr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte)
 {
 	if(arcptr == NULL)
 	{
@@ -112,7 +112,73 @@ getArcEndPoints(const AcDbArc* arcptr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte)
 //取得多义线的两个端点;用来插入到点集;
 //retun: true-成功； false-失败;
 bool 
-getPolylineEndPoints(const AcDbPolyline* plPtr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte)
+CFindGapBtwPoints::getPolylineEndPoints(const AcDbPolyline* plPtr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte)
 {
+	if(plPtr->isClosed())
+	{
+		return false; //多义线是闭合的，没必要继续取端点;
+	}
+	int nNumVtx = 0;
+	nNumVtx = plPtr->numVerts();
+	if(nNumVtx == 0)
+	{
+		return false;
+	}
+
+	pts =  plPtr->getPointAt(0);
+	pte = plPtr->getPointAt(nNumVtx -1);
+	//if(pts.isEqualTo(pte))
+	//{
+	//	return false; //两点相等，则不返回？
+	//}
+	return true;
+}
+
+
+//判断两个点是否相等，重叠;
+bool
+CFindGapBtwPoints::isTwoPointsOverlapped(IN AcGePoint3d& pts,IN AcGePoint3d& pte)
+{
+	if(pts.isEqualTo(pte))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+
+//功能：1、用户选择实体集合；2、收集不重叠的点;3、查找小于用户输入的距离的点对，且点对不在同一线段上;
+//返回：void;
+void
+CFindGapBtwPoints::getPointPair(vector<pair<void*,void*>>& m_vPointPairs)
+{
+	//选择实体集
+	CSelectEnts objSel;
+	acdbNameClear(m_ssAll);
+	objSel.usrSelect(m_ssAll);
+	if(acdbNameNil(m_ssAll))
+	{
+		return;
+	}
+
+	//实体如果是线段，将其两个端点插入点集;
 	;
+}
+
+
+//extract the end points from the arc
+void
+CFindGapBtwPoints::extrPntsFromEntity(const ads_name ssUnit) 
+{
+	AcDbObjectId objId;
+	AcDbEntity* pEnt = NULL;
+	Acad::ErrorStatus errSts;
+	errSts = (pEnt,objId,AcDb::kForRead);
+	if(errSts != Acad::eOk)
+	{
+		;
+	}
 }
