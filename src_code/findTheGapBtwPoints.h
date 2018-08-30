@@ -52,6 +52,7 @@
 #include <iostream>
 
 #include "pointMap.h"
+#include "selectss.h"
 
 using namespace std;
 
@@ -77,11 +78,11 @@ private:
 	bool getArcEndPoints(const AcDbArc* arcptr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte);
 	bool isTwoPointsOverlapped(IN AcGePoint3d& pts,IN AcGePoint3d& pte);  //判断两个点是否重合(相等);  
 	bool insertPoints(const AcGePoint3d* pt3d); 
-	void extrPntsFromEntity(const ads_name ssUnit);     
+	void extrPntsFromEntity(const ads_name ssUnit);       
 
 public:
-	void getPickSet(ads_name ss);    
-	void getPointPair(vector<pair<void*,void*>>& m_vPointPairs);          
+	//void getPickSet(ads_name ss);    //提示用户选取实体集;
+	void getPointPair(vector<pair<void*,void*>>& m_vPointPairs);     
 	void addOneLine(const AcGePoint3d pt1,const AcGePoint3d pt2);  //connect the gap;  
 	void addAllLine();  //全部连接起来; 
 	void zoomArea(const AcGePoint3d pt1,const AcGePoint3d pt2);  //zoom by two points;   
