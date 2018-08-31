@@ -16,8 +16,8 @@
 //2. ... 
 //*************************************************************************
 
-#ifndef  OWAL_PC2008_THIRTY_TWO_YEARS_OLD_OPEN_ALL_LAYER_H
-#define  OWAL_PC2008_THIRTY_TWO_YEARS_OLD_OPEN_ALL_LAYER_H
+#ifndef  OWIN_TOPLN_CUT_DOUBLELINE_INTSECT_
+#define  OWIN_TOPLN_CUT_DOUBLELINE_INTSECT_
 
 
 //#include "afxwin.h"
@@ -69,27 +69,33 @@ using namespace std;
 class CFindGapBtwPoints
 {
 public:
-	CFindGapBtwPoints();
+	CFindGapBtwPoints();  
 	~CFindGapBtwPoints();  
 
 private:
 	bool getLineEndPoints(IN const AcDbLine* linePtr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte); 
-	bool getPolylineEndPoints(const AcDbPolyline* plPtr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte);
+	bool getPolylineEndPoints(const AcDbPolyline* plPtr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte);   
 	bool getArcEndPoints(const AcDbArc* arcptr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte);
 	bool isTwoPointsOverlapped(IN AcGePoint3d& pts,IN AcGePoint3d& pte);  //判断两个点是否重合(相等);  
-	bool insertPoints(const AcGePoint3d* pt3d); 
-	void extrPntsFromEntity(const ads_name ssUnit);       
+	bool insertPoints(IN const AcGePoint3d pt3d,IN const AcDbObjectId objId); 
+	bool extrPntsFromEntity(const ads_name ssUnit,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte,OUT AcDbObjectId& objId);    
 
 public:
+	bool inputMinDistByUser(const double minDist);
 	//void getPickSet(ads_name ss);    //提示用户选取实体集;
-	void getPointPair(vector<pair<void*,void*>>& m_vPointPairs);     
+	void getPointPair(vector<pair<void*,void*>>& m_vPointPairs);      
 	void addOneLine(const AcGePoint3d pt1,const AcGePoint3d pt2);  //connect the gap;  
 	void addAllLine();  //全部连接起来; 
 	void zoomArea(const AcGePoint3d pt1,const AcGePoint3d pt2);  //zoom by two points;   
 
 private:
 	CPointMap m_pointsMap;  //存储点坐标;     
-	ads_name ss_all;  //用户选择的、过滤后的实体集合;       
+	ads_name m_ssall;  //用户选择的、过滤后的实体集合;     
 	AcDbEntity* m_pEnt; 
-	vector<pair<AcGePoint3d,AcGePoint3d>> m_vPointPairs;     
-}
+	vector<pair<AcGePoint3d,AcGePoint3d>> m_vPointPairs;    
+	vector<SAttachData*> m_vAttDataPtrs;  //gathered to release the memory;
+	double m_dist;  //用户输入的最距离，小于此距离的点对被计算出来; 
+};
+
+
+#endif //OWIN_TOPLN_CUT_DOUBLELINE_INTSECT_   
