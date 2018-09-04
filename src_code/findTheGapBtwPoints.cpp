@@ -93,6 +93,7 @@ CFindGapBtwPoints::getLineEndPoints(IN const AcDbLine* linePtr,OUT AcGePoint3d& 
 
 	pts = linePtr->startPoint();
 	pte = linePtr->endPoint();
+	//entId = linePtr->objectId();
 
 	return true;
 }
@@ -119,6 +120,8 @@ CFindGapBtwPoints::getArcEndPoints(const AcDbArc* arcptr,OUT AcGePoint3d& pts,OU
 	pts.set(ptCenter.x + vectpt.x,ptCenter.y + vectpt.y,0);
 	vectpt.rotateBy(endAngle - startAngle); 
 	pte.set(ptCenter.x + vectpt.x, ptCenter.y + vectpt.y,0);  
+
+	//entId = arcptr->objectId();
 	
 	return true;
 }
@@ -165,18 +168,36 @@ CFindGapBtwPoints::isTwoPointsOverlapped(IN AcGePoint3d& pts,IN AcGePoint3d& pte
 }
 
 
+//获取实体集合
+bool 
+CFindGapBtwPoints::inputAdsName(IN ads_name ss)
+{
+	if(acdbNameNil(ss))
+	{
+		return false;
+	}
+	else
+	{
+		acdbNameSet(ss,m_ssall);
+		return true;
+	}
+	
+}
+
+
 //1获取用户输入的最小距离dist，dist用来计算需要获取的点对;
 //2检查此距离是否合法：必须为正，不能小于cad的最小值；
 //返回：距离合法，返回true； 否则false;
 bool 
-CFindGapBtwPoints::inputMinDistByUser(const double minDist)
+CFindGapBtwPoints::inputMinDistByUser(IN const double minDist) 
 {
 	AcGeTol objTol;
 	double tmpDist = objTol.equalPoint();
 	if(minDist <= tmpDist)
 	{
-		minDist = tmpDist;
-		return false;
+		m_dist = minDist;
+		acutPrintf(_T("\n the min dist is too small,exit!"));
+		return false;  
 	}
 	else
 	{
@@ -185,24 +206,22 @@ CFindGapBtwPoints::inputMinDistByUser(const double minDist)
 }
 
 
-//功能：1、用户选择实体集合；
+void
+CFindGapBtwPoints::getPointPair(OUT vector<pair<void*,void*>>& vPointPairs) 
+{
+	vPointPairs = m_vPointPairs; //赋值一份;   
+}
+
+
+//功能：1、用户选择实体集合；   
 //      2、收集不重叠的点;
-//      3、查找小于用户输入的距离的点对，且点对不在同一线段上;
+//      3、查找小于用户输入的距离的点对，且点对不在同一线段上;   
 //返回：void;
 void
-CFindGapBtwPoints::getPointPair(vector<pair<void*,void*>>& m_vPointPairs)
+CFindGapBtwPoints::parsePointPairs() 
 {
-	//选择实体集
-	CSelectEnts objSel;
-	acdbNameClear(m_ssall); //设置为nil;
-	objSel.usrSelect(m_ssall);
-	if(acdbNameNil(m_ssall))
-	{
-		return;
-	}
-
 	//检测实体数量;  
-	ads_name ssUnit; //单个实体;
+	ads_name ssUnit; //单个实体;  
 	long nLen = 0; 
 	if(RTNORM != acedSSLength(m_ssall,&nLen))
 	{
@@ -232,8 +251,9 @@ CFindGapBtwPoints::getPointPair(vector<pair<void*,void*>>& m_vPointPairs)
 	}
 
 	//获取最近点对;
-	m_pointsMap.findPointPairs(m_vPointPairs);
-	//return;
+	m_pointsMap.findPointPairs(m_dist,m_vPointPairs);  
+	
+	//return; 
 }
 
 
@@ -255,9 +275,10 @@ CFindGapBtwPoints::extrPntsFromEntity(const ads_name ssUnit,OUT AcGePoint3d& pts
 	//判断实体类型
 	if(pEnt->isA() == AcDbPolyline::desc()) 
 	{
-		if(getPolylineEndPoints((AcDbPolyline*)pEnt,pts,pte,entId))
+		if(getPolylineEndPoints((AcDbPolyline*)pEnt,pts,pte))
 		{
 			pEnt->close();
+			entId = pEnt->objectId();
 			return true;
 		}
 		else
@@ -268,9 +289,10 @@ CFindGapBtwPoints::extrPntsFromEntity(const ads_name ssUnit,OUT AcGePoint3d& pts
 	}
 	else if(pEnt->isA() == AcDbLine::desc())
 	{
-		if(getLineEndPoints((AcDbLine*)pEnt,pts,pte,entId))
+		if(getLineEndPoints((AcDbLine*)pEnt,pts,pte))
 		{
 			pEnt->close();
+			entId = pEnt->objectId();
 			return true;
 		}
 		else
@@ -281,9 +303,10 @@ CFindGapBtwPoints::extrPntsFromEntity(const ads_name ssUnit,OUT AcGePoint3d& pts
 	}
 	else if(pEnt->isA() == AcDbArc::desc()) 
 	{
-		if(getArcEndPoints((AcDbArc*)pEnt,pts,pte,entId))
+		if(getArcEndPoints((AcDbArc*)pEnt,pts,pte))
 		{
 			pEnt->close();
+			entId = pEnt->objectId();
 			return true;
 		}
 		else
@@ -300,13 +323,38 @@ CFindGapBtwPoints::extrPntsFromEntity(const ads_name ssUnit,OUT AcGePoint3d& pts
 }
 
 
-//插入点坐标到点集;
+//插入点坐标到点集; 
 void
 CFindGapBtwPoints::insertPoints(IN const AcGePoint3d pt3d,IN const AcDbObjectId objId)
 {
 	SAttachData* pAttData = new SAttachData;
 	m_vAttDataPtrs.push_back(pAttData);
 	pAttData->m_pt3d = pt3d;
-	pAttData->m_entId = objId;
-	m_pointsMap.insert(pt3d,0,pAttData);
+	pAttData->m_entId = objId; 
+	m_pointsMap.insert(pt3d,0,pAttData);     
+}
+
+
+//===========================
+//查找图形中小于用户指定距离的所有点对
+//主要调用模块
+//也是测试模块
+//===========================
+void
+findPtPairDistLessThan()
+{
+	//选择实体集
+	ads_name ss;
+	CSelectEnts objSel;
+	acdbNameClear(ss); //设置为nil;
+	objSel.usrSelect(ss); 
+
+	vector<pair<void*,void*>> vAllPointPair; 
+	CFindGapBtwPoints objFindPointPairs;
+	objFindPointPairs.inputAdsName(ss);
+	objFindPointPairs.getPointPair(vAllPointPair);    
+
+	//点对过滤;
+	;
+	//打印点对;
 }

@@ -12,6 +12,7 @@ IMPLEMENT_DYNAMIC(findDistDlg, CDialog)
 
 findDistDlg::findDistDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(findDistDlg::IDD, pParent)
+	, minDistByUserInput(0)
 {
 
 }
@@ -24,6 +25,7 @@ void findDistDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_EDIT_Max_dist, m_edit_maxDist);
+	DDX_Text(pDX, IDC_EDIT_Max_dist, minDistByUserInput);
 }
 
 

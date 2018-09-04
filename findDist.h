@@ -2,6 +2,8 @@
 
 #include "resource.h"
 #include "afxwin.h"
+#include "findTheGapBtwPoints.h()"
+
 
 
 // findDist 对话框
@@ -22,7 +24,11 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnBnClickedCancel();
+	afx_msg void OnBnClickedCancel();  
 	CEdit m_edit_maxDist;
-	afx_msg void OnBnClickedButtonFirst();
+	afx_msg void OnBnClickedButtonFirst();  
+private:
+	// 用户用户输入的最小距离值
+	double minDistByUserInput;
+	CFindGapBtwPoints m_objFindMinGap; //查找符合距离要求的点对;
 };
