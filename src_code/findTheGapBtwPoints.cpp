@@ -258,7 +258,7 @@ CFindGapBtwPoints::parsePointPairs()
 
 
 //extract the end points from the arc
-//返回：取到端点，返回true； 否则返回false;
+//返回：取到端点，返回true； 否则返回false;   
 bool
 CFindGapBtwPoints::extrPntsFromEntity(const ads_name ssUnit,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte,OUT AcDbObjectId& entId) 
 {
@@ -346,15 +346,17 @@ findPtPairDistLessThan()
 	//选择实体集
 	ads_name ss;
 	CSelectEnts objSel;
-	acdbNameClear(ss); //设置为nil;
+	acdbNameClear(ss); //设置为nil;  
 	objSel.usrSelect(ss); 
 
-	vector<pair<void*,void*>> vAllPointPair; 
-	CFindGapBtwPoints objFindPointPairs;
-	objFindPointPairs.inputAdsName(ss);
+	vector<pair<void*,void*>> vAllPointPair;   
+	CFindGapBtwPoints objFindPointPairs;   
+	objFindPointPairs.inputAdsName(ss);   
 	objFindPointPairs.getPointPair(vAllPointPair);    
 
 	//点对过滤;
-	;
+	//不过滤算了; 只有一种情况要过滤掉：点对属于同一条直线段;
+
 	//打印点对;
+	;
 }

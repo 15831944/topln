@@ -56,6 +56,7 @@
 
 using namespace std;
 
+void findPtPairDistLessThan();
 
 //=================
 //class CFindGapBtwPoints
@@ -64,7 +65,7 @@ using namespace std;
 //2.点对距离不大于指定距离list;
 //3.不在同一线段上;
 //点对之间不能有路径;
-//=================
+//================= 
 
 class CFindGapBtwPoints
 {
