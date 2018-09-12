@@ -2,7 +2,7 @@
 
 #include "resource.h"
 #include "afxwin.h"
-#include "findTheGapBtwPoints.h()"
+#include "findTheGapBtwPoints.h"
 
 
 
