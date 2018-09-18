@@ -521,18 +521,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\findDist.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\mingap.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src_code\selectss.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\StdAfx.cpp"
 				>
 				<FileConfiguration
@@ -575,10 +563,6 @@
 						UsePrecompiledHeader="1"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\topln.cpp"
-				>
 			</File>
 			<Filter
 				Name="src_code"
@@ -756,6 +740,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src_code\findDist.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src_code\findDist.h"
+					>
+				</File>
+				<File
 					RelativePath=".\src_code\findTheGapBtwPoints.cpp"
 					>
 				</File>
@@ -825,6 +817,14 @@
 				</File>
 				<File
 					RelativePath=".\src_code\mergelwpolyline.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src_code\mingap.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src_code\mingap.h"
 					>
 				</File>
 				<File
@@ -905,6 +905,10 @@
 				</File>
 				<File
 					RelativePath=".\src_code\reportEntitiesNumber.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src_code\selectss.cpp"
 					>
 				</File>
 				<File
@@ -992,6 +996,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src_code\topln.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src_code\xamenchenhong_text.cpp"
 					>
 				</File>
@@ -1010,27 +1018,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\findDist.h"
-				>
-			</File>
-			<File
-				RelativePath=".\mingap.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src_code\pointMap.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Resource.h"
 				>
 			</File>
 			<File
 				RelativePath=".\resource1.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src_code\selectss.h"
 				>
 			</File>
 			<File
