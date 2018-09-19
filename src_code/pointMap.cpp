@@ -734,7 +734,7 @@ testPointMapClass()
 	acedSSFree(ss);
 
 	//´°¿Ú
-	CAcModuleResourceOverride resOverride;
-	findDistDlg myDialog;
-	myDialog.DoModal();
+	//CAcModuleResourceOverride resOverride;
+	//findDistDlg myDialog;
+	//myDialog.DoModal();
 }

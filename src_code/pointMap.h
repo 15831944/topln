@@ -53,7 +53,8 @@ eg： Date:	Author: 	Modification:
 #include  "opt.h"
 #include "elapsetime.h"
 #include "basefunc.h"
-#include "findDist.h"
+//#include "findDist.h"
+
 
 using namespace std;
 
@@ -113,7 +114,7 @@ struct SXData
 	int m_nDotNum; //小数保留多少位;  
 	map<double,SYData,dblcmp> m_pPointMap;  //嵌套map;    
 
-	bool find(IN const double yVal,OUT int& ptIndex);  //查找y-key;        
+	bool find(IN const double yVal, OUT int& ptIndex);  //查找y-key;        
 
 	map<double,SYData,dblcmp>::iterator insert(IN const double yVal,IN const int ptIndex,OUT void* voidPtr = NULL); //插入y key;    
 	unsigned int erase(IN const double yVal);  //delete;     

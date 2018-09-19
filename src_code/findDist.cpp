@@ -1,6 +1,6 @@
 // findDist.cpp : 实现文件
 //
-#include "stdafx.h"
+#include "..\stdafx.h"
 
 #include <aced.h>
 #include <rxregsvc.h>
@@ -32,7 +32,7 @@
 
 
 #include "findDist.h"
-#include "resource1.h"
+#include "..\resource1.h"
 
 
 // findDist 对话框
