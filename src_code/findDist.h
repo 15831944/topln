@@ -4,20 +4,21 @@
 #include "afxwin.h"
 #include "findTheGapBtwPoints.h"
 
-
+//调用对话框;
+void mendGapBtwPointPairDlg();
 
 // findDist 对话框
 
 class findDistDlg : public CDialog
 {
-	DECLARE_DYNAMIC(findDistDlg)
+	DECLARE_DYNAMIC(findDistDlg)  
 
 public:
-	findDistDlg(CWnd* pParent = NULL);   // 标准构造函数
+	findDistDlg(CWnd* pParent = NULL);   // 标准构造函数; 
 	virtual ~findDistDlg();
 
 // 对话框数据
-	enum { IDD = IDD_DIALOG1 };
+	enum { IDD = IDD_DIALOG1 };   
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
@@ -30,7 +31,10 @@ public:
 private:
 	// 用户用户输入的最小距离值
 	double minDistByUserInput;
-	CFindGapBtwPoints m_objFindMinGap; //查找符合距离要求的点对;
+	CFindGapBtwPoints m_objFindMinGap; //查找符合距离要求的点对;  
 public:
-	afx_msg void OnBnClickedButtonRun();
-};
+	afx_msg void OnBnClickedButtonRun();  
+}; 
+
+
+

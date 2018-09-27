@@ -116,3 +116,18 @@ void findDistDlg::OnBnClickedButtonRun()
 	pWnd_btn_conn_next->EnableWindow(true);
 	pWnd_btn_conn_all->EnableWindow(true);
 }
+
+
+
+//===================
+//调用findDist窗口
+//
+//===================
+void
+mendGapBtwPointPairDlg()
+{
+	//窗口
+	CAcModuleResourceOverride resOverride;
+	findDistDlg myDialog;
+	myDialog.DoModal();
+};

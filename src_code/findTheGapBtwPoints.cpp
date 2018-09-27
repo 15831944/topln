@@ -343,20 +343,29 @@ CFindGapBtwPoints::insertPoints(IN const AcGePoint3d pt3d,IN const AcDbObjectId 
 void
 findPtPairDistLessThan()
 {
-	//选择实体集
+	//选择实体集; 
 	ads_name ss;
 	CSelectEnts objSel;
 	acdbNameClear(ss); //设置为nil;  
 	objSel.usrSelect(ss); 
 
-	vector<pair<void*,void*>> vAllPointPair;   
-	CFindGapBtwPoints objFindPointPairs;   
+	vector<pair<void*,void*>> vAllPointPair;     
+	CFindGapBtwPoints objFindPointPairs;       
 	objFindPointPairs.inputAdsName(ss);   
 	objFindPointPairs.getPointPair(vAllPointPair);    
 
 	//点对过滤;
-	//不过滤算了; 只有一种情况要过滤掉：点对属于同一条直线段;
+	//不过滤算了; 只有一种情况要过滤掉：点对属于同一条直线段;     
 
 	//打印点对;
-	;
+	int nlen = 0;
+	nlen = vAllPointPair.size();
+	pair<void*,void*> vpairTmp;
+	vector<pair<void*,void*>>::iterator itrPair = vAllPointPair.begin();  
+	for(; itrPair != vAllPointPair.end(); itrPair++)  
+	{
+		vpairTmp = (pair<void*,void*>)(*itrPair); 
+		((SAttachData*)(vpairTmp.first))->print(); 
+		((SAttachData*)(vpairTmp.second))->print(); 
+	}
 }

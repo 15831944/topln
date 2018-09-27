@@ -36,13 +36,13 @@
 #include ".\src_code\purge.h" 
 #include ".\src_code\selfintersect.h" 
 #include ".\src_code\explode_insert.h" 
+#include ".\src_code\findDist.h" 
 
 
 //-----------------------------------------------------------------------------
 #define szRDS _RXST("owal")
 
-void 
-Test();
+void Test();
 
 struct def_cmdfun
 {
@@ -62,6 +62,7 @@ def_cmdfun cmdFunTbl[] =
 	{_T("ext"), test_extentes, ACRX_CMD_MODAL},  //测试使用
 	{_T("repo"), reportAllEnt, ACRX_CMD_MODAL},   //report all entities' type and number;
 	{_T("testmap"), testPointMapClass, ACRX_CMD_MODAL},   //test point map 
+	{_T("xgap"), mendGapBtwPointPairDlg, ACRX_CMD_MODAL},   //调用对话框，对话框调用point-pair gap修补功能;
 	{_T("ofstpl"), ofstPline, ACRX_CMD_MODAL},   //offset the polyline closed; 
 	{_T("plccw"), testIfCCWPline, ACRX_CMD_MODAL},   //test polyline ccw,givn up.
 	{_T("isplccw"), testPlineCCW, ACRX_CMD_MODAL},   //test polyline ccw,new,effect;
