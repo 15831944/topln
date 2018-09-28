@@ -886,7 +886,7 @@ void test_extentes()
 	x = objExtent.getLenX(x);
 	double y = 0;
 	y = objExtent.getLenY(y);
-	acutPrintf(_T("\n 长度x=%f,宽度y=%f"),x,y);
+	acutPrintf(_T("\n 长度x=%f,宽度y=%f"),x,y);  
 
 	AcGePoint3d ptMin;
 	AcGePoint3d ptMax;
@@ -933,4 +933,33 @@ void test_extentes()
 	}
 
 	acedSSFree(ss);
+}
+
+
+
+bool
+CSomePublicFun::isCstringDigit(IN const CString &szStr)
+{
+	for(int i = 0; i < szStr.GetLength(); i++)
+	{
+		//check +  - sign
+		if(0 == i && szStr.GetAt(i) == 0x2B || szStr.GetAt(i) == 0x2D)
+		{
+			continue;
+		}
+
+		//check char
+		if(! isdigit(szStr.GetAt(i)) && szStr.GetAt(i) != _T('.'))
+		{
+			return false;
+		}
+	}
+
+	//check 小数点;
+	if(szStr.Find(_T('.')) != szStr.ReverseFind(_T('.')))
+	{
+		return false;
+	}
+
+	return true;
 }

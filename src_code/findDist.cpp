@@ -87,6 +87,7 @@ void findDistDlg::OnBnClickedButtonRun()
 	double dbltmp = objtol.equalPoint();
 	if(minDistByUserInput <= dbltmp)
 	{
+		acutPrintf(_T("user's input is %f"),minDistByUserInput);
 		AfxMessageBox(_T("用户输入的距离值太小了..."),0,0);
 		return;
 	}
@@ -96,7 +97,7 @@ void findDistDlg::OnBnClickedButtonRun()
 	CWnd* pWnd_btn_first = GetDlgItem(IDC_BUTTON_First);
 	CWnd* pWnd_btn_next = GetDlgItem(IDC_BUTTON_NEXT);
 	CWnd* pWnd_btn_conn = GetDlgItem(IDC_BUTTON_Connect);
-	CWnd* pWnd_btn_conn_next = GetDlgItem(IDC_BUTTON_CONNECT_Next);
+	CWnd* pWnd_btn_conn_next = GetDlgItem(IDC_BUTTON_CONNECT_Next);  
 	CWnd* pWnd_btn_conn_all  = GetDlgItem(IDC_BUTTON_Connect_all);
 	pWnd_help->EnableWindow(false);
 	pWnd_btn_first->EnableWindow(false);

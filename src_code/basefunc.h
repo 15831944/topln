@@ -32,6 +32,8 @@
 
 #include <string>
 #include <iostream>
+//#include <afx.h>
+#include "atlstr.h"
 
 #include "elapsetime.h"
 
@@ -107,5 +109,18 @@ public:
 	AcGePoint3d getMaxPoint(OUT AcGePoint3d& pt3d);   
 	static bool isExtEffect(IN const AcDbExtents& objExt);  
 };
+
+
+
+class CSomePublicFun
+{
+	//CSomePublicFun();
+	//~CSomePublicFun();
+public:
+	bool isCstringDigit(IN const CString &szStr); 
+};
+
+
+
 
 #endif  //OWAL_PC2008_THIRTY_TWO_YEARS_OLD_SELECTSELECTIONSET_H
