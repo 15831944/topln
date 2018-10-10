@@ -27,7 +27,7 @@ protected:
 public:
 	afx_msg void OnBnClickedCancel();  
 	CEdit m_edit_maxDist;
-	afx_msg void OnBnClickedButtonFirst();  
+	afx_msg void OnBnClickedButtonFirst();    
 private:
 	// 用户用户输入的最小距离值
 	double minDistByUserInput;
