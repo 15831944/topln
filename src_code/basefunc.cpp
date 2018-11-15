@@ -949,7 +949,7 @@ CSomePublicFun::isCstringDigit(IN const CString &szStr)
 		}
 
 		//check char
-		if(! isdigit(szStr.GetAt(i)) && szStr.GetAt(i) != _T('.'))
+		if(! isdigit(szStr.GetAt(i)) && szStr.GetAt(i) != _T('.'))  
 		{
 			return false;
 		}

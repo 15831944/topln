@@ -10,7 +10,7 @@ History: // 历史修改记录
 <author> <time> <version > <desc>
 David 96/10/12 1.0 build this moudle
 ***********************************************************/
-#include "ajustfont.h"
+#include "ajustfont.h"   
 #include "TCHAR.h"
 
 

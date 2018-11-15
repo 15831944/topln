@@ -5,11 +5,11 @@
 #define IDS_PROJNAME                    100
 #define IDD_DIALOG1                     101
 #define IDS_STRING101                   101
-#define IDC_BUTTON1                     1001
+//#define IDC_BUTTON1                     1001
 #define IDC_BUTTON_NEXT                 1001
-#define IDC_BUTTON2                     1002
+//#define IDC_BUTTON2                     1002
 #define IDC_BUTTON_CONNECT_Next         1002
-#define IDC_BUTTON3                     1003
+//#define IDC_BUTTON3                     1003
 #define IDC_BUTTON_Connect_all          1003
 #define IDC_EDIT_Max_dist               1004
 #define IDC_BUTTON_Connect              1005

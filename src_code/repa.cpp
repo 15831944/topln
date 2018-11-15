@@ -1,7 +1,6 @@
 #include "repa.h"
 #include "opt.h"
 #include "basefunc.h"
-#include "basefunc.h"
 #include "elapsetime.h"
 #include "TCHAR.h"
 
@@ -17,8 +16,8 @@ arc_report()
 	double max_rdu = 0.0;//用来存放最大半径值;
 	double tmp_rdu;//用来临时存放弧半径.
 	
-	long *lNumArcs = new long;      //用来统计总共有多少弧；
-	long *ptrlongbadArcs = new long;//统计半径超过35mm的圆弧数目;
+	long *lNumArcs = new long;      //用来统计总共有多少弧；    
+	long *ptrlongbadArcs = new long;//统计半径超过35mm的圆弧数目;  
     *lNumArcs = 0;
     *ptrlongbadArcs = 0;
     

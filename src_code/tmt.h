@@ -28,11 +28,11 @@ History: // 修改历史记录列表，每条修改记录应包括修改日期、修改
 #include <aced.h>
 #include <rxregsvc.h>
 #include <adscodes.h>
-#include <dbsymtb.h>
+#include <dbsymtb.h>    
 #include <dblayout.h>
 #include <dbapserv.h>
 #include <acdblmgr.h>
-#include <dbents.h>
+#include <dbents.h>   
 #include <dbpl.h>
 #include <dbid.h>
 #include <acutads.h>

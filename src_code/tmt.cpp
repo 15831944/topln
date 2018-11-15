@@ -49,7 +49,7 @@ const double CTmtFillet::startWidth = 0.0;
 
 const double CTmtFillet::endWidth = 0.0;
 
-const  double CTmtFillet::zeroBulge = 0.0;
+const  double CTmtFillet::zeroBulge = 0.0;  
 
 
 /*
