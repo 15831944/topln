@@ -928,7 +928,7 @@ void test_extentes()
 	bflag = objExtent.getExtents(ptrArr,objExt0a);
 	if(bflag)
 	{		
-		acutPrintf(_T("\n 右上坐标（%f,%f）"),objExt.maxPoint().x,objExt.maxPoint().y);
+		acutPrintf(_T("\n 右上坐标（%f,%f）"),objExt.maxPoint().x,objExt.maxPoint().y);  
 		acutPrintf(_T("\n 左下坐标（%f,%f）"),objExt.minPoint().x,objExt.minPoint().y); 
 	}
 
@@ -940,7 +940,7 @@ void test_extentes()
 bool
 CSomePublicFun::isCstringDigit(IN const CString &szStr)
 {
-	for(int i = 0; i < szStr.GetLength(); i++)
+	for(int i = 0; i < szStr.GetLength(); i++)   
 	{
 		//check +  - sign
 		if(0 == i && szStr.GetAt(i) == 0x2B || szStr.GetAt(i) == 0x2D)
