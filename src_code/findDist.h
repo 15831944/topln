@@ -33,7 +33,7 @@ private:
 	double minDistByUserInput;
 	CFindGapBtwPoints m_objFindMinGap; //查找符合距离要求的点对;   
 public:
-	afx_msg void OnBnClickedButtonRun();  
+	afx_msg void OnBnClickedButtonRun();   
 
 
 	//models defined by users;

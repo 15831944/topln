@@ -81,6 +81,8 @@ void findDistDlg::OnBnClickedButtonRun()
 {
 	// TODO: 在此添加控件通知处理程序代码   
 	//检查用户输入的dist值是否合法   
+	UpdateData(TRUE);
+
 	AcGeTol objtol;
 	double dbltmp = objtol.equalPoint();    
 	if(minDistByUserInput <= dbltmp)      
@@ -90,9 +92,11 @@ void findDistDlg::OnBnClickedButtonRun()
 		return;
 	}
 
+	acutPrintf(_T("user's input is %f"),minDistByUserInput); 
+
 	
 	//查找点对;
-	findPtPairDistLessThan();   
+	//findPtPairDistLessThan();   
 	//运行后让按钮enable;
 	/*CWnd* pWnd_help = GetDlgItem(IDC_BUTTON_Help);
 	CWnd* pWnd_btn_first = GetDlgItem(IDC_BUTTON_First);
@@ -109,6 +113,13 @@ void findDistDlg::OnBnClickedButtonRun()
 
 }
 
+
+void
+findDistDlg::getInputGapVal()
+{
+	CWnd* pWndDistGap = GetDlgItem(IDC_EDIT_Max_dist);
+	;
+}
 
 
 //===================
