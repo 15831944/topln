@@ -77,6 +77,7 @@ void findDistDlg::OnBnClickedButtonFirst()
 	AfxMessageBox(_T("first button"),0,0);  
 }
 
+//运行最小距离检查;
 void findDistDlg::OnBnClickedButtonRun()
 {
 	// TODO: 在此添加控件通知处理程序代码   
@@ -87,16 +88,16 @@ void findDistDlg::OnBnClickedButtonRun()
 	double dbltmp = objtol.equalPoint();    
 	if(minDistByUserInput <= dbltmp)      
 	{
-		acutPrintf(_T("user's input is %f"),minDistByUserInput);      
-		AfxMessageBox(_T("用户输入的距离值太小了..."),0,0);       
+		acutPrintf(_T("\nuser's input is %f"),minDistByUserInput);      
+		AfxMessageBox(_T("\n用户输入的距离值太小了..."),0,0);       
 		return;
 	}
 
-	acutPrintf(_T("user's input is %f"),minDistByUserInput); 
+	acutPrintf(_T("\nuser's input is %f"),minDistByUserInput);   
 
 	
 	//查找点对;
-	//findPtPairDistLessThan();   
+	findPtPairDistLessThan();   
 	//运行后让按钮enable;
 	/*CWnd* pWnd_help = GetDlgItem(IDC_BUTTON_Help);
 	CWnd* pWnd_btn_first = GetDlgItem(IDC_BUTTON_First);

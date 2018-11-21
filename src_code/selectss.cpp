@@ -28,9 +28,9 @@ CSelectEnts::CSelectEnts()
 	m_charUserInput = new ACHAR[133];
 
 	int flag;
-	flag = acedGetString(0,_T("Select/One layer/<All layer>:"),m_charUserInput);
+	flag = acedGetString(0,_T("\nSelect/One layer/<All layer>:"),m_charUserInput);
 
-	//获取全部图层层名；
+	//获取全部图层层名;
 	getAllLayerName();
 }
 
@@ -57,7 +57,7 @@ CSelectEnts::usrSelect(ads_name ss)
 //析构函数；
 CSelectEnts::~CSelectEnts()
 {
-	//释放层名申请的内存；
+	//释放层名申请的内存;
 	ACHAR* pstr;
 	int sizeAchar = m_allLayerName.size();
 	for(int i  = 0 ; i < sizeAchar; i++)
@@ -262,6 +262,7 @@ CSelectEnts::getSSAltLayer(ads_name ssAll,ads_name ss_byLayer)
 	}
 	return true;
 }
+
 //=============用户选择实体类========================================end=======
 
 
