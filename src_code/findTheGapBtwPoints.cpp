@@ -209,6 +209,7 @@ CFindGapBtwPoints::inputMinDistByUser(IN const double minDist)
 void
 CFindGapBtwPoints::getPointPair(OUT vector<pair<void*,void*>>& vPointPairs) 
 {
+	parsePointPairs();  //分析最近点坐标对;
 	vPointPairs = m_vPointPairs; //赋值一份;   
 }
 
@@ -263,9 +264,10 @@ bool
 CFindGapBtwPoints::extrPntsFromEntity(const ads_name ssUnit,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte,OUT AcDbObjectId& entId) 
 {
 	AcDbObjectId objId;
+	acdbGetObjectId(objId,ssUnit);  
 	AcDbEntity* pEnt = NULL;
 	Acad::ErrorStatus errSts;
-	errSts = acdbOpenObject(pEnt,objId,AcDb::kForRead);
+	errSts = acdbOpenObject(pEnt,objId,AcDb::kForRead);  
 	if(errSts != Acad::eOk)
 	{
 		pEnt->close();
@@ -349,6 +351,7 @@ findPtPairDistLessThan()
 	acdbNameClear(ss); //设置为nil;  
 	objSel.usrSelect(ss); 
 
+	double dblMinDist;
 	vector<pair<void*,void*>> vAllPointPair;     
 	CFindGapBtwPoints objFindPointPairs;       
 	objFindPointPairs.inputAdsName(ss);   

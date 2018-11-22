@@ -93,11 +93,40 @@ void findDistDlg::OnBnClickedButtonRun()
 		return;
 	}
 
+	int nResl = -1;
+	this->EndDialog(nResl);
+
 	acutPrintf(_T("\nuser's input is %f"),minDistByUserInput);   
 
 	
 	//查找点对;
-	findPtPairDistLessThan();   
+	//选择实体集; 
+	ads_name ss;
+	CSelectEnts objSel;
+	acdbNameClear(ss); //设置为nil;  
+	objSel.usrSelect(ss); 
+
+	double dblMinDist;
+	vector<pair<void*,void*>> vAllPointPair;     
+	CFindGapBtwPoints objFindPointPairs;      
+	objFindPointPairs.inputMinDistByUser(minDistByUserInput);
+	objFindPointPairs.inputAdsName(ss);   
+	objFindPointPairs.getPointPair(vAllPointPair);    
+
+	//点对过滤;
+	//不过滤算了; 只有一种情况要过滤掉：点对属于同一条直线段;     
+
+	//打印点对;
+	int nlen = 0;
+	nlen = vAllPointPair.size();
+	pair<void*,void*> vpairTmp;
+	vector<pair<void*,void*>>::iterator itrPair = vAllPointPair.begin();  
+	for(; itrPair != vAllPointPair.end(); itrPair++)  
+	{
+		vpairTmp = (pair<void*,void*>)(*itrPair); 
+		((SAttachData*)(vpairTmp.first))->print(); 
+		((SAttachData*)(vpairTmp.second))->print(); 
+	}
 	//运行后让按钮enable;
 	/*CWnd* pWnd_help = GetDlgItem(IDC_BUTTON_Help);
 	CWnd* pWnd_btn_first = GetDlgItem(IDC_BUTTON_First);

@@ -96,7 +96,7 @@ private:
 	CPointMap m_pointsMap;  //存储点坐标; 
 	ads_name m_ssall;  //用户选择的、过滤后的实体集合;    
 	AcDbEntity* m_pEnt; 
-	vector<pair<void*,void*>> m_vPointPairs;    
+	vector<pair<void*,void*>> m_vPointPairs;    //坐标点对;
 	vector<SAttachData*> m_vAttDataPtrs;  //gathered to release the memory;    
 	double m_dist;  //用户输入的最距离，小于此距离的点对被计算出来; 
 };

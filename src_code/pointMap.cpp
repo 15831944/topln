@@ -718,7 +718,7 @@ testPointMapClass()
 
 	//测试：寻找不重叠，且距离不超过dist的点对;
 	vector<pair<void*,void*>> vPoints;
-	objPtMap.findPointPairs(0.005,vPoints);  
+	objPtMap.findPointPairs(100,vPoints);  
 	objPtMap.printPointPairs(vPoints);      
 
 
