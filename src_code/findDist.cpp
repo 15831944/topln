@@ -109,7 +109,7 @@ void findDistDlg::OnBnClickedButtonRun()
 	double dblMinDist;
 	vector<pair<void*,void*>> vAllPointPair;     
 	CFindGapBtwPoints objFindPointPairs;      
-	objFindPointPairs.inputMinDistByUser(minDistByUserInput);
+	objFindPointPairs.inputMinDistByUser(minDistByUserInput); 
 	objFindPointPairs.inputAdsName(ss);   
 	objFindPointPairs.getPointPair(vAllPointPair);    
 

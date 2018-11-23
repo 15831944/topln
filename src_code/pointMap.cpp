@@ -684,11 +684,25 @@ testPointMapClass()
 		}
 		else if(pEnt->isA() == AcDbArc::desc())  
 		{
-			/*AcDbArc* pArc = (AcDbArc*)pEnt;
-			objPtMap.insert(pArc->start());
-			objPtMap.insert(pArc->endPoint());*/  
+			AcGePoint3d pte;
+			AcGePoint3d pts; 
+			CSomePublicFun objFuns;
+			AcDbArc* pArc = (AcDbArc*)pEnt;
+			objFuns.getArcEndPoints(pArc,pts,pte);
+			
+			objData = new SAttachData;
+			dataPtrVec.push_back(objData);  			
+			
+			objData->init(pts,pEnt);
+			objPtMap.insert(pts,i,objData);
+
+			objData = new SAttachData;
+			dataPtrVec.push_back(objData);  			
+
+			objData->init(pte,pEnt);
+			objPtMap.insert(pte,i,objData);			
+
 			pEnt->close();
-			continue;
 		}
 	}
 	objPtMap.print();  //¥Ú”°£¨≤‚ ‘;   

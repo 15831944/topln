@@ -118,6 +118,7 @@ class CSomePublicFun
 	//~CSomePublicFun();
 public:
 	bool isCstringDigit(IN const CString &szStr); 
+	bool getArcEndPoints(const AcDbArc* arcptr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte);
 };
 
 

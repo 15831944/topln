@@ -937,6 +937,7 @@ void test_extentes()
 
 
 
+//判断一个字符串是不是数字;
 bool
 CSomePublicFun::isCstringDigit(IN const CString &szStr)
 {
@@ -960,6 +961,33 @@ CSomePublicFun::isCstringDigit(IN const CString &szStr)
 	{
 		return false;
 	}
+
+	return true;
+}
+
+
+//获取弧段实体（arc）的起始点、结束点坐标;
+//retun: true-成功； false-失败;
+bool CSomePublicFun::getArcEndPoints(const AcDbArc* arcptr,OUT AcGePoint3d& pts,OUT AcGePoint3d& pte)
+{
+	if(arcptr == NULL)
+	{
+		return false; 
+	}
+
+	//计算弧的两个端点; 用了AcGeVector2d类，比较方便;
+	AcGePoint3d ptCenter = arcptr->center();
+	double dblRadiu = arcptr->radius();
+	AcGeVector2d vectpt;
+	vectpt.set(dblRadiu,0); 
+	double startAngle = arcptr->startAngle();
+	double endAngle = arcptr->endAngle();
+	vectpt.rotateBy(startAngle);
+	pts.set(ptCenter.x + vectpt.x,ptCenter.y + vectpt.y,0);
+	vectpt.rotateBy(endAngle - startAngle); 
+	pte.set(ptCenter.x + vectpt.x, ptCenter.y + vectpt.y,0);  
+
+	//entId = arcptr->objectId();
 
 	return true;
 }
