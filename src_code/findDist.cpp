@@ -129,11 +129,11 @@ void findDistDlg::OnBnClickedButtonRun()
 	}
 	//运行后让按钮enable;
 	/*CWnd* pWnd_help = GetDlgItem(IDC_BUTTON_Help);
-	CWnd* pWnd_btn_first = GetDlgItem(IDC_BUTTON_First);
+	CWnd* pWnd_btn_first = GetDlgItem(IDC_BUTTON_First);   
 	CWnd* pWnd_btn_next = GetDlgItem(IDC_BUTTON_NEXT);
 	CWnd* pWnd_btn_conn = GetDlgItem(IDC_BUTTON_Connect);
 	CWnd* pWnd_btn_conn_next = GetDlgItem(IDC_BUTTON_CONNECT_Next);  
-	CWnd* pWnd_btn_conn_all  = GetDlgItem(IDC_BUTTON_Connect_all);   
+	CWnd* pWnd_btn_conn_all  = GetDlgItem(IDC_BUTTON_Connect_all);    
 	pWnd_help->EnableWindow(true);
 	pWnd_btn_first->EnableWindow(true);
 	pWnd_btn_next->EnableWindow(true);
