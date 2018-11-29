@@ -719,7 +719,7 @@ testPointMapClass()
 	if(objPtMap.find(testAcPoint,ptIndex))
 	{
 		#ifdef DEBUG_TO_PL_PRINT
-		acutPrintf(_T("\nfind it(%f,%f,%f)%d!"),adsPoint[0],adsPoint[1],adsPoint[2],ptIndex);
+		acutPrintf(_T("\nfind it(%f,%f,%f)%d!"),adsPoint[0],adsPoint[1],adsPoint[2],ptIndex);  
 		#endif
 	}
 	else
