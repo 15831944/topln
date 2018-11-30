@@ -129,7 +129,7 @@ struct SXData
 	bool isDistGreater(IN const double x1,IN const double y1,IN const double x2,IN const double y2,IN const double dist);  
 	bool isDigitGreater(IN const double d1,IN const double d2); //比较俩double大小;     
 	bool isEqual(IN const double d1, IN const double d2);  //判断俩double是否相等;   
-	bool isDistZero(IN const double x1,IN const double y1,IN const double x2,IN const double y2);
+	bool isDistZero(IN const double x1,IN const double y1,IN const double x2,IN const double y2);  
 
 	//查找元素的函数
 	bool first(OUT map<double,SXData,dblcmp>::iterator itrSxdata,OUT map<double,SYData,dblcmp>::iterator itrSydata,OUT SYData& sydata);  
@@ -160,7 +160,7 @@ public:
 	bool erase(IN const AcGePoint3d pt);       
 	bool setDotNum(IN const int nDotNum);           
 	void print();    //打印出map的点;   
-	//bool printMap();  //打印出map的点;          
+	//bool printMap();  //打印出map的点;   
 
 public:
 	//以下为二期函数，用void* m_dataVoidPtr来扩展附加数据;更有扩展性;       

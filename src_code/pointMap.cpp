@@ -559,13 +559,13 @@ CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& po
 	SYData syData;
 	void* voidDataPtr = NULL;   
 	bool flag = false;  //判断是否不用继续查找下一个sxdata;      
-	for(; itrxFirst != m_mapXcoord.end(); itrxFirst++)           
+	for(; itrxFirst != m_mapXcoord.end(); itrxFirst++)   
 	{
 		//取得x坐标;
 		mx = itrxFirst->second.m_x;   
 		
 		itry = itrxFirst->second.syDataBegin();	    			        
-		for(; itry != itrxFirst->second.syDataEnd(); itry++)           
+		for(; itry != itrxFirst->second.syDataEnd(); itry++)            
 		{
 			//继续取得y坐标及挂载数据;
 			syData = (SYData)(itry->second);    
@@ -573,9 +573,9 @@ CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& po
 			voidDataPtr = itry->second.m_dataAttach;     
 
 			//third loop：比较每一个x列;
-			for(itrxNext = itrxFirst; itrxNext != m_mapXcoord.end();itrxNext++)  //    
+			for(itrxNext = itrxFirst; itrxNext != m_mapXcoord.end();itrxNext++)  //  
 			{
-				flag = itrxNext->second.chkLessDistPoints(dist,mx,syData,pointPairs);            
+				flag = itrxNext->second.chkLessDistPoints(dist,mx,syData,pointPairs);      
 				if(!flag)  //返回false，说明x1和x2距离太远了，可以退出本层循环了; 
 				{
 					break;     
@@ -594,15 +594,15 @@ CPointMap::printPointPairs(IN vector<pair<void*,void*>>& vPointPairs)
 	vector<pair<void*,void*>>::iterator itr = vPointPairs.begin();
 	for(; itr != vPointPairs.end(); itr++)
 	{
-		acutPrintf(_T("\n point pair -----"));
+		acutPrintf(_T("\n point pair -----"));   
 		if((void*)(itr->first) != NULL)
 		{
-			pAtt = ((SAttachData*)(itr->first));
+			pAtt = ((SAttachData*)(itr->first));    
 			pAtt->print();
 		}
 		else
 		{
-			acutPrintf(_T("\n CPointMap::printPointPairs: null pointer"));
+			acutPrintf(_T("\n CPointMap::printPointPairs: null pointer"));   
 		}
 
 		if((void*)(itr->second) != NULL)
@@ -653,10 +653,10 @@ testPointMapClass()
 
 			AcDbLine* pLine = (AcDbLine*)pEnt;
 			objData->init(pLine->startPoint(),pEnt);
-			objPtMap.insert(pLine->startPoint(),i,objData);  
+			objPtMap.insert(pLine->startPoint(),i,objData);    
 
-			objData = new SAttachData;
-			dataPtrVec.push_back(objData);   
+			objData = new SAttachData;   
+			dataPtrVec.push_back(objData);    
 
 			objData->init(pLine->endPoint(),pEnt);
 			objPtMap.insert(pLine->endPoint(),i,objData);      
@@ -732,7 +732,7 @@ testPointMapClass()
 
 	//测试：寻找不重叠，且距离不超过dist的点对;
 	vector<pair<void*,void*>> vPoints;
-	objPtMap.findPointPairs(100,vPoints);  
+	objPtMap.findPointPairs(0.1,vPoints);  
 	objPtMap.printPointPairs(vPoints);      
 
 
