@@ -218,7 +218,12 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 		itrYc = m_pPointMap.lower_bound(ytemp);   
 		while(itrYc != m_pPointMap.end()) 
 		{			      
-			y2 = itrYc->second.m_y;  			
+			y2 = itrYc->second.m_y;  		
+#ifdef DEBUG_TO_PL_PRINT
+			acutPrintf(_T("\n 比较点对："));
+			acutPrintf(_T("(%5.5f,%5.5f),  (%5.5f,%5.5f)"),x1,y1,x2,y2);
+#endif  DEBUG_TO_PL_PRINT
+			
 			if(isDistGreater(x1,y1,x2,y2,dist))     
 			{
 				break;     
@@ -230,7 +235,7 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 			}
 			else
 			{
-				pair<void*,void*> pairData(syData.m_dataAttach,itrYc->second.m_dataAttach);
+				pair<void*,void*> pairData(syData.m_dataAttach,itrYc->second.m_dataAttach);  
 				vPointPairs.push_back(pairData);  
 				itrYc++;   
 			}   
@@ -244,7 +249,7 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 		//while(itrYc != m_pPointMap.begin())  
 		while(true)   //有可能itrYc直接到了end;
 		{	
-			if(itrYc == m_pPointMap.end()) //不能让itrYc停留在end处，会崩溃;
+			if(itrYc == m_pPointMap.end()) //不能让itrYc停留在end处，会崩溃;  
 			{
 				itrYc--;
 			}
@@ -254,6 +259,10 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 			}
 
 			y2 = itrYc->second.m_y;      // 调试：到这里崩溃； x1=0；y1=0.001； x2=0.001；y2应该等于0;
+#ifdef DEBUG_TO_PL_PRINT
+			acutPrintf(_T("\n 比较点对："));
+				acutPrintf(_T("(%5.5f,%5.5f),  (%5.5f,%5.5f)"),x1,y1,x2,y2);
+#endif  DEBUG_TO_PL_PRINT
 			if(isDistGreater(x1,y1,x2,y2,dist))   
 			{
 				break;  
@@ -285,6 +294,10 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 		while(itrYc != m_pPointMap.end())  
 		{			  
 			y2 = itrYc->second.m_y;
+#ifdef DEBUG_TO_PL_PRINT
+			acutPrintf(_T("\n 比较点对："));
+			acutPrintf(_T("(%5.5f,%5.5f),  (%5.5f,%5.5f)"),x1,y1,x2,y2);
+#endif  DEBUG_TO_PL_PRINT
 			ytemp = y2;
 			if(isDistGreater(x1,y1,x2,y2,dist))  
 			{
@@ -564,8 +577,8 @@ CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& po
 		//取得x坐标;
 		mx = itrxFirst->second.m_x;   
 		
-		itry = itrxFirst->second.syDataBegin();	    			        
-		for(; itry != itrxFirst->second.syDataEnd(); itry++)            
+		itry = itrxFirst->second.syDataBegin();	  		        
+		for(; itry != itrxFirst->second.syDataEnd(); itry++)      
 		{
 			//继续取得y坐标及挂载数据;
 			syData = (SYData)(itry->second);    
@@ -573,7 +586,7 @@ CPointMap::findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& po
 			voidDataPtr = itry->second.m_dataAttach;     
 
 			//third loop：比较每一个x列;
-			for(itrxNext = itrxFirst; itrxNext != m_mapXcoord.end();itrxNext++)  //  
+			for(itrxNext = itrxFirst; itrxNext != m_mapXcoord.end();itrxNext++)  //
 			{
 				flag = itrxNext->second.chkLessDistPoints(dist,mx,syData,pointPairs);      
 				if(!flag)  //返回false，说明x1和x2距离太远了，可以退出本层循环了; 
