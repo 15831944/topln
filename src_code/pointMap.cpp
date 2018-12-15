@@ -246,27 +246,32 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 		//先向上找:不能漏了begin（）这个元素;
 		itrYc = m_pPointMap.lower_bound(ytemp); 
 		bool isBreak = false;
-		//while(itrYc != m_pPointMap.begin())  
+		//因为现在itrYc的y值是not less than y1,所以先向上（y值更小的方向）退一步;
+		//itrYc--;
 		while(true)   //有可能itrYc直接到了end;
 		{	
-			if(itrYc == m_pPointMap.end()) //不能让itrYc停留在end处，会崩溃;  
-			{
-				itrYc--;
-			}
+			//if(itrYc == m_pPointMap.end()) //不能让itrYc停留在end处，会崩溃;  
+			//{
+			//	itrYc--;
+			//}
 			if(itrYc == m_pPointMap.begin())
 			{
 				isBreak = true; //执行完此轮就退出循环;  
+			}
+			else  //including the end;
+			{
+				itrYc--;
 			}
 
 			y2 = itrYc->second.m_y;      // 调试：到这里崩溃； x1=0；y1=0.001； x2=0.001；y2应该等于0;
 #ifdef DEBUG_TO_PL_PRINT
 			acutPrintf(_T("\n 比较点对："));
-				acutPrintf(_T("(%5.5f,%5.5f),  (%5.5f,%5.5f)"),x1,y1,x2,y2);
+				acutPrintf(_T("(%5.5f,%5.5f),  (%5.5f,%5.5f)"),x1,y1,x2,y2);  
 #endif  DEBUG_TO_PL_PRINT
 			if(isDistGreater(x1,y1,x2,y2,dist))   
 			{
 				break;  
-			}
+			}  
 			else if(isDistZero(x1,y1,x2,y2))   
 			{
 				itrYc--;  
@@ -287,10 +292,10 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 
 		//再向下找; 
 		itrYc = m_pPointMap.lower_bound(ytemp);		
-		if(itrYc != m_pPointMap.end())
-		{
-			itrYc++;//这元素是和向上查找重叠的;所以要剔除;
-		}
+		//if(itrYc != m_pPointMap.end())
+		//{
+		//	itrYc++;//这元素是和向上查找重叠的;所以要剔除;
+		//}
 		while(itrYc != m_pPointMap.end())  
 		{			  
 			y2 = itrYc->second.m_y;
