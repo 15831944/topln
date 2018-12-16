@@ -90,7 +90,7 @@ SXData::erase(IN const double yVal)
 void
 SXData::print()
 {
-	#ifdef DEBUG_TO_PL_PRINT
+	#ifdef DEBUG_TO_PL_PRINT_POINTMAP
 
 	map<double,SYData,dblcmp>::iterator itr = m_pPointMap.begin();
 	AcGePoint3d pt;
@@ -100,7 +100,7 @@ SXData::print()
 		acutPrintf(_T("\n(%15f,%15f)%d"),itr->second.pt.x,itr->second.pt.y,itr->second.m_PointIndex);
 	}
 
-	#endif  DEBUG_TO_PL_PRINT
+	#endif  DEBUG_TO_PL_PRINT_POINTMAP
 }
 
 
@@ -219,10 +219,10 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 		while(itrYc != m_pPointMap.end()) 
 		{			      
 			y2 = itrYc->second.m_y;  		
-#ifdef DEBUG_TO_PL_PRINT
+#ifdef DEBUG_TO_PL_PRINT_POINTMAP
 			acutPrintf(_T("\n 比较点对："));
 			acutPrintf(_T("(%5.5f,%5.5f),  (%5.5f,%5.5f)"),x1,y1,x2,y2);
-#endif  DEBUG_TO_PL_PRINT
+#endif  DEBUG_TO_PL_PRINT_POINTMAP
 			
 			if(isDistGreater(x1,y1,x2,y2,dist))     
 			{
@@ -264,10 +264,10 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 			}
 
 			y2 = itrYc->second.m_y;      // 调试：到这里崩溃； x1=0；y1=0.001； x2=0.001；y2应该等于0;
-#ifdef DEBUG_TO_PL_PRINT
+#ifdef DEBUG_TO_PL_PRINT_POINTMAP
 			acutPrintf(_T("\n 比较点对："));
 				acutPrintf(_T("(%5.5f,%5.5f),  (%5.5f,%5.5f)"),x1,y1,x2,y2);  
-#endif  DEBUG_TO_PL_PRINT
+#endif  DEBUG_TO_PL_PRINT_POINTMAP
 			if(isDistGreater(x1,y1,x2,y2,dist))   
 			{
 				break;  
@@ -299,10 +299,10 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 		while(itrYc != m_pPointMap.end())  
 		{			  
 			y2 = itrYc->second.m_y;
-#ifdef DEBUG_TO_PL_PRINT
+#ifdef DEBUG_TO_PL_PRINT_POINTMAP
 			acutPrintf(_T("\n 比较点对："));
 			acutPrintf(_T("(%5.5f,%5.5f),  (%5.5f,%5.5f)"),x1,y1,x2,y2);
-#endif  DEBUG_TO_PL_PRINT
+#endif  DEBUG_TO_PL_PRINT_POINTMAP
 			ytemp = y2;
 			if(isDistGreater(x1,y1,x2,y2,dist))  
 			{
@@ -344,7 +344,9 @@ SAttachData::init(const AcGePoint3d& pt,const AcDbEntity* pEnt)
 void
 SAttachData::print()
 {
+#ifdef DEBUG_TO_PL_PRINT_POINTMAP
 	acutPrintf(_T("\n(%15f,%15f)"),m_pt3d.x,m_pt3d.y);
+#endif
 }
 
 
@@ -549,7 +551,7 @@ CPointMap::setDotNum(IN const int nDotNum)
 void
 CPointMap::print()
 {
-#ifdef DEBUG_TO_PL_PRINT	 
+#ifdef DEBUG_TO_PL_PRINT_POINTMAP	 
 	map<double,SXData,dblcmp>::iterator itr = m_mapXcoord.begin();
 	for(; itr != m_mapXcoord.end(); itr++)
 	{
@@ -612,7 +614,9 @@ CPointMap::printPointPairs(IN vector<pair<void*,void*>>& vPointPairs)
 	vector<pair<void*,void*>>::iterator itr = vPointPairs.begin();
 	for(; itr != vPointPairs.end(); itr++)
 	{
+#ifdef DEBUG_TO_PL_PRINT_POINTMAP
 		acutPrintf(_T("\n point pair -----"));   
+#endif DEBUG_TO_PL_PRINT_POINTMAP
 		if((void*)(itr->first) != NULL)
 		{
 			pAtt = ((SAttachData*)(itr->first));    
@@ -736,13 +740,13 @@ testPointMapClass()
 	testAcPoint.set(adsPoint[0],adsPoint[1],adsPoint[2]);
 	if(objPtMap.find(testAcPoint,ptIndex))
 	{
-		#ifdef DEBUG_TO_PL_PRINT
+		#ifdef DEBUG_TO_PL_PRINT_POINTMAP
 		acutPrintf(_T("\nfind it(%f,%f,%f)%d!"),adsPoint[0],adsPoint[1],adsPoint[2],ptIndex);  
 		#endif
 	}
 	else
 	{
-		#ifdef DEBUG_TO_PL_PRINT
+		#ifdef DEBUG_TO_PL_PRINT_POINTMAP
 		acutPrintf(_T("\n not find it(%f,%f,%f)!"),adsPoint[0],adsPoint[1],adsPoint[2]);
 		#endif
 	}

@@ -56,7 +56,7 @@ eg： Date:	Author: 	Modification:
 #include "basefunc.h"
 #include "pointMap.h"
 
-#define  DEBUG_TO_PL_PRINT
+//#define  DEBUG_TO_PL_PRINT
 
 //#pragma comment("rxapi.lib")
 void to_polylines(void);
@@ -419,10 +419,10 @@ private:
 2017-11-17 开发问题备忘录：
 1-坐标点相等判定方法：
 1.1 equal函数的误差值取得；
-1.2 equal运用，需要统一使用一个误差值；
+1.2 equal运用，需要统一使用一个误差值；六位小数；
 1.3 误差值要考虑图形大小及位置;
 
-2。实体集选择函数要重新整理；
+2。实体集选择函数要重新整理；                
 
 3.  轮廓线关系检查：1.相交；2.缺口；此为预先处理;
 3.1 提示用户修改;

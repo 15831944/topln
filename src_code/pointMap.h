@@ -58,7 +58,7 @@ eg： Date:	Author: 	Modification:
 
 using namespace std;
 
-#define  DEBUG_TO_PL_PRINT
+#define  DEBUG_TO_PL_PRINT_POINTMAP
 void testPointMapClass();
 //定义一个误差值； 比较俩double时用;
 //.....;
