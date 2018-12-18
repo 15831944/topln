@@ -362,7 +362,7 @@ public:
 	
 private:
 	int insertVertex(IN AcGePoint3d &pt);     //向图中插入一个顶点;    
-	void insertEdge(CEdge* pedge);    //向图中插入一条边;   
+	void insertEdge(CEdge* pedge);    //向图中插入一条边;
 	int delVertex(int v);  //删除图中一个顶点(即相关边也要删除);     
 	bool delEdge(CEdge* pedge);   //删除图中一条边;  
 
@@ -392,7 +392,7 @@ private:
 	//深度遍历不用递归方式，而是用栈结构，使用循环来遍历;   
 	//index是某个顶点序号；若图是联通的，只遍历一次;  
 	void  DFS(int index);    //深度遍历，获取边表; 
-	void DFS2(int iIndex);  //因为所有顶点只有1-2度，所以只提取边表，不需要做深度遍历；
+	void DFS2(int iIndex);  //因为所有顶点只有1-2度，所以只提取边表，不需要做深度遍历； 
 	//测试；
 	void testDFS3(IN int iIndex);  //遍历图，输出边表; 仅仅测试用;  
 	void DFS3();  //调用testDFS3，完成图遍历;测试；
@@ -401,13 +401,13 @@ private:
 	void prsDotNumAndTol();  //分析点坐标小数位数量、获取误差值;
 
 	//测试函数；打印边的信息；
-	void static printEdgeInfo(CEdge* pEdge);
-};
+	void static printEdgeInfo(CEdge* pEdge);    
+};   
+  
 
-
-//在DFS过程中，stack保存了路径，1.若有回路路径，则需要提取；
-//提取回路后，保存在stack中，然后做成闭合多一线；
-//2.若不是回路，也将其连接成飞闭合多一线；
+//在DFS过程中，stack保存了路径，1.若有回路路径，则需要提取；  
+//提取回路后，保存在stack中，然后做成闭合多一线；   
+//2.若不是回路，也将其连接成飞闭合多一线；   
 
 #endif  //ZHOUHUAGANG_20160612_TO_PL_DOT_H
 
