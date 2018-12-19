@@ -141,7 +141,7 @@ public:
 	void justExtractEdgesLink(OUT vector<vector<CEdge*>> & pEdgesLinks);
 
 	//提取路径后，第一条路径和最后一条路径“可能”要合并才行；
-	bool isEdgeLeftAfterLoopsExtacted(const CEdge* pEdge);  //判断一条边在提取环后，是否为空边;
+	bool isEdgeLeftAfterLoopsExtacted(const CEdge* pEdge);  //判断一条边在提取环后，是否为空边;  
 	bool isFirstAndLastEdgeLinked();  //判断此arclink的头边和尾边是否连续（提取重叠边后）;
 	bool getStartPointIndex(OUT int& iIndex); //获取起点的序号; 如果没有起点（环形），则返回-1;
 	bool getEndPointIndex(OUT int& iIndex);
