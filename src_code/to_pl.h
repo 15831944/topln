@@ -129,7 +129,7 @@ public:
 	int pop_index();
 	void push_back(IN int index); 
 	int sizeOfEdges();
-	void clear();  //清空;
+	void clear();  //清空;  
 	
 	//整理回路：回路不是完整回路，可能带有尾巴；需要将多余边去掉，剩下的是完整回路；
 	//尾巴是由DFS深度遍历造成的；
@@ -143,8 +143,8 @@ public:
 	//提取路径后，第一条路径和最后一条路径“可能”要合并才行；
 	bool isEdgeLeftAfterLoopsExtacted(const CEdge* pEdge);  //判断一条边在提取环后，是否为空边;  
 	bool isFirstAndLastEdgeLinked();  //判断此arclink的头边和尾边是否连续（提取重叠边后）;
-	bool getStartPointIndex(OUT int& iIndex); //获取起点的序号; 如果没有起点（环形），则返回-1;
-	bool getEndPointIndex(OUT int& iIndex);
+	bool getStartPointIndex(OUT int& iIndex); //获取起点的序号; 如果没有起点（环形），则返回-1;   
+	bool getEndPointIndex(OUT int& iIndex);    
 	bool mergeFirstAndLastLink(vector<vector<CEdge*>> & pEdgesLinks); //如果arclink闭合，且第一段和最后一段是相邻的，则合并第一个段和最后一段，成为一个段；
 	
 
@@ -305,9 +305,11 @@ public:
 
 
 
+//=================
 //根据实体集合确定最外框线及框线坐标，根据坐标数值级别，估算;   
 //点坐标相等的误差值；
-//
+//思路不正确？无用做法；
+//=================
 class CGetPointEqualAcGeTol
 {
 private:
