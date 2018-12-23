@@ -3077,7 +3077,7 @@ CGraphEnts::chopEdgeLinks()
 //对某个顶点进行判断，若度数大于2，则拆分;
 //拆分后每个顶点只允许度数为2;
 //拆分方法：
-//1.没隔2条边拆分一次；
+//1.每隔2条边拆分一次；
 //2.每拆分一次，剩余边链表必须即时更新顶点，每条边的重叠边也要即时更新;
 void 
 CGraphEnts::chopVertex(IN const int iIndex)
