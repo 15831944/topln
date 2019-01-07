@@ -400,12 +400,12 @@ private:
 	void DFS3();  //调用testDFS3，完成图遍历;测试；
 	
 private:
-	void prsDotNumAndTol();  //分析点坐标小数位数量、获取误差值;
+	void prsDotNumAndTol();  //分析点坐标小数位数量、获取误差值;   
 
 	//测试函数；打印边的信息；
 	void static printEdgeInfo(CEdge* pEdge);    
 };   
-  
+
 
 //在DFS过程中，stack保存了路径，1.若有回路路径，则需要提取；  
 //提取回路后，保存在stack中，然后做成闭合多一线；   
