@@ -3258,10 +3258,10 @@ CGraphEnts::to_polyline(IN ads_name ssUsr)
 
 	m_allLoops.correctByRealEdges(); //仅仅提取边表;
 
-	////输出用来生成多义线的路径（已经调整好的路径）;
-	m_allLoops.testm_edgeLinkArrayToPolyline();
+	////输出用来生成多义线的路径（已经调整好的路径）;  
+	m_allLoops.testm_edgeLinkArrayToPolyline();  
 
-	m_allLoops.toPolylines();
+	m_allLoops.toPolylines();   
 }
 
 //=============以上为图类========================================end======
