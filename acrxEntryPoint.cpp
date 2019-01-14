@@ -64,7 +64,7 @@ def_cmdfun cmdFunTbl[] =
 	{_T("testmap"), testPointMapClass, ACRX_CMD_MODAL},   //test point map 
 	{_T("xgap"), mendGapBtwPointPairDlg, ACRX_CMD_MODAL},   //调用对话框，对话框调用point-pair gap修补功能;
 	{_T("ofstpl"), ofstPline, ACRX_CMD_MODAL},   //offset the polyline closed; 
-	{_T("plccw"), testIfCCWPline, ACRX_CMD_MODAL},   //test polyline ccw,givn up.
+	{_T("plccw"), testIfCCWPline, ACRX_CMD_MODAL},   //test polyline ccw,givn up.   
 	{_T("isplccw"), testPlineCCW, ACRX_CMD_MODAL},   //test polyline ccw,new,effect;
 	{_T("drects"), drawrects, ACRX_CMD_MODAL},   //draw rects;  特别针对从wintop软件出来的小方格；wintop：完成jpg到矢量图形转换;
 	{_T("ra"), createNewLayer, ACRX_CMD_MODAL},   //create new layer;   

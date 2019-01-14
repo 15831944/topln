@@ -35,7 +35,6 @@ private:
 public:
 	afx_msg void OnBnClickedButtonRun();   
 
-
 	//models defined by users;
 private:
 	void getInputGapVal();
