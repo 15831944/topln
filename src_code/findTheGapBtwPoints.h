@@ -89,7 +89,7 @@ public:
 	//void getPickSet(ads_name ss);    //提示用户选取实体集;   
 	void getPointPair(OUT vector<pair<void*,void*>>&  vPointPairs);  	
 	void addOneLine(const AcGePoint3d pt1,const AcGePoint3d pt2);  //connect the gap;    
-	void addAllLine();  //全部连接起来; 
+	void addAllLine();  //全部连接起来;  
 	void zoomArea(const AcGePoint3d pt1,const AcGePoint3d pt2);  //zoom by two points;   
 
 private:

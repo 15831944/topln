@@ -169,7 +169,7 @@ private:
 	vector<AcDbPolyline*> m_vecPolylines;  //最终生成的多义线。	
 public:
 	CArcLinkArray();  //构造函数; 
-	~CArcLinkArray();
+	~CArcLinkArray(); 
 
 public:	
 	bool push_back(CArcLink edgesLink);  //纳入;

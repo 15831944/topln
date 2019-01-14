@@ -224,7 +224,7 @@ CFindGapBtwPoints::parsePointPairs()
 	//检测实体数量;  
 	ads_name ssUnit; //单个实体;  
 	long nLen = 0; 
-	if(RTNORM != acedSSLength(m_ssall,&nLen))
+	if(RTNORM != acedSSLength(m_ssall,&nLen))   
 	{
 		return;
 	}
