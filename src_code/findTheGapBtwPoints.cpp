@@ -253,6 +253,8 @@ CFindGapBtwPoints::parsePointPairs()
 
 	//获取最近点对;
 	m_pointsMap.findPointPairs(m_dist,m_vPointPairs);  
+	//print
+	m_pointsMap.printPointPairs(m_vPointPairs);
 	
 	//return; 
 }

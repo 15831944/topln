@@ -37,7 +37,7 @@
 			Name="Debug|x64"
 			>
 			<DebugSettings
-				Command=""
+				Command="C:\Program Files\AutoCAD 2010\acad.exe"
 				WorkingDirectory=""
 				CommandArguments=""
 				Attach="false"
