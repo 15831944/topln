@@ -82,7 +82,7 @@ void findDistDlg::OnBnClickedButtonRun()
 {
 	// TODO: 在此添加控件通知处理程序代码   
 	//检查用户输入的dist值是否合法   
-	UpdateData(TRUE);
+	UpdateData(TRUE);   
 
 	AcGeTol objtol;
 	double dbltmp = objtol.equalPoint();    
