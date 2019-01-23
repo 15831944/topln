@@ -193,7 +193,7 @@ CFindGapBtwPoints::inputMinDistByUser(IN const double minDist)
 {
 	AcGeTol objTol;
 	double tmpDist = objTol.equalPoint();
-	if(minDist <= tmpDist)
+	if(minDist >= tmpDist)
 	{
 		m_dist = minDist;
 		acutPrintf(_T("\n the min dist is too small,exit!"));

@@ -92,6 +92,7 @@ SXData::print()
 {
 	#ifdef DEBUG_TO_PL_PRINT_POINTMAP
 
+	acutPrintf(_T("\nSXData..print()-----"));
 	map<double,SYData,dblcmp>::iterator itr = m_pPointMap.begin();
 	AcGePoint3d pt;
 	SYData stY;
@@ -99,6 +100,7 @@ SXData::print()
 	{
 		acutPrintf(_T("\n(%15f,%15f)%d"),itr->second.pt.x,itr->second.pt.y,itr->second.m_PointIndex);
 	}
+	acutPrintf(_T("\                -----nSXData..print()"));
 
 	#endif  DEBUG_TO_PL_PRINT_POINTMAP
 }
@@ -345,7 +347,9 @@ void
 SAttachData::print()
 {
 #ifdef DEBUG_TO_PL_PRINT_POINTMAP
+	acutPrintf(_T("\nSAttachData point-------"));
 	acutPrintf(_T("\n(%15f,%15f)"),m_pt3d.x,m_pt3d.y);
+	acutPrintf(_T("\n                 -------SAttachData point"));
 #endif
 }
 
@@ -636,6 +640,9 @@ CPointMap::printPointPairs(IN vector<pair<void*,void*>>& vPointPairs)
 		{
 			acutPrintf(_T("\n CPointMap::printPointPairs: null pointer"));
 		}
+#ifdef DEBUG_TO_PL_PRINT_POINTMAP
+		acutPrintf(_T("\n       -----"));   
+#endif DEBUG_TO_PL_PRINT_POINTMAP
 	}
 }
    

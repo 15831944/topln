@@ -117,16 +117,18 @@ void findDistDlg::OnBnClickedButtonRun()
 	//不过滤算了; 只有一种情况要过滤掉：点对属于同一条直线段;     
 
 	//打印点对;
-	int nlen = 0;
-	nlen = vAllPointPair.size();
-	pair<void*,void*> vpairTmp;
-	vector<pair<void*,void*>>::iterator itrPair = vAllPointPair.begin();  
-	for(; itrPair != vAllPointPair.end(); itrPair++)  
-	{
-		vpairTmp = (pair<void*,void*>)(*itrPair); 
-		((SAttachData*)(vpairTmp.first))->print(); 
-		((SAttachData*)(vpairTmp.second))->print(); 
-	}
+	//int nlen = 0;
+	//nlen = vAllPointPair.size();
+	//pair<void*,void*> vpairTmp;
+	//vector<pair<void*,void*>>::iterator itrPair = vAllPointPair.begin();  
+	//acutPrintf(_T("\nOnBnClickedButtonRun--------"));
+	//for(; itrPair != vAllPointPair.end(); itrPair++)  
+	//{
+	//	vpairTmp = (pair<void*,void*>)(*itrPair); 
+	//	((SAttachData*)(vpairTmp.first))->print(); 
+	//	((SAttachData*)(vpairTmp.second))->print(); 
+	//}
+	//acutPrintf(_T("\n--------OnBnClickedButtonRun")); 
 	//运行后让按钮enable;
 	/*CWnd* pWnd_help = GetDlgItem(IDC_BUTTON_Help);
 	CWnd* pWnd_btn_first = GetDlgItem(IDC_BUTTON_First);   
