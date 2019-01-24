@@ -9,12 +9,12 @@ void mendGapBtwPointPairDlg();
 
 // findDist 对话框
 
-class findDistDlg : public CDialog
+class findDistDlg : public CDialog   
 {
 	DECLARE_DYNAMIC(findDistDlg)  
 
 public:
-	findDistDlg(CWnd* pParent = NULL);   // 标准构造函数; 
+	findDistDlg(CWnd* pParent = NULL);   // 标准构造函数;   
 	virtual ~findDistDlg();
 
 // 对话框数据
