@@ -80,6 +80,8 @@ void findDistDlg::OnBnClickedButtonFirst()
 	{
 		return; 
 	}
+
+	//放大第一个点对;
 }
 
 //运行最小距离检查;
