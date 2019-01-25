@@ -42,6 +42,7 @@ IMPLEMENT_DYNAMIC(findDistDlg, CDialog)
 findDistDlg::findDistDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(findDistDlg::IDD, pParent), minDistByUserInput(0)
 {
+	m_vPointPairs.clear();  //empty it;
 }
 
 findDistDlg::~findDistDlg()
@@ -75,6 +76,10 @@ void findDistDlg::OnBnClickedButtonFirst()
 {
 	// TODO: 在此添加控件通知处理程序代码   
 	AfxMessageBox(_T("first button"),0,0);  
+	if(m_vPointPairs.size() == 0)
+	{
+		return; 
+	}
 }
 
 //运行最小距离检查;
@@ -107,11 +112,11 @@ void findDistDlg::OnBnClickedButtonRun()
 	objSel.usrSelect(ss); 
 
 	double dblMinDist;
-	vector<pair<void*,void*>> vAllPointPair;     
+	//vector<pair<void*,void*>> vAllPointPair;     
 	CFindGapBtwPoints objFindPointPairs;      
 	objFindPointPairs.inputMinDistByUser(minDistByUserInput); 
 	objFindPointPairs.inputAdsName(ss);   
-	objFindPointPairs.getPointPair(vAllPointPair);    
+	objFindPointPairs.getPointPair(m_vPointPairs);    
 
 	//点对过滤;
 	//不过滤算了; 只有一种情况要过滤掉：点对属于同一条直线段;     
