@@ -172,8 +172,31 @@ public:
 public:   
 	static double transByDotNum(IN const double xyVal,IN const int nDotNum); //对xy值进行过滤，保留指定位数的小数;    
 	static bool isEqual(IN const double d1,IN const double d2,IN const int m_nDotNum); //检查是否相等（在误差范围内);    
-};
+};  
 
+
+
+//=========================================
+//类COptOfPointPairs;
+//用来操作点对数据，比如：first，next，last;
+//=========================================
+class COptOfPointPairs
+{
+public:
+	//COptOfPointPairs();
+	COptOfPointPairs(IN vector<pair<void*,void*>>& vPointPairs):m_ptPair(vPointPairs){m_isItrInit = false};
+	~COptOfPointPairs();
+
+public:  
+	bool first(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1);
+	bool next(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1);
+	bool last(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1);
+
+private:
+	vector<pair<void*,void*>>::iterator m_itr; 
+	vector<pair<void*,void*>>& m_ptPair;
+	bool m_isItrInit; //指示迭代器是否已经初始化;
+};
 
 
 #endif  //ZHOUHUAGANG_20171201_POINTMAP_DOT_H

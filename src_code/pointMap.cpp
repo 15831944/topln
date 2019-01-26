@@ -645,8 +645,78 @@ CPointMap::printPointPairs(IN vector<pair<void*,void*>>& vPointPairs)
 #endif DEBUG_TO_PL_PRINT_POINTMAP
 	}
 }
+
+
+//=========================================
+//类COptOfPointPairs;
+//用来操作点对数据，比如：first，next，last;
+//=========================================
+//destructor
+COptOfPointPairs::~COptOfPointPairs
+{
+}
+
+
+//get the first point pair;
+bool
+COptOfPointPairs::first(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1)
+{
+	if(m_ptPair.size() == 0)
+	{
+		return false;
+	}
+	else
+	{
+		m_itr = m_ptPair.begin();
+		pt0 = ((SAttachData*)(m_itr->first))->m_pt3d;
+		pt1 = ((SAttachData*)(m_itr->second))->m_pt3d;
+		return true;
+	}
+}
    
 
+//get the next point pair;
+bool
+COptOfPointPairs::next(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1)
+{
+	if(m_itr != m_ptPair.end())
+	{
+		m_itr++;
+		pt0 = ((SAttachData*)(m_itr->first))->m_pt3d;
+		pt1 = ((SAttachData*)(m_itr->second))->m_pt3d;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+
+//get the last point pair
+bool
+COptOfPointPairs::last(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1)
+{
+	if(m_ptPair.empty())
+	{
+		return false;
+	}
+	else
+	{
+		if(m_itr != m_ptPair.end())
+		{
+			m_itr = m_ptPair.end();
+			m_itr--;
+		}
+	}
+	
+}
+
+
+//=========================================
+//执行函数，对应命令：testmap;
+//也是测试类pointMap函数;
+//=========================================
 //test point map class
 void
 testPointMapClass()  
