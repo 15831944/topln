@@ -100,7 +100,7 @@ SXData::print()
 	{
 		acutPrintf(_T("\n(%15f,%15f)%d"),itr->second.pt.x,itr->second.pt.y,itr->second.m_PointIndex);
 	}
-	acutPrintf(_T("\                -----nSXData..print()"));
+	acutPrintf(_T("\n                -----nSXData..print()"));
 
 	#endif  DEBUG_TO_PL_PRINT_POINTMAP
 }
@@ -652,7 +652,7 @@ CPointMap::printPointPairs(IN vector<pair<void*,void*>>& vPointPairs)
 //用来操作点对数据，比如：first，next，last;
 //=========================================
 //destructor
-COptOfPointPairs::~COptOfPointPairs
+COptOfPointPairs::~COptOfPointPairs()
 {
 }
 
@@ -663,6 +663,7 @@ COptOfPointPairs::first(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1)
 {
 	if(m_ptPair.size() == 0)
 	{
+		m_isItrInit = false;
 		return false;
 	}
 	else
@@ -670,6 +671,7 @@ COptOfPointPairs::first(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1)
 		m_itr = m_ptPair.begin();
 		pt0 = ((SAttachData*)(m_itr->first))->m_pt3d;
 		pt1 = ((SAttachData*)(m_itr->second))->m_pt3d;
+		m_isItrInit = true;
 		return true;
 	}
 }
@@ -679,17 +681,25 @@ COptOfPointPairs::first(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1)
 bool
 COptOfPointPairs::next(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1)
 {
-	if(m_itr != m_ptPair.end())
+	//先判断迭代器是否初始化;
+	if(m_isItrInit == true)
 	{
 		m_itr++;
-		pt0 = ((SAttachData*)(m_itr->first))->m_pt3d;
-		pt1 = ((SAttachData*)(m_itr->second))->m_pt3d;
-		return true;
+		if(m_itr != m_ptPair.end())   
+		{
+			pt0 = ((SAttachData*)(m_itr->first))->m_pt3d;
+			pt1 = ((SAttachData*)(m_itr->second))->m_pt3d;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	else
 	{
-		return false;
-	}
+		return first(pt0,pt1);
+	}	
 }
 
 

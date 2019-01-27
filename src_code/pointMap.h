@@ -184,7 +184,7 @@ class COptOfPointPairs
 {
 public:
 	//COptOfPointPairs();
-	COptOfPointPairs(IN vector<pair<void*,void*>>& vPointPairs):m_ptPair(vPointPairs){m_isItrInit = false};
+	COptOfPointPairs(IN vector<pair<void*,void*>>& vPointPairs):m_ptPair(vPointPairs){m_isItrInit = false;};
 	~COptOfPointPairs();
 
 public:  
