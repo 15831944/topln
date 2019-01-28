@@ -90,10 +90,14 @@ public:
 	void getPointPair(OUT vector<pair<void*,void*>>&  vPointPairs);  	
 	void addOneLine(const AcGePoint3d pt1,const AcGePoint3d pt2);  //connect the gap;    
 	void addAllLine();  //全部连接起来;  
-	void zoomArea(const AcGePoint3d pt1,const AcGePoint3d pt2);  //zoom by two points;   
+	void zoomArea(const AcGePoint3d pt1,const AcGePoint3d pt2);  //zoom by two points;  
+	bool fetchFirstPntPair();
+	bool fetchNextPntPair();   
+	bool fetchLastPntPair(); 
 
 private:
 	CPointMap m_pointsMap;  //存储点坐标; 
+	COptOfPointPairs m_optOfPntPairs;  //坐标点对遍历;     
 	ads_name m_ssall;  //用户选择的、过滤后的实体集合;    
 	AcDbEntity* m_pEnt; 
 	vector<pair<void*,void*>> m_vPointPairs;    //坐标点对;
