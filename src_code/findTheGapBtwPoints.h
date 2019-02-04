@@ -97,7 +97,7 @@ public:
 
 private:
 	CPointMap m_pointsMap;  //存储点坐标; 
-	COptOfPointPairs m_optOfPntPairs;  //坐标点对遍历;     
+	//COptOfPointPairs m_optOfPntPairs;  //坐标点对遍历;     
 	ads_name m_ssall;  //用户选择的、过滤后的实体集合;    
 	AcDbEntity* m_pEnt; 
 	vector<pair<void*,void*>> m_vPointPairs;    //坐标点对;

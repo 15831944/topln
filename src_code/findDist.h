@@ -31,6 +31,7 @@ public:
 private:
 	// 用户用户输入的最小距离值
 	double minDistByUserInput;
+	ads_name m_ss;  //用户选择的实体集;
 	vector<pair<void*,void*>>  m_vPointPairs; //查出来的小于某个距离的点对集合;	
 	CFindGapBtwPoints m_objFindMinGap; //查找符合距离要求的点对;   
 public:
