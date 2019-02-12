@@ -43,6 +43,10 @@ findDistDlg::findDistDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(findDistDlg::IDD, pParent), minDistByUserInput(0)
 {
 	m_vPointPairs.clear();  //empty it;
+	//选择实体集;
+	CSelectEnts objSel;
+	acdbNameClear(m_ss); //设置为nil;  
+	objSel.usrSelect(m_ss); 
 }
 
 findDistDlg::~findDistDlg()
@@ -107,17 +111,20 @@ void findDistDlg::OnBnClickedButtonRun()
 
 	
 	//查找点对;
-	//选择实体集; 
-	ads_name ss;
-	CSelectEnts objSel;
-	acdbNameClear(ss); //设置为nil;  
-	objSel.usrSelect(ss); 
+	//check the m_ss
+	long nlen = 0;
+	acedSSLength(m_ss,&nlen);
+	if(nlen <= 0)
+	{
+		return;
+	}
+
 
 	double dblMinDist;
 	//vector<pair<void*,void*>> vAllPointPair;     
 	CFindGapBtwPoints objFindPointPairs;      
 	objFindPointPairs.inputMinDistByUser(minDistByUserInput); 
-	objFindPointPairs.inputAdsName(ss);   
+	objFindPointPairs.inputAdsName(m_ss);   
 	objFindPointPairs.getPointPair(m_vPointPairs);    
 
 	//点对过滤;
