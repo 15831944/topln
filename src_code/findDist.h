@@ -3,6 +3,7 @@
 #include "..\resource.h"
 #include "afxwin.h"
 #include "findTheGapBtwPoints.h"
+#include "pointMap.h"
 
 //调用对话框;
 void mendGapBtwPointPairDlg();
@@ -33,7 +34,8 @@ private:
 	double minDistByUserInput;
 	ads_name m_ss;  //用户选择的实体集;
 	vector<pair<void*,void*>>  m_vPointPairs; //查出来的小于某个距离的点对集合;	
-	CFindGapBtwPoints m_objFindMinGap; //查找符合距离要求的点对;   
+	CFindGapBtwPoints m_objFindMinGap; //查找符合距离要求的点对;  
+	COptOfPointPairs m_optOfPtPair;
 public:
 	afx_msg void OnBnClickedButtonRun();   
 

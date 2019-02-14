@@ -651,6 +651,19 @@ CPointMap::printPointPairs(IN vector<pair<void*,void*>>& vPointPairs)
 //类COptOfPointPairs;
 //用来操作点对数据，比如：first，next，last;
 //=========================================
+//constructor
+COptOfPointPairs::COptOfPointPairs()
+{
+}
+
+
+//constructor
+COptOfPointPairs::COptOfPointPairs(IN vector<pair<void*,void*>>* vPointPairs)
+{
+	m_ptPair = vPointPairs;
+}
+
+
 //destructor
 COptOfPointPairs::~COptOfPointPairs()
 {
@@ -661,17 +674,17 @@ COptOfPointPairs::~COptOfPointPairs()
 bool
 COptOfPointPairs::first(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1)
 {
-	if(m_ptPair.size() == 0)
+	if(m_ptPair->size() <= 0)
 	{
 		m_isItrInit = false;
 		return false;
 	}
 	else
 	{
-		m_itr = m_ptPair.begin();
-		pt0 = ((SAttachData*)(m_itr->first))->m_pt3d;
-		pt1 = ((SAttachData*)(m_itr->second))->m_pt3d;
-		m_isItrInit = true;
+		m_itr = m_ptPair->begin();
+		pt0 = ((SAttachData*)(m_itr->first))->m_pt3d;  
+		pt1 = ((SAttachData*)(m_itr->second))->m_pt3d;  
+		m_isItrInit = true;  
 		return true;
 	}
 }
@@ -679,13 +692,13 @@ COptOfPointPairs::first(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1)
 
 //get the next point pair;
 bool
-COptOfPointPairs::next(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1)
+COptOfPointPairs::next(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1)  
 {
 	//先判断迭代器是否初始化;
 	if(m_isItrInit == true)
 	{
 		m_itr++;
-		if(m_itr != m_ptPair.end())   
+		if(m_itr != m_ptPair->end())   
 		{
 			pt0 = ((SAttachData*)(m_itr->first))->m_pt3d;
 			pt1 = ((SAttachData*)(m_itr->second))->m_pt3d;
@@ -707,26 +720,25 @@ COptOfPointPairs::next(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1)
 bool
 COptOfPointPairs::last(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1)
 {
-	if(m_ptPair.empty())
+	if(m_ptPair->empty())
 	{
 		return false;
 	}
 	else
 	{
-		if(m_itr != m_ptPair.end())
+		if(m_itr != m_ptPair->end())
 		{
-			m_itr = m_ptPair.end();
+			m_itr = m_ptPair->end();
 			m_itr--;
 		}
-	}
-	
+	}	
 }
 
 
 //=========================================
 //执行函数，对应命令：testmap;
 //也是测试类pointMap函数;
-//=========================================
+//========================================= 
 //test point map class
 void
 testPointMapClass()  

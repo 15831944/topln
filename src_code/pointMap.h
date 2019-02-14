@@ -184,18 +184,19 @@ class COptOfPointPairs
 {
 public:
 	//COptOfPointPairs();
-	COptOfPointPairs(IN vector<pair<void*,void*>>& vPointPairs):m_ptPair(vPointPairs){m_isItrInit = false;};
+	COptOfPointPairs();
+	COptOfPointPairs(IN vector<pair<void*,void*>>* vPointPairs);
 	~COptOfPointPairs();
 
 public:  
-	bool first(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1);
-	bool next(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1);
-	bool last(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1);
+	bool first(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1);  
+	bool next(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1);  
+	bool last(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1);  
 
 private:
 	vector<pair<void*,void*>>::iterator m_itr; 
-	vector<pair<void*,void*>>& m_ptPair;
-	bool m_isItrInit; //指示迭代器是否已经初始化;
+	vector<pair<void*,void*>>* m_ptPair;
+	bool m_isItrInit; //指示迭代器是否已经初始化; 
 };
 
 

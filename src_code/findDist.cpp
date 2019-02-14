@@ -79,7 +79,7 @@ void findDistDlg::OnBnClickedCancel()
 void findDistDlg::OnBnClickedButtonFirst()    
 {
 	// TODO: 在此添加控件通知处理程序代码   
-	AfxMessageBox(_T("first button"),0,0);  
+	//AfxMessageBox(_T("first button"),0,0);  
 	if(m_vPointPairs.size() == 0)
 	{
 		return; 
@@ -101,11 +101,11 @@ void findDistDlg::OnBnClickedButtonRun()
 	{
 		acutPrintf(_T("\nuser's input is %f"),minDistByUserInput);      
 		AfxMessageBox(_T("\n用户输入的距离值太小了..."),0,0);       
-		return;
+		//return;
 	}
 
-	int nResl = -1;
-	this->EndDialog(nResl);
+	//int nResl = -1;
+	//this->EndDialog(nResl);
 
 	acutPrintf(_T("\nuser's input is %f"),minDistByUserInput);   
 
@@ -156,7 +156,6 @@ void findDistDlg::OnBnClickedButtonRun()
 	pWnd_btn_conn->EnableWindow(true);
 	pWnd_btn_conn_next->EnableWindow(true);
 	pWnd_btn_conn_all->EnableWindow(true);*/
-
 }
 
 
