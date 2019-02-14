@@ -163,7 +163,6 @@ void
 findDistDlg::getInputGapVal()
 {
 	CWnd* pWndDistGap = GetDlgItem(IDC_EDIT_Max_dist);
-	;
 }
 
 

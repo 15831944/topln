@@ -189,6 +189,7 @@ public:
 	~COptOfPointPairs();
 
 public:  
+	bool inputPointPairs(IN vector<pair<void*,void*>>* vPointPairs);  // ‰»Îµ„∂‘;
 	bool first(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1);  
 	bool next(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1);  
 	bool last(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1);  

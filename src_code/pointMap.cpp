@@ -670,6 +670,13 @@ COptOfPointPairs::~COptOfPointPairs()
 }
 
 
+//input the point pairs parameters
+COptOfPointPairs::inputPointPairs(IN vector<pair<void*,void*>>* vPointPairs)
+{
+	m_ptPair = vPointPairs;
+}
+
+
 //get the first point pair;
 bool
 COptOfPointPairs::first(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1)
