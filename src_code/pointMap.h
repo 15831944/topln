@@ -198,6 +198,30 @@ private:
 	vector<pair<void*,void*>>::iterator m_itr; 
 	vector<pair<void*,void*>>* m_ptPair;
 	bool m_isItrInit; //指示迭代器是否已经初始化; 
+	bool m_isInitOk; //指示是否有效初始化了：点对是否有效;
+};
+
+
+
+
+//=========================================
+//类COptOfTwoPoints;
+//用来操作一个点对数据,比如：放大，缩小，连接;
+//=========================================
+class COptOfTwoPoints
+{
+public:
+	COptOfTwoPoints();
+	COptOfTwoPoints(IN const AcGePoint3d& pt0, IN const AcGePoint3d& pt1); 
+	~COptOfTwoPoints();
+
+public:
+	bool drawLine();
+	bool zoomThem();  //在电脑屏幕上放大这2点;
+	
+private:
+	AcGePoint3d m_ptStart;
+	AcGePoint3d m_ptEnd;
 };
 
 

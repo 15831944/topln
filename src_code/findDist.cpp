@@ -80,10 +80,10 @@ void findDistDlg::OnBnClickedButtonFirst()
 {
 	// TODO: 在此添加控件通知处理程序代码   
 	//AfxMessageBox(_T("first button"),0,0);  
-	if(m_vPointPairs.size() == 0)
-	{
-		return; 
-	}
+	bool bflag = false;
+	AcGePoint3d pt0;
+	AcGePoint3d pt1;
+	bflag = m_optOfPtPair.first(pt0,pt1);
 
 	//放大第一个点对;
 }
@@ -125,7 +125,13 @@ void findDistDlg::OnBnClickedButtonRun()
 	CFindGapBtwPoints objFindPointPairs;      
 	objFindPointPairs.inputMinDistByUser(minDistByUserInput); 
 	objFindPointPairs.inputAdsName(m_ss);   
-	objFindPointPairs.getPointPair(m_vPointPairs);    
+	objFindPointPairs.getPointPair(m_vPointPairs);   
+
+	//检测点对是否为空
+	if(m_vPointPairs.size() > 0)
+	{
+		m_optOfPtPair.inputPointPairs(&m_vPointPairs);
+	}
 
 	//点对过滤;
 	//不过滤算了; 只有一种情况要过滤掉：点对属于同一条直线段;     

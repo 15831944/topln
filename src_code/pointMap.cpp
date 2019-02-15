@@ -654,6 +654,8 @@ CPointMap::printPointPairs(IN vector<pair<void*,void*>>& vPointPairs)
 //constructor
 COptOfPointPairs::COptOfPointPairs()
 {
+	m_isInitOk = false;
+	m_isItrInit = false;
 }
 
 
@@ -661,6 +663,14 @@ COptOfPointPairs::COptOfPointPairs()
 COptOfPointPairs::COptOfPointPairs(IN vector<pair<void*,void*>>* vPointPairs)
 {
 	m_ptPair = vPointPairs;
+	if((m_ptPair != NULL) && m_ptPair->size() > 0)
+	{
+		m_isInitOk = true;
+	}
+	else
+	{
+		m_isInitOk = false;
+	}
 }
 
 
@@ -671,9 +681,20 @@ COptOfPointPairs::~COptOfPointPairs()
 
 
 //input the point pairs parameters
+bool
 COptOfPointPairs::inputPointPairs(IN vector<pair<void*,void*>>* vPointPairs)
 {
 	m_ptPair = vPointPairs;
+	if((m_ptPair != NULL) && m_ptPair->size() > 0)
+	{
+		m_isInitOk = true;
+		return true;
+	}
+	else
+	{
+		m_isInitOk = false;
+		return false;
+	}
 }
 
 
@@ -695,7 +716,7 @@ COptOfPointPairs::first(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1)
 		return true;
 	}
 }
-   
+
 
 //get the next point pair;
 bool
@@ -737,8 +758,43 @@ COptOfPointPairs::last(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1)
 		{
 			m_itr = m_ptPair->end();
 			m_itr--;
+			return true;
 		}
+		return false;
 	}	
+}
+
+
+
+
+//=========================================
+//类COptOfTwoPoints;
+//用来操作一个点对数据,比如：放大，缩小，连接;
+//=========================================
+COptOfTwoPoints::COptOfTwoPoints()
+{
+}
+
+//constructor
+COptOfTwoPoints::COptOfTwoPoints(IN const AcGePoint3d& pt0, IN const AcGePoint3d& pt1)
+{
+	;
+}
+
+
+//
+COptOfTwoPoints::~COptOfTwoPoints()
+{
+}
+
+
+//根据两点画线;
+bool
+COptOfTwoPoints::drawLine()
+{
+	AcDbLine* objLine = new AcDbLine(m_ptStart,m_ptEnd); 
+	join2database(objLine);
+	return true;
 }
 
 
