@@ -685,6 +685,20 @@ bool
 COptOfPointPairs::inputPointPairs(IN vector<pair<void*,void*>>* vPointPairs)
 {
 	m_ptPair = vPointPairs;
+	//以下为测试代码:测试m_ptPair是否有效;
+	//int nlen = 0;
+	//nlen = m_ptPair->size();
+	//pair<void*,void*> vpairTmp;
+	//vector<pair<void*,void*>>::iterator itrPair = m_ptPair->begin();  
+	//acutPrintf(_T("\nOnBnClickedButtonRun--------"));
+	//for(; itrPair != m_ptPair->end(); itrPair++)  
+	//{
+	//	vpairTmp = (pair<void*,void*>)(*itrPair); 
+	//	((SAttachData*)(vpairTmp.first))->print(); 
+	//	((SAttachData*)(vpairTmp.second))->print();  
+	//}
+	//以上为测试代码;
+
 	if((m_ptPair != NULL) && m_ptPair->size() > 0)
 	{
 		m_isInitOk = true;
@@ -694,7 +708,7 @@ COptOfPointPairs::inputPointPairs(IN vector<pair<void*,void*>>* vPointPairs)
 	{
 		m_isInitOk = false;
 		return false;
-	}
+	}	
 }
 
 
@@ -702,16 +716,29 @@ COptOfPointPairs::inputPointPairs(IN vector<pair<void*,void*>>* vPointPairs)
 bool
 COptOfPointPairs::first(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1)
 {
-	if(m_ptPair->size() <= 0)
+	double x = 0;
+	double y= 0;
+	double z= 0;
+	if(m_ptPair->size() <= 0)   
 	{
-		m_isItrInit = false;
-		return false;
+		m_isItrInit = false; 
+		return false; 
 	}
 	else
 	{
 		m_itr = m_ptPair->begin();
-		pt0 = ((SAttachData*)(m_itr->first))->m_pt3d;  
-		pt1 = ((SAttachData*)(m_itr->second))->m_pt3d;  
+		((SAttachData*)(m_itr->first))->print();
+		((SAttachData*)(m_itr->second))->print();
+
+		x = (((SAttachData*)(m_itr->first))->m_pt3d).x;
+		y = (((SAttachData*)(m_itr->first))->m_pt3d).y;
+		z = (((SAttachData*)(m_itr->first))->m_pt3d).z; 
+		pt0.set(x,y,z);
+			  
+		x = (((SAttachData*)(m_itr->second))->m_pt3d).x;
+		y = (((SAttachData*)(m_itr->second))->m_pt3d).y;
+		z = (((SAttachData*)(m_itr->second))->m_pt3d).z;
+		pt1.set(x,y,z);
 		m_isItrInit = true;  
 		return true;
 	}
@@ -794,6 +821,29 @@ COptOfTwoPoints::drawLine()
 {
 	AcDbLine* objLine = new AcDbLine(m_ptStart,m_ptEnd); 
 	join2database(objLine);
+	return true;
+}
+
+
+//以两个点为范围放大视野
+bool
+COptOfTwoPoints::zoomThem()
+{
+	ads_point pt0;
+	ads_point pt1;
+	pt0[0] = m_ptStart.x;
+	pt0[1] = m_ptStart.y;
+	pt0[2] = m_ptStart.z;
+	pt1[0] = m_ptEnd.x;
+	pt1[1] = m_ptEnd.y;
+	pt1[2] = m_ptEnd.z;
+	//pt0[0] = 1;
+	//pt0[1] = 1;
+	//pt0[2] = 0;
+	//pt1[0] = 2;
+	//pt1[1] = 2;
+	//pt1[2] = 2;
+	acedCommand(RTSTR,_T("zoom"),RTSTR,_T("W"),RT3DPOINT,pt0,RT3DPOINT,pt1,0);  
 	return true;
 }
 

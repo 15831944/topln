@@ -189,7 +189,7 @@ public:
 	~COptOfPointPairs();
 
 public:  
-	bool inputPointPairs(IN vector<pair<void*,void*>>* vPointPairs);  //输入点对;
+	bool inputPointPairs(IN vector<pair<void*,void*>>* vPointPairs);  //输入点对;  
 	bool first(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1);  
 	bool next(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1);  
 	bool last(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1);  
@@ -198,7 +198,7 @@ private:
 	vector<pair<void*,void*>>::iterator m_itr; 
 	vector<pair<void*,void*>>* m_ptPair;
 	bool m_isItrInit; //指示迭代器是否已经初始化; 
-	bool m_isInitOk; //指示是否有效初始化了：点对是否有效;
+	bool m_isInitOk; //指示是否有效初始化了：点对是否有效;  
 };
 
 

@@ -86,6 +86,8 @@ void findDistDlg::OnBnClickedButtonFirst()
 	bflag = m_optOfPtPair.first(pt0,pt1);
 
 	//放大第一个点对;
+	COptOfTwoPoints objOptTwoPts(pt0,pt1);  
+	objOptTwoPts.zoomThem();
 }
 
 //运行最小距离检查;
@@ -130,23 +132,23 @@ void findDistDlg::OnBnClickedButtonRun()
 	//检测点对是否为空
 	if(m_vPointPairs.size() > 0)
 	{
-		m_optOfPtPair.inputPointPairs(&m_vPointPairs);
+		m_optOfPtPair.inputPointPairs(&m_vPointPairs);  
 	}
 
 	//点对过滤;
 	//不过滤算了; 只有一种情况要过滤掉：点对属于同一条直线段;     
 
 	//打印点对;
-	//int nlen = 0;
-	//nlen = vAllPointPair.size();
+	//nlen = 0;
+	//nlen = m_vPointPairs.size();
 	//pair<void*,void*> vpairTmp;
-	//vector<pair<void*,void*>>::iterator itrPair = vAllPointPair.begin();  
+	//vector<pair<void*,void*>>::iterator itrPair = m_vPointPairs.begin();  
 	//acutPrintf(_T("\nOnBnClickedButtonRun--------"));
-	//for(; itrPair != vAllPointPair.end(); itrPair++)  
+	//for(; itrPair != m_vPointPairs.end(); itrPair++)  
 	//{
 	//	vpairTmp = (pair<void*,void*>)(*itrPair); 
 	//	((SAttachData*)(vpairTmp.first))->print(); 
-	//	((SAttachData*)(vpairTmp.second))->print(); 
+	//	((SAttachData*)(vpairTmp.second))->print();  
 	//}
 	//acutPrintf(_T("\n--------OnBnClickedButtonRun")); 
 	//运行后让按钮enable;
