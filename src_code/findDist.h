@@ -44,6 +44,8 @@ private:
 	//models defined by users;  
 private:
 	void getInputGapVal();  
+public:
+	afx_msg void OnBnClickedButtonNext();
 }; 
 
 

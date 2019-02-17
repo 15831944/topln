@@ -755,6 +755,8 @@ COptOfPointPairs::next(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1)
 		m_itr++;
 		if(m_itr != m_ptPair->end())   
 		{
+			((SAttachData*)(m_itr->first))->print();
+			((SAttachData*)(m_itr->second))->print();
 			pt0 = ((SAttachData*)(m_itr->first))->m_pt3d;
 			pt1 = ((SAttachData*)(m_itr->second))->m_pt3d;
 			return true;

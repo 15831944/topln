@@ -65,6 +65,7 @@ BEGIN_MESSAGE_MAP(findDistDlg, CDialog)
 	ON_BN_CLICKED(IDCANCEL, &findDistDlg::OnBnClickedCancel)
 	ON_BN_CLICKED(IDC_BUTTON_First, &findDistDlg::OnBnClickedButtonFirst)   
 	ON_BN_CLICKED(IDC_BUTTON_RUN, &findDistDlg::OnBnClickedButtonRun)  
+	ON_BN_CLICKED(IDC_BUTTON_NEXT, &findDistDlg::OnBnClickedButtonNext)
 END_MESSAGE_MAP()
 
 
@@ -167,6 +168,19 @@ void findDistDlg::OnBnClickedButtonRun()
 }
 
 
+void findDistDlg::OnBnClickedButtonNext()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	bool bflag = false;
+	AcGePoint3d pt0;
+	AcGePoint3d pt1;
+	bflag = m_optOfPtPair.next(pt0,pt1);
+
+	//放大第一个点对;
+	COptOfTwoPoints objOptTwoPts(pt0,pt1);  
+	objOptTwoPts.zoomThem();
+}
+
 void
 findDistDlg::getInputGapVal()
 {
@@ -186,3 +200,5 @@ mendGapBtwPointPairDlg()
 	findDistDlg myDialog;
 	myDialog.DoModal();
 };
+
+
