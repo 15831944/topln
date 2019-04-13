@@ -850,6 +850,22 @@ COptOfTwoPoints::zoomThem()
 }
 
 
+
+//=========================================
+//执行函数，对应命令：test001;
+//测试类pointMap函数;
+//========================================= 
+//测试COptOfTwoPoints
+void testCOptOfTwoPnts::testCOptOfTwoPoints()
+	{
+		AcGePoint3d pt1(1.0,1.0,0);
+		AcGePoint3d pt2(5,5,0);
+		COptOfTwoPoints objOpt(pt1,pt2);
+		objOpt.drawLine();
+	}	
+
+
+
 //=========================================
 //执行函数，对应命令：testmap;
 //也是测试类pointMap函数;

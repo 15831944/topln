@@ -55,8 +55,14 @@ eg£º Date:	Author: 	Modification:
 #include "basefunc.h"
 //#include "findDist.h"
 
-
 using namespace std;
+
+namespace testCOptOfTwoPnts
+{
+	void testCOptOfTwoPoints();
+}
+//void testOptOfTwoPoints();
+
 
 #define  DEBUG_TO_PL_PRINT_POINTMAP
 void testPointMapClass();
@@ -223,6 +229,7 @@ private:
 	AcGePoint3d m_ptStart;
 	AcGePoint3d m_ptEnd;
 };
+
 
 
 #endif  //ZHOUHUAGANG_20171201_POINTMAP_DOT_H
