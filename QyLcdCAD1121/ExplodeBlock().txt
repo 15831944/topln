@@ -1,0 +1,38 @@
+void ExplodeBlock()
+{
+	struct resbuf eb1;
+	ads_name BlockSS;
+	eb1.restype = 0;
+	eb1.resval.rstring = "INSERT";
+	eb1.rbnext = NULL;
+	if(acedSSGet("X",NULL,NULL,&eb1,BlockSS) != RTNORM) 
+	{
+		acutPrintf("\n没有块被引用!");
+	}
+	else
+	{
+		long len=0;
+		acedSSLength(BlockSS,&len);
+		long i=0;
+	//	ads_name e;
+		for(;i<len;i++) acedCommand(RTSTR,"explode",RTSTR,"all",RTSTR,"",0);
+	/*	{
+			acedSSName(BlockSS,i,e);		
+			AcDbObjectId id;
+			acdbGetObjectId(id,e);
+			AcDbEntity *pent;
+			acdbOpenAcDbEntity(pent,id,AcDb::kForWrite);
+			AcDbBlockReference *pBlock;
+			pBlock = (AcDbBlockReference *)pent;
+			AcDbVoidPtrArray ExplodeBlock;
+			if(pBlock->explode(ExplodeBlock) == Acad::eOk) acutPrintf("\n块被打破!");
+			int len1 = ExplodeBlock.length();
+	 		acutPrintf("\n图形中心坐标: %d",len1);
+	//		for(int j=0;j<len1;j++) Join2Database((AcDbEntity *)ExplodeBlock.at(j));
+			pBlock->erase();
+			pBlock->close();
+			pent->close();
+		}*/
+	}
+	acedSSFree(BlockSS);
+}

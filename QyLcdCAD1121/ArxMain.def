@@ -1,0 +1,5 @@
+DESCRIPTION  'LCD图形处理软件'
+LIBRARY    LCDCAD
+EXPORTS
+           acrxEntryPoint       PRIVATE
+		   acrxGetApiVersion    PRIVATE

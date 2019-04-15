@@ -1,0 +1,34 @@
+
+//已知两点及半径，求出拱度
+double GetBulge(ads_point pointA,ads_point pointB,double radius,bool IsBigArc)
+{
+	double bowLen = sqrt(pow((pointA[0] - pointB[0]),2) + pow((pointA[1] - pointB[1]),2)) / 2.0;
+	double bowHigh;
+	if(IsBigArc) bowHigh  = radius + sqrt(pow(radius,2) - pow(bowLen,2));
+	else		 bowHigh  = radius - sqrt(pow(radius,2) - pow(bowLen,2));
+	return (bowHigh / bowLen);
+}
+
+
+//已知两点及半径，求出弧的拱度
+double GetBulge(ads_point pointA,AcGePoint3d pointB,double radius,bool IsBigArc)
+{
+	double bowLen = sqrt(pow((pointA[0] - pointB.x),2)
+					   + pow((pointA[1] - pointB.y),2)) / 2.0;
+	double bowHigh;
+	if(IsBigArc) bowHigh  = radius + sqrt(pow(radius,2) - pow(bowLen,2));
+	else		 bowHigh  = radius - sqrt(pow(radius,2) - pow(bowLen,2));
+	return (bowHigh / bowLen);
+}
+
+
+//已知两点及半径，求出弧的拱度
+double GetBulge(AcGePoint3d pointA,AcGePoint3d pointB,double radius,bool IsBigArc)
+{
+	double bowLen = sqrt(pow((pointA.x - pointB.x),2)
+					   + pow((pointA.y - pointB.y),2)) / 2.0;
+	double bowHigh;
+	if(IsBigArc) bowHigh  = radius + sqrt(pow(radius,2) - pow(bowLen,2));
+	else		 bowHigh  = radius - sqrt(pow(radius,2) - pow(bowLen,2));
+	return (bowHigh / bowLen);
+}
