@@ -857,12 +857,12 @@ COptOfTwoPoints::zoomThem()
 //========================================= 
 //≤‚ ‘COptOfTwoPoints
 void testCOptOfTwoPnts::testCOptOfTwoPoints()
-	{
-		AcGePoint3d pt1(1.0,1.0,0);
-		AcGePoint3d pt2(5,5,0);
-		COptOfTwoPoints objOpt(pt1,pt2);
-		objOpt.drawLine();
-	}	
+{
+	AcGePoint3d pt1(1.0,1.0,0);
+	AcGePoint3d pt2(5,5,0);
+	COptOfTwoPoints objOpt(pt1,pt2);
+	objOpt.drawLine();
+}	
 
 
 
