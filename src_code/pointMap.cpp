@@ -961,9 +961,8 @@ testPointMapClass()
 
 	//≤‚ ‘—∞’““ª∏ˆµ„;
 	//objTimesElpased.~CTimeElapse();
-	ads_point adsPoint;    
-	
-	acedGetPoint(NULL,_T("\nPlease select a point:"),adsPoint);
+	ads_point adsPoint;    	
+	acedGetPoint(NULL,_T("\nPlease select a point:"),adsPoint);   
 	int ptIndex = -1;
 	CTimeElapse objTm002;
 	AcGePoint3d testAcPoint;
@@ -977,7 +976,7 @@ testPointMapClass()
 	else
 	{
 		#ifdef DEBUG_TO_PL_PRINT_POINTMAP
-		acutPrintf(_T("\n not find it(%f,%f,%f)!"),adsPoint[0],adsPoint[1],adsPoint[2]);
+		acutPrintf(_T("\n not find it(%f,%f,%f)!"),adsPoint[0],adsPoint[1],adsPoint[2]);   
 		#endif
 	}
 
