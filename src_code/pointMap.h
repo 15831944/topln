@@ -1,5 +1,5 @@
 /*************************************************************************
-Copyright (C), 2017-12-1, shiyuan procision maskmaking. Co., Ltd.
+Copyright (C), 2017-12-1, shiyuan precision maskmaking. Co., Ltd.
 FileName: pointMap.h
 Author: 
 Version:
