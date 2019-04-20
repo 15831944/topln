@@ -501,6 +501,7 @@ CPointMap::erase(IN const AcGePoint3d pt)
 }
 
 
+//ptIndex:点的序号;
 //查找：查找2次，第一次查x，第二次查y;
 //因为key是double类型，所以不能依靠等于运算来查找，应该依靠upper_bound和lower_bound;-内部实现;
 //返回：true-找到了;false-没找到;
