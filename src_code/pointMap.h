@@ -76,7 +76,7 @@ void testPointMapClass();
 //3）测试i是否大于j：如果1）和2）都不成立，就大于了;
 struct dblcmp
 {
-	bool operator()(const double i,const double j) const
+	bool operator()(const double i,const double j) const 
 	{
 		return (i < j && abs(i - j) > 0.000001);  
 	}
