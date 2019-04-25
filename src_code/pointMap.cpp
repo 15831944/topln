@@ -893,7 +893,7 @@ testPointMapClass()
 	objPtMap.setDotNum(6);
 	AcGePoint3d pt;
 	SAttachData* objData;  //附加数据;
-	vector<SAttachData*> dataPtrVec; //收集之，用来释放动态分配的内存;
+	vector<SAttachData*> dataPtrVec; //收集之，用来释放动态分配的内存; 
 	for(long i = 0; i < nNumSS; i++)  
 	{
 		acedSSName(ss,i,ssUnit);
