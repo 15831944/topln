@@ -168,12 +168,22 @@ public:
 	void print();    //打印出map的点;   
 	//bool printMap();  //打印出map的点;   
 
+	//寻找小于一个距离的点对集合
 public:
 	//以下为二期函数，用void* m_dataVoidPtr来扩展附加数据;更有扩展性;       
 	//void insert(IN const double xc,IN const double yc,IN void* voidPtr);      
 	//bool find(IN const double xc,IN const double yc,OUT void* voidPtr);     
 	void findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& vPointPairs);   //发现距离小于dist的点对;  
 	void printPointPairs(IN vector<pair<void*,void*>>& vPointPairs);  //打印点对;    
+private:
+	bool findFirstXmap();
+	bool findNextXmap(); //
+private:
+	map<double,SXData,dblcmp>::iterator itrSXData;   
+	map<double,SYData,dblcmp>::iterator itrSYData;   
+	AcGePoint3d m_curPnt; //当前正在比较的点;
+	double m_curPntXc;    //当前正在比较的点的x坐标;  
+	double m_curPntYc;    //当前正在比较的点的y坐标; 
 
 public:   
 	static double transByDotNum(IN const double xyVal,IN const int nDotNum); //对xy值进行过滤，保留指定位数的小数;    
@@ -224,6 +234,7 @@ public:
 public:
 	bool drawLine();
 	bool zoomThem();  //在电脑屏幕上放大这2点;
+	//bool isEqual(IN const double d1,IN const double d2,IN const int m_nDotNum);
 	
 private:
 	AcGePoint3d m_ptStart;

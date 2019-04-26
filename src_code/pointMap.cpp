@@ -881,7 +881,7 @@ testPointMapClass()
 	{
 		return;
 	}
-	CTimeElapse objTimesElpased;
+	CTimeElapse objTimesElpased;  
 	
 	long nNumSS = 0;
 	acedSSLength(ss,&nNumSS);   
@@ -915,7 +915,7 @@ testPointMapClass()
 			objPtMap.insert(pLine->endPoint(),i,objData);      
 			pEnt->close();   
 		}
-		else if(pEnt->isA() == AcDbPolyline::desc())
+		else if(pEnt->isA() == AcDbPolyline::desc())   
 		{
 			objData = new SAttachData;
 			dataPtrVec.push_back(objData);  
@@ -941,7 +941,7 @@ testPointMapClass()
 			AcGePoint3d pts; 
 			CSomePublicFun objFuns;
 			AcDbArc* pArc = (AcDbArc*)pEnt;
-			objFuns.getArcEndPoints(pArc,pts,pte);
+			objFuns.getArcEndPoints(pArc,pts,pte);  
 			
 			objData = new SAttachData;
 			dataPtrVec.push_back(objData);  			
