@@ -182,7 +182,7 @@ private:
 private:
 	map<double,SXData,dblcmp>::iterator m_itrSXData;
 	map<double,SYData,dblcmp>::iterator m_itrSYData;   
-	AcGePoint3d m_curPnt; //当前正在比较的点;        
+	AcGePoint3d m_curPnt;    //当前正在比较的点;        
 	double m_curPntXc;    //当前正在比较的点的x坐标;  
 	double m_curPntYc;    //当前正在比较的点的y坐标;   
 	SAttachData* m_curAttachData; 
