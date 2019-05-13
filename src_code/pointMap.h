@@ -104,8 +104,8 @@ struct SYData
 	double m_y;   //y坐标;  
 	AcGePoint3d pt;    
 
-	int m_PointIndex;  //点的序号（在图结构中）       
-	void* m_dataAttach;  //挂载其他数据;
+	int m_PointIndex;  //点的序号（在图结构中）   
+	void* m_dataAttach;  //挂载其他数据; 
 };
 
 
@@ -138,9 +138,11 @@ struct SXData
 	bool isDistZero(IN const double x1,IN const double y1,IN const double x2,IN const double y2);  
 
 	//查找元素的函数
-	bool first(OUT map<double,SXData,dblcmp>::iterator itrSxdata,OUT map<double,SYData,dblcmp>::iterator itrSydata,OUT SYData& sydata);  
-	bool next();   //获取下一个sydata;    
-	bool last();  //最后一个;    
+	//bool first(OUT map<double,SXData,dblcmp>::iterator itrSxdata,OUT map<double,SYData,dblcmp>::iterator itrSydata,OUT SYData& sydata);  
+	//bool next();   //获取下一个sydata;    
+	//bool last();  //最后一个;    
+	//查找近距离点对;
+	;
 };
 
 
@@ -174,13 +176,17 @@ public:
 	//void insert(IN const double xc,IN const double yc,IN void* voidPtr);      
 	//bool find(IN const double xc,IN const double yc,OUT void* voidPtr);     
 	void findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& vPointPairs);   //发现距离小于dist的点对;  
-	void printPointPairs(IN vector<pair<void*,void*>>& vPointPairs);  //打印点对;    
-private:
+	void printPointPairs(IN vector<pair<void*,void*>>& vPointPairs);  //打印点对;  
+
 	//第二版本寻找近距离点对;
+public:
+	;
+private:
+	
 	bool initPointIterator();	 //初始化遍历器;   
 	bool itrNextPoint();   //遍历所有的点;
 private:
-	map<double,SXData,dblcmp>::iterator m_itrSXData;
+	map<double,SXData,dblcmp>::iterator m_itrSXData;   
 	map<double,SYData,dblcmp>::iterator m_itrSYData;   
 	AcGePoint3d m_curPnt;    //当前正在比较的点;        
 	double m_curPntXc;    //当前正在比较的点的x坐标;  
