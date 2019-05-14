@@ -106,6 +106,9 @@ struct SYData
 
 	int m_PointIndex;  //点的序号（在图结构中）   
 	void* m_dataAttach;  //挂载其他数据; 
+
+private:
+	bool isDistSmaller(IN const double dist, IN const vector<double,SYData,dblcmp>::iterator itrB);  
 };
 
 
@@ -141,12 +144,12 @@ struct SXData
 	//bool first(OUT map<double,SXData,dblcmp>::iterator itrSxdata,OUT map<double,SYData,dblcmp>::iterator itrSydata,OUT SYData& sydata);  
 	//bool next();   //获取下一个sydata;    
 	//bool last();  //最后一个;    
-	//查找近距离点对;
+	//查找近距离点对;    
 	;
-};
+};  
 
 
-//用x和y坐标做为key，建立嵌套map，提供插入、查询、删除等功能;    
+//用x和y坐标做为key，建立嵌套map，提供插入、查询、删除等功能;     
 //希望能提高点坐标查询速度;     
 class CPointMap
 {
