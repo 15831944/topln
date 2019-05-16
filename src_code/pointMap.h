@@ -145,7 +145,8 @@ struct SXData
 	//bool next();   //获取下一个sydata;    
 	//bool last();  //最后一个;    
 	//查找近距离点对;    
-	;
+	//查找小于某个距离的点对;
+	bool findPointPairsLessDist(IN const double xc,IN const double yc,OUT const vector<>);   
 };  
 
 
