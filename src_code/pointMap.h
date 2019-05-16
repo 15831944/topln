@@ -113,7 +113,7 @@ private:
 
 
 //key为x坐标;
-//ptIndex:点坐标在图中的序号;
+//ptIndex:点坐标在图中的序号; 
 struct SXData
 {
 	SXData();
