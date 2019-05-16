@@ -648,6 +648,18 @@ CPointMap::printPointPairs(IN vector<pair<void*,void*>>& vPointPairs)
 }
 
 
+//
+void
+CPointMap::prsPointPairsLessDist(OUT vector<pair<void*,void*>>* vPtPairs) 
+{
+	m_itrSXDataFirst = m_mapXcoord.begin();
+	m_itrSXDataNext = m_itrSXDataFirst;
+	m_itrSYDataFirst = m_itrSXDataFirst->second.syDataBegin();  
+
+	for(;) 
+}
+
+
 //=========================================
 //类COptOfPointPairs;
 //用来操作点对数据，比如：first，next，last;

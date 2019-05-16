@@ -145,8 +145,9 @@ struct SXData
 	//bool next();   //获取下一个sydata;    
 	//bool last();  //最后一个;    
 	//查找近距离点对;    
-	//查找小于某个距离的点对;
-	bool findPointPairsLessDist(IN const double xc,IN const double yc,OUT const vector<>);   
+	//查找小于某个距离的点对;    
+	bool findPointPairsLessDist(IN const vector<double,SYData,dblcmp>::iterator itrPta,OUT const vector<pair<void*,void*>>* vPointPars);   
+	;
 };  
 
 
@@ -184,29 +185,25 @@ public:
 
 	//第二版本寻找近距离点对;
 public:
-	;
-private:
-	
+	void prsPointPairsLessDist(OUT vector<pair<void*,void*>>* vPtPairs);  
+private:	
 	bool initPointIterator();	 //初始化遍历器;   
 	bool itrNextPoint();   //遍历所有的点;
 private:
-	map<double,SXData,dblcmp>::iterator m_itrSXData;   
-	map<double,SYData,dblcmp>::iterator m_itrSYData;   
-	AcGePoint3d m_curPnt;    //当前正在比较的点;        
-	double m_curPntXc;    //当前正在比较的点的x坐标;  
-	double m_curPntYc;    //当前正在比较的点的y坐标;   
-	SAttachData* m_curAttachData; 
+	map<double,SXData,dblcmp>::iterator m_itrSXDataFirst;   //第一层循环sxdata   
+	map<double,SXData,dblcmp>::iterator m_itrSXDataNext;    //第二层循环sxdata   
+	map<double,SYData,dblcmp>::iterator m_itrSYDataFirst;    //第一层循环sydata; 
 
 public:   
 	static double transByDotNum(IN const double xyVal,IN const int nDotNum); //对xy值进行过滤，保留指定位数的小数;    
-	static bool isEqual(IN const double d1,IN const double d2,IN const int m_nDotNum); //检查是否相等（在误差范围内);    
+	static bool isEqual(IN const double d1,IN const double d2,IN const int m_nDotNum); //检查是否相等（在误差范围内);     
 };  
 
 
 
-//=========================================
+//=========================================   
 //类COptOfPointPairs;
-//用来操作点对数据，比如：first，next，last;
+//用来操作点对数据，比如：first，next，last;  
 //=========================================
 class COptOfPointPairs
 {
