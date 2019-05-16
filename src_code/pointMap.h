@@ -104,11 +104,11 @@ struct SYData
 	double m_y;   //y坐标;  
 	AcGePoint3d pt;    
 
-	int m_PointIndex;  //点的序号（在图结构中）   
-	void* m_dataAttach;  //挂载其他数据; 
+	int m_PointIndex;  //点的序号（在图结构中）    
+	void* m_dataAttach;  //挂载其他数据;    
 
 private:
-	bool isDistSmaller(IN const double dist, IN const vector<double,SYData,dblcmp>::iterator itrB);  
+	bool isDistSmaller(IN const double dist, IN const vector<double,SYData,dblcmp>::iterator itrNext);   
 };
 
 
@@ -156,13 +156,13 @@ struct SXData
 class CPointMap
 {
 public:
-	CPointMap();
+	CPointMap();  
 	~CPointMap();  
 
 private:
-	map<double,SXData,dblcmp> m_mapXcoord;  
+	map<double,SXData,dblcmp> m_mapXcoord;    
 	int m_nDotNum;   //小数的位数;
-	bool isDotNumSet; //判断小数位数是否已经设置，设置过了就不能再设置了;    
+	bool isDotNumSet; //判断小数位数是否已经设置，设置过了就不能再设置了;      
 	
 public:
 	void insert(IN const double x,IN const double y,IN const int ptIndex,IN void* voidPtr = NULL);  //插入    

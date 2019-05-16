@@ -650,13 +650,22 @@ CPointMap::printPointPairs(IN vector<pair<void*,void*>>& vPointPairs)
 
 //
 void
-CPointMap::prsPointPairsLessDist(OUT vector<pair<void*,void*>>* vPtPairs) 
+CPointMap::prsPointPairsLessDist(OUT vector<pair<void*,void*>>* vPtPairs)   
 {
 	m_itrSXDataFirst = m_mapXcoord.begin();
 	m_itrSXDataNext = m_itrSXDataFirst;
-	m_itrSYDataFirst = m_itrSXDataFirst->second.syDataBegin();  
+	m_itrSYDataFirst = m_itrSXDataFirst->second.syDataBegin();   
 
-	for(;) 
+	for(;m_itrSXDataFirst != m_mapXcoord.end(); m_itrSXDataFirst++) 
+	{
+		for(; m_itrSYDataFirst != m_itrSXDataFirst->second.syDataEnd(); m_itrSYDataFirst++)
+		{
+			for(;m_itrSXDataNext != m_mapXcoord.end(); m_itrSXDataNext++)
+			{
+				;
+			}
+		}
+	}
 }
 
 
