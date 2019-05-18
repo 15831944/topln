@@ -86,7 +86,7 @@ SXData::erase(IN const double yVal)
 }
 
 
-//测试，打印信息;
+//测试，打印map的所有点的信息;
 void
 SXData::print()
 {
@@ -201,29 +201,29 @@ SXData::isEqual(IN const double d1, IN const double d2)
 bool
 SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const SYData syData,OUT vector<pair<void*,void*>>& vPointPairs)
 {
-	double x1 = 0;   //（输入）源坐标点x；
+	double x1 = 0;   //（输入）源坐标点x； 
 	double x2 = 0;   //目标坐标点x;  
-	double y1 = syData.m_y; //（输入）源坐标点y;      
+	double y1 = syData.m_y; //（输入）源坐标点y;       
 	double y2 = 0; //目标坐标点y;	
 	double ytemp = y1; //temp y;     
 	x1 = xcoord;   
-	x2 = m_x;
-	if(abs(x1-x2) > dist)    
+	x2 = m_x;  
+	if(abs(x1-x2) > dist)     //x方向距离已经大于dist;
 	{
 		return false;     
 	}
 
 	//x1 == x2  ;只向下寻找更大的y值;    
-	map<double,SYData,dblcmp>::iterator itrYc; // = m_pPointMap.begin();	
+	map<double,SYData,dblcmp>::iterator itrYc; // = m_pPointMap.begin();	 
 	if(isEqual(x1,x2))    
 	{
-		itrYc = m_pPointMap.lower_bound(ytemp);   
+		itrYc = m_pPointMap.lower_bound(ytemp);     
 		while(itrYc != m_pPointMap.end()) 
 		{			      
 			y2 = itrYc->second.m_y;  		
 #ifdef DEBUG_TO_PL_PRINT_POINTMAP
 			acutPrintf(_T("\n 比较点对："));
-			acutPrintf(_T("(%5.5f,%5.5f),  (%5.5f,%5.5f)"),x1,y1,x2,y2);
+			acutPrintf(_T("(%5.5f,%5.5f),  (%5.5f,%5.5f)"),x1,y1,x2,y2);  
 #endif  DEBUG_TO_PL_PRINT_POINTMAP
 			
 			if(isDistGreater(x1,y1,x2,y2,dist))     
@@ -238,7 +238,7 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 			else
 			{
 				pair<void*,void*> pairData(syData.m_dataAttach,itrYc->second.m_dataAttach);  
-				vPointPairs.push_back(pairData);  
+				vPointPairs.push_back(pairData);   
 				itrYc++;   
 			}   
 		} 
@@ -310,15 +310,15 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 			{
 				break;  
 			}
-			else if(isDistZero(x1,y1,x2,y2))   
+			else if(isDistZero(x1,y1,x2,y2))     
 			{
-				itrYc++;
-				continue;
+				itrYc++;  
+				continue; 
 			}
 			else  
 			{
-				pair<void*,void*> pairData(syData.m_dataAttach,itrYc->second.m_dataAttach);  
-				vPointPairs.push_back(pairData);  
+				pair<void*,void*> pairData(syData.m_dataAttach,itrYc->second.m_dataAttach);   
+				vPointPairs.push_back(pairData);    
 				itrYc++;    
 			}
 		} 
@@ -327,6 +327,14 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 	return true;  //除了x2-x1>dist,其它情况返回true; 
 }
 
+
+
+//寻找小于dist距离的点对
+bool 
+SXData::findPointPairsLessDist(IN const double dist,IN const vector<double, SYData, dblcmp>::iterator itrPta,OUT const vector<pair<void *, void *>>* vPointPars)
+{
+	double ;
+}
 
 
 
@@ -650,7 +658,7 @@ CPointMap::printPointPairs(IN vector<pair<void*,void*>>& vPointPairs)
 
 //
 void
-CPointMap::prsPointPairsLessDist(OUT vector<pair<void*,void*>>* vPtPairs)   
+CPointMap::prsPointPairsLessDist(IN const double dist,OUT vector<pair<void*,void*>>* vPtPairs)   
 {
 	m_itrSXDataFirst = m_mapXcoord.begin();
 	m_itrSXDataNext = m_itrSXDataFirst;
@@ -662,7 +670,14 @@ CPointMap::prsPointPairsLessDist(OUT vector<pair<void*,void*>>* vPtPairs)
 		{
 			for(;m_itrSXDataNext != m_mapXcoord.end(); m_itrSXDataNext++)
 			{
-				;
+				if(m_itrSXDataNext->second.findPointPairsLessDist(dist,m_itrSYDataFirst,vPtPairs)) 
+				{
+					continue;
+				}
+				else  //m_itrSXDataNext和m_itrSXDataFirst的x距离超过dist了; 
+				{
+					break;
+				}
 			}
 		}
 	}

@@ -108,7 +108,7 @@ struct SYData
 	void* m_dataAttach;  //挂载其他数据;    
 
 private:
-	bool isDistSmaller(IN const double dist, IN const vector<double,SYData,dblcmp>::iterator itrNext);   
+	bool isDistSmaller(IN const double dist, IN const SYData* pSyData);   
 };
 
 
@@ -128,7 +128,7 @@ struct SXData
 	map<double,SYData,dblcmp>::iterator insert(IN const double yVal,IN const int ptIndex,OUT void* voidPtr = NULL); //插入y key;    
 	unsigned int erase(IN const double yVal);  //delete;     
 
-	void print();  //测试，打印信息;  
+	void print();  //测试，打印map的所有点的信息;  
 
 	//查找和输入坐标点距离小于dist的点;      
 	//查找upper_bound及lower_bound        
@@ -140,19 +140,27 @@ struct SXData
 	bool isEqual(IN const double d1, IN const double d2);  //判断俩double是否相等;   
 	bool isDistZero(IN const double x1,IN const double y1,IN const double x2,IN const double y2);  
 
-	//查找元素的函数
-	//bool first(OUT map<double,SXData,dblcmp>::iterator itrSxdata,OUT map<double,SYData,dblcmp>::iterator itrSydata,OUT SYData& sydata);  
-	//bool next();   //获取下一个sydata;    
-	//bool last();  //最后一个;    
-	//查找近距离点对;    
 	//查找小于某个距离的点对;    
-	bool findPointPairsLessDist(IN const vector<double,SYData,dblcmp>::iterator itrPta,OUT const vector<pair<void*,void*>>* vPointPars);   
-	;
+private:
+	double m_distToComp; //输入；最大的点对的距离
+	vector<double,SYData,dblcmp>::iterator m_FirstSyDataToComp; //第一个点，用来和本map里的点进行计算距离;
+	bool m_isDistValid;  //dist是否输入（初始化）;
+	bool m_isFirstSyDataSetted;   //第一个点是否输入（初始化）;
+	double m_firstY;  //输入的第一个点的y值;
+public:
+	bool findPointPairsLessDist(OUT const vector<pair<void*,void*>>* vPointPars);     
+	//在map里面向上搜索点对（根据输入点点对y坐标）; 
+	bool setDistToComp(IN const double dist);
+	bool inputFistSyData(IN const vector<double,SYData,dblcmp>::iterator itrFistSyData);      
+private:
+	bool searchUpperByYVal();
+	//在map里面向下搜索点对（根据输入点点对y坐标）;  
+	bool searchDownByYVal();   
 };  
 
 
-//用x和y坐标做为key，建立嵌套map，提供插入、查询、删除等功能;     
-//希望能提高点坐标查询速度;     
+//用x和y坐标做为key，建立嵌套map，提供插入、查询、删除等功能;      
+//希望能提高点坐标查询速度;      
 class CPointMap
 {
 public:
@@ -183,9 +191,9 @@ public:
 	void findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& vPointPairs);   //发现距离小于dist的点对;  
 	void printPointPairs(IN vector<pair<void*,void*>>& vPointPairs);  //打印点对;  
 
-	//第二版本寻找近距离点对;
+	//第二版本寻找近距离点对;  
 public:
-	void prsPointPairsLessDist(OUT vector<pair<void*,void*>>* vPtPairs);  
+	void prsPointPairsLessDist(IN const double dist,OUT vector<pair<void*,void*>>* vPtPairs);  
 private:	
 	bool initPointIterator();	 //初始化遍历器;   
 	bool itrNextPoint();   //遍历所有的点;
