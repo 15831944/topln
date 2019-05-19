@@ -334,7 +334,38 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 bool 
 SXData::findPointPairsLessDist(OUT const vector<pair<void *, void *>>* vPointPairs)
 {
-	double ;
+	vPointPairs->clear();
+	bool bflag001 = false;
+	bflag001 = searchUpperByYVal(vPointPairs);
+
+	bool bflag002 = false;
+	bflag002 =  searchDownByYVal(vPointPairs);
+
+	return (bflag001 && bflag002);  
+}
+
+
+//根据y值向上寻找小于dist距离的点；
+//返回值：true表示找到了一些符合要求的点； false表示没有找到符合要求的点;
+bool
+SXData::searchUpperByYVal(IN const vector<double, SYData, dblcmp>::iterator itrFistSyData)
+{
+	bool bResult = false;
+	vector<double,SYData,dblcmp>::iterator itrNext  =  m_pPointMap.lower_bound(m_firstY);	
+	for(; itrNext != m_pPointMap.end(); itrNext++)
+	{
+		if(((SYData)(*itrNext)).isDistSmaller((SYData)(m_FirstSyDataToComp)))
+		{
+			;
+			bResult = true;
+			continue;
+		}
+		else
+		{
+			break;  
+		}
+	}	
+	return bResult; 
 }
 
 

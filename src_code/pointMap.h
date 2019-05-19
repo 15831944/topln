@@ -153,9 +153,9 @@ public:
 	bool setDistToComp(IN const double dist);
 	bool inputFirstSyData(IN const vector<double,SYData,dblcmp>::iterator itrFistSyData); 
 private:
-	bool searchUpperByYVal();  
+	bool searchUpperByYVal(IN const vector<double,SYData,dblcmp>::iterator itrFistSyData);  
 	//在map里面向下搜索点对（根据输入点点对y坐标;    
-	bool searchDownByYVal();   
+	bool searchDownByYVal(IN const vector<double,SYData,dblcmp>::iterator itrFistSyData);   
 };  
 
 
