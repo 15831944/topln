@@ -113,7 +113,7 @@ private:
 
 
 //key为x坐标;
-//ptIndex:点坐标在图中的序号; 
+//ptIndex:点坐标在图中的序号;  
 struct SXData
 {
 	SXData();
@@ -151,10 +151,10 @@ public:
 	bool findPointPairsLessDist(OUT const vector<pair<void*,void*>>* vPointPars);     
 	//在map里面向上搜索点对（根据输入点点对y坐标）; 
 	bool setDistToComp(IN const double dist);
-	bool inputFistSyData(IN const vector<double,SYData,dblcmp>::iterator itrFistSyData);      
+	bool inputFirstSyData(IN const vector<double,SYData,dblcmp>::iterator itrFistSyData); 
 private:
-	bool searchUpperByYVal();
-	//在map里面向下搜索点对（根据输入点点对y坐标）;  
+	bool searchUpperByYVal();  
+	//在map里面向下搜索点对（根据输入点点对y坐标;    
 	bool searchDownByYVal();   
 };  
 
@@ -223,9 +223,9 @@ public:
 
 public:  
 	bool inputPointPairs(IN vector<pair<void*,void*>>* vPointPairs);  //输入点对;  
-	bool first(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1);  
-	bool next(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1);  
-	bool last(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1);  
+	bool first(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1);
+	bool next(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1);
+	bool last(OUT AcGePoint3d& pt0,OUT AcGePoint3d& pt1); 
 
 private:
 	vector<pair<void*,void*>>::iterator m_itr; 

@@ -143,14 +143,14 @@ SXData::isDigitGreater(IN const double d1,IN const double d2)
 }
 
 
-//比较俩double大小;  
-//d1大于d2，返回true;
+//比较俩double大小;
+//d1大于d2，返回true; 
 //误差值设置：
 bool
 SXData::isDistZero(IN const double x1,IN const double y1,IN const double x2,IN const double y2)
 {
 	double distWork = 0;
-	distWork = sqrt((x1-x2)*(x1-x2) +(y1-y2)*(y1-y2));   
+	distWork = sqrt((x1-x2)*(x1-x2) +(y1-y2)*(y1-y2)); 
 	AcGeTol objTol;
 	if(distWork <= objTol.equalPoint())
 	{
@@ -208,7 +208,7 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 	double ytemp = y1; //temp y;     
 	x1 = xcoord;   
 	x2 = m_x;  
-	if(abs(x1-x2) > dist)     //x方向距离已经大于dist;
+	if(abs(x1-x2) > dist)     //x方向距离已经大于dist; 
 	{
 		return false;     
 	}
@@ -330,8 +330,9 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 
 
 //寻找小于dist距离的点对
+//vPointPairs:装载点对数据;
 bool 
-SXData::findPointPairsLessDist(IN const double dist,IN const vector<double, SYData, dblcmp>::iterator itrPta,OUT const vector<pair<void *, void *>>* vPointPars)
+SXData::findPointPairsLessDist(OUT const vector<pair<void *, void *>>* vPointPairs)
 {
 	double ;
 }
