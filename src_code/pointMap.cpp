@@ -354,11 +354,11 @@ SXData::searchUpperByYVal(IN const vector<double, SYData, dblcmp>::iterator itrF
 	vector<double,SYData,dblcmp>::iterator itrNext  =  m_pPointMap.lower_bound(m_firstY);	
 	for(; itrNext != m_pPointMap.end(); itrNext++)
 	{
-		if(((SYData)(*itrNext)).isDistSmaller((SYData)(m_FirstSyDataToComp)))
+		if(((SYData)(*itrNext)).isDistSmaller((SYData)(m_FirstSyDataToComp))) 
 		{
 			;
 			bResult = true;
-			continue;
+			continue; 
 		}
 		else
 		{
