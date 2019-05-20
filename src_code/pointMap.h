@@ -183,12 +183,9 @@ public:
 	void findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& vPointPairs);   //发现距离小于dist的点对;  
 	void printPointPairs(IN vector<pair<void*,void*>>& vPointPairs);  //打印点对;  
 
-	//第二版本寻找近距离点对;
+	//第二版本:寻找近距离点对;
 public:
-	void prsPointPairsLessDist(OUT vector<pair<void*,void*>>* vPtPairs);  
-private:	
-	bool initPointIterator();	 //初始化遍历器;   
-	bool itrNextPoint();   //遍历所有的点;
+	bool prsPointPairsLessDist(IN const double dist,OUT vector<pair<void*,void*>>* vPtPairs);  
 private:
 	map<double,SXData,dblcmp>::iterator m_itrSXDataFirst;   //第一层循环sxdata   
 	map<double,SXData,dblcmp>::iterator m_itrSXDataNext;    //第二层循环sxdata   
