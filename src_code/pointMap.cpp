@@ -86,7 +86,7 @@ SXData::erase(IN const double yVal)
 }
 
 
-//测试，打印信息;
+//测试，打印map的所有点的信息;
 void
 SXData::print()
 {
@@ -143,14 +143,14 @@ SXData::isDigitGreater(IN const double d1,IN const double d2)
 }
 
 
-//比较俩double大小;  
-//d1大于d2，返回true;
+//比较俩double大小;
+//d1大于d2，返回true; 
 //误差值设置：
 bool
 SXData::isDistZero(IN const double x1,IN const double y1,IN const double x2,IN const double y2)
 {
 	double distWork = 0;
-	distWork = sqrt((x1-x2)*(x1-x2) +(y1-y2)*(y1-y2));   
+	distWork = sqrt((x1-x2)*(x1-x2) +(y1-y2)*(y1-y2)); 
 	AcGeTol objTol;
 	if(distWork <= objTol.equalPoint())
 	{
@@ -201,29 +201,29 @@ SXData::isEqual(IN const double d1, IN const double d2)
 bool
 SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const SYData syData,OUT vector<pair<void*,void*>>& vPointPairs)
 {
-	double x1 = 0;   //（输入）源坐标点x；
+	double x1 = 0;   //（输入）源坐标点x； 
 	double x2 = 0;   //目标坐标点x;  
-	double y1 = syData.m_y; //（输入）源坐标点y;      
+	double y1 = syData.m_y; //（输入）源坐标点y;       
 	double y2 = 0; //目标坐标点y;	
 	double ytemp = y1; //temp y;     
 	x1 = xcoord;   
-	x2 = m_x;
-	if(abs(x1-x2) > dist)    
+	x2 = m_x;  
+	if(abs(x1-x2) > dist)     //x方向距离已经大于dist; 
 	{
 		return false;     
 	}
 
 	//x1 == x2  ;只向下寻找更大的y值;    
-	map<double,SYData,dblcmp>::iterator itrYc; // = m_pPointMap.begin();	
+	map<double,SYData,dblcmp>::iterator itrYc; // = m_pPointMap.begin();	 
 	if(isEqual(x1,x2))    
 	{
-		itrYc = m_pPointMap.lower_bound(ytemp);   
+		itrYc = m_pPointMap.lower_bound(ytemp);     
 		while(itrYc != m_pPointMap.end()) 
 		{			      
 			y2 = itrYc->second.m_y;  		
 #ifdef DEBUG_TO_PL_PRINT_POINTMAP
 			acutPrintf(_T("\n 比较点对："));
-			acutPrintf(_T("(%5.5f,%5.5f),  (%5.5f,%5.5f)"),x1,y1,x2,y2);
+			acutPrintf(_T("(%5.5f,%5.5f),  (%5.5f,%5.5f)"),x1,y1,x2,y2);  
 #endif  DEBUG_TO_PL_PRINT_POINTMAP
 			
 			if(isDistGreater(x1,y1,x2,y2,dist))     
@@ -238,7 +238,7 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 			else
 			{
 				pair<void*,void*> pairData(syData.m_dataAttach,itrYc->second.m_dataAttach);  
-				vPointPairs.push_back(pairData);  
+				vPointPairs.push_back(pairData);   
 				itrYc++;   
 			}   
 		} 
@@ -310,15 +310,15 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 			{
 				break;  
 			}
-			else if(isDistZero(x1,y1,x2,y2))   
+			else if(isDistZero(x1,y1,x2,y2))     
 			{
-				itrYc++;
-				continue;
+				itrYc++;  
+				continue; 
 			}
 			else  
 			{
-				pair<void*,void*> pairData(syData.m_dataAttach,itrYc->second.m_dataAttach);  
-				vPointPairs.push_back(pairData);  
+				pair<void*,void*> pairData(syData.m_dataAttach,itrYc->second.m_dataAttach);   
+				vPointPairs.push_back(pairData);    
 				itrYc++;    
 			}
 		} 
@@ -327,6 +327,46 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 	return true;  //除了x2-x1>dist,其它情况返回true; 
 }
 
+
+
+//寻找小于dist距离的点对
+//vPointPairs:装载点对数据;
+bool 
+SXData::findPointPairsLessDist(OUT const vector<pair<void *, void *>>* vPointPairs)
+{
+	vPointPairs->clear();
+	bool bflag001 = false;
+	bflag001 = searchUpperByYVal(vPointPairs);
+
+	bool bflag002 = false;
+	bflag002 =  searchDownByYVal(vPointPairs);
+
+	return (bflag001 && bflag002);  
+}
+
+
+//根据y值向上寻找小于dist距离的点；
+//返回值：true表示找到了一些符合要求的点； false表示没有找到符合要求的点;
+bool
+SXData::searchUpperByYVal(IN const vector<double, SYData, dblcmp>::iterator itrFistSyData)
+{
+	bool bResult = false;
+	vector<double,SYData,dblcmp>::iterator itrNext  =  m_pPointMap.lower_bound(m_firstY);	
+	for(; itrNext != m_pPointMap.end(); itrNext++)
+	{
+		if(((SYData)(*itrNext)).isDistSmaller((SYData)(m_FirstSyDataToComp)))
+		{
+			;
+			bResult = true;
+			continue;
+		}
+		else
+		{
+			break;  
+		}
+	}	
+	return bResult; 
+}
 
 
 
@@ -648,11 +688,16 @@ CPointMap::printPointPairs(IN vector<pair<void*,void*>>& vPointPairs)
 }
 
 
+<<<<<<< HEAD
 //m_itrSXDataFirst：第一个sxData，从中取第一个点;
 //m_itrSXDataNext: 第二个sxData，从中寻找和第一个点近距离的第二个点;
 //m_itrSYDataFirst: 从m_itrSXDataFirst中取出的点syData;
 //功能：从点集中寻找距离小于dist的点对;
 bool
+=======
+//
+void
+>>>>>>> 6a65feff342905c8f55cd58106e02388d92c8eed
 CPointMap::prsPointPairsLessDist(IN const double dist,OUT vector<pair<void*,void*>>* vPtPairs)   
 {
 	//clean the vPtPairs
@@ -669,6 +714,7 @@ CPointMap::prsPointPairsLessDist(IN const double dist,OUT vector<pair<void*,void
 		{
 			for(;m_itrSXDataNext != m_mapXcoord.end(); m_itrSXDataNext++)   
 			{
+<<<<<<< HEAD
 				if(m_itrSXDataNext->second.findPointPairsLessDist(dist,m_itrSYDataFirst,vPtPairs))  
 				{
 					continue;   //说明此m_itrSXDataNext的x值还在距离之内，可以继续在下一个sxData查找;
@@ -676,6 +722,15 @@ CPointMap::prsPointPairsLessDist(IN const double dist,OUT vector<pair<void*,void
 				else  //这个m_itrSXDataNext的x值 - m_itrSXDataFirst的x值 大于dist了;
 				{
 					break;  
+=======
+				if(m_itrSXDataNext->second.findPointPairsLessDist(dist,m_itrSYDataFirst,vPtPairs)) 
+				{
+					continue;
+				}
+				else  //m_itrSXDataNext和m_itrSXDataFirst的x距离超过dist了; 
+				{
+					break;
+>>>>>>> 6a65feff342905c8f55cd58106e02388d92c8eed
 				}
 			}
 		}
