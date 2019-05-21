@@ -149,7 +149,7 @@ private:
 	double m_firstY;  //输入的第一个点的y值;
 public:
 	bool findPointPairsLessDist(OUT const vector<pair<void*,void*>>* vPointPars);     
-	//在map里面向上搜索点对（根据输入点点对y坐标）; 
+	//在map里面向上搜索点对（根据输入点对y坐标）; 
 	bool setDistToComp(IN const double dist);
 	bool inputFirstSyData(IN const vector<double,SYData,dblcmp>::iterator itrFistSyData); 
 private:
@@ -191,22 +191,18 @@ public:
 	void findPointPairs(IN const double dist,OUT vector<pair<void*,void*>>& vPointPairs);   //发现距离小于dist的点对;  
 	void printPointPairs(IN vector<pair<void*,void*>>& vPointPairs);  //打印点对;  
 
-<<<<<<< HEAD
-	//第二版本:寻找近距离点对;
-public:
-	bool prsPointPairsLessDist(IN const double dist,OUT vector<pair<void*,void*>>* vPtPairs);  
-=======
 	//第二版本寻找近距离点对;  
 public:
 	void prsPointPairsLessDist(IN const double dist,OUT vector<pair<void*,void*>>* vPtPairs);  
 private:	
 	bool initPointIterator();	 //初始化遍历器;   
-	bool itrNextPoint();   //遍历所有的点;
->>>>>>> 6a65feff342905c8f55cd58106e02388d92c8eed
+	bool itrNextPoint();   //遍历所有的点; 
+	bool inputDistToComp(IN const double dist);
+
 private:
 	map<double,SXData,dblcmp>::iterator m_itrSXDataFirst;   //第一层循环sxdata   
 	map<double,SXData,dblcmp>::iterator m_itrSXDataNext;    //第二层循环sxdata   
-	map<double,SYData,dblcmp>::iterator m_itrSYDataFirst;    //第一层循环sydata; 
+	map<double,SYData,dblcmp>::iterator m_itrSYDataFirst;    //第一层循环sydata;     
 
 public:   
 	static double transByDotNum(IN const double xyVal,IN const int nDotNum); //对xy值进行过滤，保留指定位数的小数;    

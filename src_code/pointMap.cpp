@@ -688,22 +688,18 @@ CPointMap::printPointPairs(IN vector<pair<void*,void*>>& vPointPairs)
 }
 
 
-<<<<<<< HEAD
+
 //m_itrSXDataFirst：第一个sxData，从中取第一个点;
 //m_itrSXDataNext: 第二个sxData，从中寻找和第一个点近距离的第二个点;
 //m_itrSYDataFirst: 从m_itrSXDataFirst中取出的点syData;
 //功能：从点集中寻找距离小于dist的点对;
 bool
-=======
-//
-void
->>>>>>> 6a65feff342905c8f55cd58106e02388d92c8eed
-CPointMap::prsPointPairsLessDist(IN const double dist,OUT vector<pair<void*,void*>>* vPtPairs)   
+CPointMap::prsPointPairsLessDist(OUT vector<pair<void*,void*>>* vPtPairs)   
 {
 	//clean the vPtPairs
 	vPtPairs->clear();
 
-	m_itrSXDataFirst = m_mapXcoord.begin();
+	m_itrsx = m_mapXcoord.begin();
 	m_itrSXDataNext = m_itrSXDataFirst;
 
 	m_itrSYDataFirst = m_itrSXDataFirst->second.syDataBegin();   
@@ -714,15 +710,6 @@ CPointMap::prsPointPairsLessDist(IN const double dist,OUT vector<pair<void*,void
 		{
 			for(;m_itrSXDataNext != m_mapXcoord.end(); m_itrSXDataNext++)   
 			{
-<<<<<<< HEAD
-				if(m_itrSXDataNext->second.findPointPairsLessDist(dist,m_itrSYDataFirst,vPtPairs))  
-				{
-					continue;   //说明此m_itrSXDataNext的x值还在距离之内，可以继续在下一个sxData查找;
-				}
-				else  //这个m_itrSXDataNext的x值 - m_itrSXDataFirst的x值 大于dist了;
-				{
-					break;  
-=======
 				if(m_itrSXDataNext->second.findPointPairsLessDist(dist,m_itrSYDataFirst,vPtPairs)) 
 				{
 					continue;
@@ -730,7 +717,6 @@ CPointMap::prsPointPairsLessDist(IN const double dist,OUT vector<pair<void*,void
 				else  //m_itrSXDataNext和m_itrSXDataFirst的x距离超过dist了; 
 				{
 					break;
->>>>>>> 6a65feff342905c8f55cd58106e02388d92c8eed
 				}
 			}
 		}
