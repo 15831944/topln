@@ -147,6 +147,7 @@ private:
 	bool m_isDistValid;  //dist是否输入（初始化）;
 	bool m_isFirstSyDataSetted;   //第一个点是否输入（初始化）;
 	double m_firstY;  //输入的第一个点的y值;
+	;
 public:
 	bool findPointPairsLessDist(OUT const vector<pair<void*,void*>>* vPointPars);     
 	//在map里面向上搜索点对（根据输入点对y坐标）; 

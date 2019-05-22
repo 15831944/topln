@@ -694,7 +694,7 @@ CPointMap::printPointPairs(IN vector<pair<void*,void*>>& vPointPairs)
 //m_itrSYDataFirst: 从m_itrSXDataFirst中取出的点syData;
 //功能：从点集中寻找距离小于dist的点对;
 bool
-CPointMap::prsPointPairsLessDist(OUT vector<pair<void*,void*>>* vPtPairs)   
+CPointMap::prsPointPairsLessDist(IN const double dist,OUT vector<pair<void*,void*>>* vPtPairs)   
 {
 	//clean the vPtPairs
 	vPtPairs->clear();
@@ -710,7 +710,9 @@ CPointMap::prsPointPairsLessDist(OUT vector<pair<void*,void*>>* vPtPairs)
 		{
 			for(;m_itrSXDataNext != m_mapXcoord.end(); m_itrSXDataNext++)   
 			{
-				if(m_itrSXDataNext->second.findPointPairsLessDist(dist,m_itrSYDataFirst,vPtPairs)) 
+				m_itrSXDataNext->second.inputFirstSyData(m_itrSYDataFirst);
+				m_itrSXDataNext->second.setDistToComp(dist);
+				if(m_itrSXDataNext->second.findPointPairsLessDist(dist,vPtPairs)) 
 				{
 					continue;
 				}
