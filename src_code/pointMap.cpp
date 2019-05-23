@@ -356,7 +356,8 @@ SXData::searchUpperByYVal(OUT const vector<pair<void*,void*>>* vPointPars)
 	{
 		if(((SYData)(*itrNext)).isDistSmaller((SYData)(m_FirstSyDataToComp))) 
 		{
-			;
+			pair<void*,void*> pairData(itrNext->second->m_dataAttach,m_FirstSyDataToComp->second->m_dataAttach);
+			vPointPars.push_back(pairData);   
 			bResult = true;
 			continue; 
 		}
