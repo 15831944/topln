@@ -348,7 +348,7 @@ SXData::findPointPairsLessDist(OUT const vector<pair<void *, void *>>* vPointPai
 //根据y值向上寻找小于dist距离的点；
 //返回值：true表示找到了一些符合要求的点； false表示没有找到符合要求的点;
 bool
-SXData::searchUpperByYVal(IN const vector<double, SYData, dblcmp>::iterator itrFistSyData)
+SXData::searchUpperByYVal(OUT const vector<pair<void*,void*>>* vPointPars)
 {
 	bool bResult = false;
 	vector<double,SYData,dblcmp>::iterator itrNext  =  m_pPointMap.lower_bound(m_firstY);	
