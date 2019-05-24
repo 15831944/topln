@@ -371,6 +371,33 @@ SXData::searchUpperByYVal(OUT const vector<pair<void*,void*>>* vPointPars)
 
 
 
+//根据y值向下寻找小于dist距离的点；
+//返回值：true表示找到了一些符合要求的点； false表示没有找到符合要求的点;
+bool
+SXData::searchDownByYVal(OUT const vector<pair<void*,void*>>* vPointPars)
+{
+	bool bResult = false;
+	vector<double,SYData,dblcmp>::iterator itrNext  =  m_pPointMap.lower_bound(m_firstY);	
+	for(itrNext != m_pPointMap.end(); itrNext <= m_pPointMap.begin(); itrNext--)
+	{
+		if(((SYData)(*itrNext)).isDistSmaller((SYData)(m_FirstSyDataToComp))) 
+		{
+			pair<void*,void*> pairData(itrNext->second->m_dataAttach,m_FirstSyDataToComp->second->m_dataAttach);
+			vPointPars.push_back(pairData);         
+			bResult = true;   
+			continue;   
+		}
+		else
+		{
+			break;  
+		}
+	}	
+	return bResult; 
+}
+
+
+
+
 //=============================
 //struct SAttachData
 //=============================
