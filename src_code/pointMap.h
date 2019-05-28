@@ -149,14 +149,14 @@ private:
 	double m_firstY;  //输入的第一个点的y值;
 	;
 public:
-	bool findPointPairsLessDist(OUT const vector<pair<void*,void*>>* vPointPars);     
+	bool findPointPairsLessDist(OUT const vector<pair<void*,void*>>* vPointPairs);     
 	//在map里面向上搜索点对（根据输入点对y坐标）; 
 	bool setDistToComp(IN const double dist);
-	bool inputFirstSyData(IN const vector<double,SYData,dblcmp>::iterator itrFistSyData); 
+	bool inputFirstSyData(IN const vector<double,SYData,dblcmp>::iterator itrFistSyData);  
 private:
-	bool searchUpperByYVal(OUT const vector<pair<void*,void*>>* vPointPars);  
+	bool searchUpperByYVal(OUT const vector<pair<void*,void*>>* vPointPairs);  
 	//在map里面向下搜索点对（根据输入点点对y坐标;    
-	bool searchDownByYVal(OUT const vector<pair<void*,void*>>* vPointParss);   
+	bool searchDownByYVal(OUT const vector<pair<void*,void*>>* vPointPairs);   
 };  
 
 
