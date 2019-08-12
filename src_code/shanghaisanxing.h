@@ -174,6 +174,7 @@ private:
 };
 
 
-
+//÷¥––√¸¡Ósanxing
+void sanxing();
 
 #endif  //OWAL_PC2008_THIRTY_TWO_YEARS_OLD_SHSX_H

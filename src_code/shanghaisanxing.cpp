@@ -524,7 +524,7 @@ void CShsx::select()
 
 	//layer
 	rb1.restype = 8;
-	rb1.resval.rstring = (ACHAR*)(malloc(16));
+	rb1.resval.rstring = (ACHAR*)(malloc(16)); 
 	memset(rb1.resval.rstring,0,16);
 	wcscpy(rb1.resval.rstring,_T("1"));
 	rb1.rbnext = &rb2;
@@ -555,7 +555,9 @@ void CShsx::select()
 		}
 	}
 
-	acutRelRb(&rb1);//release rb1,rb2,rb3.
+	//acutRelRb(&rb1);//release rb1,rb2,rb3.
+	free(rb1.resval.rstring);
+	free(rb3.resval.rstring);
 }
 
 
@@ -689,7 +691,8 @@ CShsx::prt()
 				   (*itr).rWidth);
 	}
 	acutPrintf(_T("\n---------------------------------------"));
-	acutPrintf(_T("\nThinking:XiFeng.Chen,coder:owal,2010-03-26.enjoy!"));
+//	acutPrintf(_T("\nThinking:XiFeng.Chen,coder:owal,2010-03-26.enjoy!"));
+	acutPrintf(_T("\nTo widen the sanxing dwg lines automatically!"));
 	acutPrintf(_T("\n---------------------------------------"));
 }
 
@@ -725,4 +728,16 @@ CShsx::doit()
 	jn2database();
 
 	prt(); //print information.
+}
+
+
+
+/*
+*÷¥––√¸¡Ósanxing
+*/
+void
+sanxing()
+{
+	CShsx sanxingObject;
+	sanxingObject.doit();
 }

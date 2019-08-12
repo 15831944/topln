@@ -22,6 +22,7 @@ eg： Date:	Author: 	Modification:
 #include <vector>
 #include <map>   
 #include <algorithm>
+//#include <>
 
 
 #include <stdlib.h>
@@ -143,7 +144,7 @@ struct SXData
 	//查找小于某个距离的点对;    
 private:
 	double m_distToComp; //输入；最大的点对的距离
-	vector<double,SYData,dblcmp>::iterator m_FirstSyDataToComp; //第一个点，用来和本map里的点进行计算距离;
+	map<double,SYData,dblcmp>::iterator m_FirstSyDataToComp; //第一个点，用来和本map里的点进行计算距离;
 	bool m_isDistValid;  //dist是否输入（初始化）;
 	bool m_isFirstSyDataSetted;   //第一个点是否输入（初始化）;
 	double m_firstY;  //输入的第一个点的y值;
@@ -152,11 +153,11 @@ public:
 	bool findPointPairsLessDist(OUT const vector<pair<void*,void*>>* vPointPairs);     
 	//在map里面向上搜索点对（根据输入点对y坐标）; 
 	bool setDistToComp(IN const double dist);
-	bool inputFirstSyData(IN const vector<double,SYData,dblcmp>::iterator itrFistSyData);  
+	bool inputFirstSyData(IN const map<double,SYData,dblcmp>::iterator itrFistSyData);  
 private:
-	bool searchUpperByYVal(OUT const vector<pair<void*,void*>>* vPointPairs);  
+	bool searchUpperByYVal(OUT const vector<pair<void*,void*> >* vPointPairs);  
 	//在map里面向下搜索点对（根据输入点点对y坐标;    
-	bool searchDownByYVal(OUT const vector<pair<void*,void*>>* vPointPairs);   
+	bool searchDownByYVal(OUT const vector<pair<void*,void*> >* vPointPairs);   
 };  
 
 
@@ -194,7 +195,7 @@ public:
 
 	//第二版本寻找近距离点对;  
 public:
-	void prsPointPairsLessDist(IN const double dist,OUT vector<pair<void*,void*>>* vPtPairs);  
+	bool prsPointPairsLessDist(IN const double dist,OUT vector<pair<void*,void*> >* vPtPairs);  
 private:	
 	bool initPointIterator();	 //初始化遍历器;   
 	bool itrNextPoint();   //遍历所有的点; 

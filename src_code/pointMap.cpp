@@ -332,16 +332,17 @@ SXData::chkLessDistPoints(IN const double dist,IN const double xcoord,IN const S
 //寻找小于dist距离的点对
 //vPointPairs:装载点对数据;
 bool 
-SXData::findPointPairsLessDist(OUT const vector<pair<void *, void *>>* vPointPairs)
+SXData::findPointPairsLessDist(OUT const vector<pair<void *, void *> >* vPointPairs)
 {
-	vPointPairs->clear();
+	/*vPointPairs->clear();
 	bool bflag001 = false;
 	bflag001 = searchUpperByYVal(vPointPairs);
 
 	bool bflag002 = false;
 	bflag002 =  searchDownByYVal(vPointPairs);
 
-	return (bflag001 && bflag002);  
+	return (bflag001 && bflag002);  */
+	return true;
 }
 
 
@@ -350,8 +351,8 @@ SXData::findPointPairsLessDist(OUT const vector<pair<void *, void *>>* vPointPai
 bool
 SXData::searchUpperByYVal(OUT const vector<pair<void*,void*>>* vPointPars)
 {
-	bool bResult = false;
-	vector<double,SYData,dblcmp>::iterator itrNext  =  m_pPointMap.lower_bound(m_firstY);	
+	/*bool bResult = false;
+	map<double,SYData,dblcmp>::iterator itrNext  =  m_pPointMap.lower_bound(m_firstY);	
 	for(; itrNext != m_pPointMap.end(); itrNext++)
 	{
 		if(((SYData)(*itrNext)).isDistSmaller((SYData)(m_FirstSyDataToComp))) 
@@ -366,7 +367,8 @@ SXData::searchUpperByYVal(OUT const vector<pair<void*,void*>>* vPointPars)
 			break;  
 		}
 	}	
-	return bResult; 
+	return bResult; */
+	return true;
 }
 
 
@@ -376,23 +378,24 @@ SXData::searchUpperByYVal(OUT const vector<pair<void*,void*>>* vPointPars)
 bool
 SXData::searchDownByYVal(OUT const vector<pair<void*,void*>>* vPointPars)
 {
-	bool bResult = false;
-	vector<double,SYData,dblcmp>::iterator itrNext  =  m_pPointMap.lower_bound(m_firstY);	
-	for(itrNext != m_pPointMap.end(); itrNext <= m_pPointMap.begin(); itrNext--)
-	{
-		if(((SYData)(*itrNext)).isDistSmaller((SYData)(m_FirstSyDataToComp))) 
-		{
-			pair<void*,void*> pairData(itrNext->second->m_dataAttach,m_FirstSyDataToComp->second->m_dataAttach);  
-			vPointPars.push_back(pairData);         
-			bResult = true;   
-			continue;   
-		}
-		else  
-		{
-			break;  
-		}
-	}	
-	return bResult; 
+	//bool bResult = false;
+	//map<double,SYData,dblcmp>::iterator itrNext  =  m_pPointMap.lower_bound(m_firstY);	
+	//for(itrNext != m_pPointMap.end(); itrNext <= m_pPointMap.begin(); itrNext--)
+	//{
+	//	if(((SYData)(*itrNext)).isDistSmaller((SYData)(m_FirstSyDataToComp))) 
+	//	{
+	//		pair<void*,void*> pairData(itrNext->second->m_dataAttach,m_FirstSyDataToComp->second->m_dataAttach);  
+	//		vPointPars.push_back(pairData);         
+	//		bResult = true;   
+	//		continue;   
+	//	}
+	//	else  
+	//	{
+	//		break;  
+	//	}
+	//}	
+	//return bResult; 
+	return true;
 }
 
 
@@ -722,35 +725,36 @@ CPointMap::printPointPairs(IN vector<pair<void*,void*>>& vPointPairs)
 //m_itrSYDataFirst: 从m_itrSXDataFirst中取出的点syData;
 //功能：从点集中寻找距离小于dist的点对;
 bool
-CPointMap::prsPointPairsLessDist(IN const double dist,OUT vector<pair<void*,void*>>* vPtPairs)   
+CPointMap::prsPointPairsLessDist(IN const double dist,OUT vector<pair<void*,void*> >* vPtPairs)   
 {
 	//clean the vPtPairs
-	vPtPairs->clear();
+	//vPtPairs->clear();
 
-	m_itrsx = m_mapXcoord.begin();
-	m_itrSXDataNext = m_itrSXDataFirst;
+	//m_itrsx = m_mapXcoord.begin();
+	//m_itrSXDataNext = m_itrSXDataFirst;
 
-	m_itrSYDataFirst = m_itrSXDataFirst->second.syDataBegin();   
+	//m_itrSYDataFirst = m_itrSXDataFirst->second.syDataBegin();   
 
-	for(;m_itrSXDataFirst != m_mapXcoord.end(); m_itrSXDataFirst++)   
-	{
-		for(; m_itrSYDataFirst != m_itrSXDataFirst->second.syDataEnd(); m_itrSYDataFirst++) 
-		{
-			for(;m_itrSXDataNext != m_mapXcoord.end(); m_itrSXDataNext++)   
-			{
-				m_itrSXDataNext->second.inputFirstSyData(m_itrSYDataFirst);
-				m_itrSXDataNext->second.setDistToComp(dist);
-				if(m_itrSXDataNext->second.findPointPairsLessDist(dist,vPtPairs)) 
-				{
-					continue;
-				}
-				else  //m_itrSXDataNext和m_itrSXDataFirst的x距离超过dist了; 
-				{
-					break;
-				}
-			}
-		}
-	}
+	//for(;m_itrSXDataFirst != m_mapXcoord.end(); m_itrSXDataFirst++)   
+	//{
+	//	for(; m_itrSYDataFirst != m_itrSXDataFirst->second.syDataEnd(); m_itrSYDataFirst++) 
+	//	{
+	//		for(;m_itrSXDataNext != m_mapXcoord.end(); m_itrSXDataNext++)   
+	//		{
+	//			m_itrSXDataNext->second.inputFirstSyData(m_itrSYDataFirst);
+	//			m_itrSXDataNext->second.setDistToComp(dist);
+	//			if(m_itrSXDataNext->second.findPointPairsLessDist(dist,vPtPairs)) 
+	//			{
+	//				continue;
+	//			}
+	//			else  //m_itrSXDataNext和m_itrSXDataFirst的x距离超过dist了; 
+	//			{
+	//				break;
+	//			}
+	//		}
+	//	}
+	//}
+	return true;
 }
 
 
