@@ -38,6 +38,7 @@
 #include ".\src_code\explode_insert.h" 
 #include ".\src_code\findDist.h" 
 #include ".\src_code\shanghaisanxing.h" 
+#include ".\src_code\kubun.h" 
 
 
 //-----------------------------------------------------------------------------
@@ -73,7 +74,8 @@ def_cmdfun cmdFunTbl[] =
 	{_T("pc"), purge, ACRX_CMD_MODAL},   //清理图形:去除无用层、5s;  
 	{_T("xi"), xb, ACRX_CMD_MODAL},   //分解minsert，insert实体;  2018-4-28-sat github test aaas
 	{_T("test001"), testCOptOfTwoPnts::testCOptOfTwoPoints, ACRX_CMD_MODAL},   //
-	{_T("sanxing"), sanxing, ACRX_CMD_MODAL}   //
+	{_T("sanxing"), sanxing, ACRX_CMD_MODAL},   //针对三星客户图形不同颜色line加宽不同宽度的半自动化;
+	{_T("kubun"), kubun, ACRX_CMD_MODAL}   //针对三星客户图形不同颜色line加宽不同宽度的半自动化;
 
 };
 

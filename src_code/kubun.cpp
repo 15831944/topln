@@ -43,9 +43,9 @@ kubun()
 	if(!wcscmp(chgetname,_T("space")) || !wcscmp(chgetname,_T("SPACE"))) 
 	{
         //acutPrintf("\n测试!");
-	    acedCommand(RTSTR,"ZOOM",RTSTR,"E",0);
+	    acedCommand(RTSTR,_T("ZOOM"),RTSTR,_T("E"),0);
 		copy2spacebox(ssunit,ssall);//拷贝空格单粒;
-		acedCommand(RTSTR,"ZOOM",RTSTR,"P",0);
+		acedCommand(RTSTR,_T("ZOOM"),RTSTR,_T("P"),0);
 	}
 
 	upstring(chgetname);//将单粒名字符串改成大写的
