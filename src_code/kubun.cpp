@@ -24,7 +24,7 @@ kubun()
 	rb0.restype = 8;
 	rb0.resval.rstring = _T("0");
 	rb0.rbnext = NULL;
-	acedSSGet(_T("A"),NULL,NULL,&rb0,ssall);//选择0层的横竖框线ssall;
+	acedSSGet(_T("A"),NULL,NULL,&rb0,ssall);//选择0层的横竖框线ssall; 
 	
 	acutPrintf(_T("\n- - - 请选择所要拷贝的单粒 - - -"));
 	flag = acedSSGet(NULL,NULL,NULL,NULL,ssunit);//选单粒;
@@ -66,7 +66,7 @@ kubun()
 		acdbGetObjectId(objid,ss_swap);
 		acdbOpenAcDbEntity(pent,objid,AcDb::kForRead);
 		AcDbMText *pmtext = (AcDbMText*)pent;
-		wcscmp(unit_name,pmtext->contents());
+		wcscpy(unit_name,pmtext->contents());
 		upstring(unit_name);//将多行字的内容改成大写;
 		if(!wcscmp(chgetname,unit_name))//图形里是否有符合输入单粒名称的文字
 		{
