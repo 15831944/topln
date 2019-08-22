@@ -908,6 +908,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src_code\segments_intersections.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src_code\segments_intersections.h"
+					>
+				</File>
+				<File
 					RelativePath=".\src_code\selectss.cpp"
 					>
 				</File>
