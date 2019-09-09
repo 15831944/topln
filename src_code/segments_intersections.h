@@ -74,6 +74,18 @@ eg： Date:	Author: 	Modification:
 //
 
 
+//指示弧段方位：
+//弧段用通过中心的垂线和水平线划分成四段:左上，左下，右上，右下;
+enum EArcLabel
+{
+	LEFT_TOP,
+	LEFT_BOTTOM,
+	RIGHT_TOP,
+	RIGHT_BOTTOM,
+	NONE_NONE
+};
+
+
 /*
 类名：CSegement
 用途：表示一个线段，可能是一条直线，也可能是一条弧;   
@@ -82,10 +94,12 @@ eg： Date:	Author: 	Modification:
 */
 class CSegement
 {
-	;
 	AcDbPolyline::segType m_segmentType;
 	AcGeLineSeg2d m_lineSeg;
-	AcGeCircArc2d m_arcSeg;
+	AcGeCircArc2d m_arcSegL1;
+	//if it is arc segment
+	EArcLabel m_arcLabel;
+	AcGeCircArc2d m_arcSegL2;
 	AcDbPolyline* m_polyline;
 };
 
