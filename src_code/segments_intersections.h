@@ -86,6 +86,9 @@ enum EArcLabel
 };
 
 
+
+//
+
 /*
 类名：CSegement
 用途：表示一个线段，可能是一条直线，也可能是一条弧;   
@@ -100,7 +103,11 @@ class CSegement
 	//if it is arc segment
 	EArcLabel m_arcLabel;
 	AcGeCircArc2d m_arcSegL2;
-	AcDbPolyline* m_polyline;
+
+	//是弧是线是多义线；
+	AcDbArc* m_arcPtr;
+	AcDbLine* m_LinePtr;
+	AcDbPolyline* m_polylinePtr;
 };
 
 
