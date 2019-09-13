@@ -76,18 +76,28 @@ eg： Date:	Author: 	Modification:
 
 //指示弧段方位：
 //弧段用通过中心的垂线和水平线划分成四段:左上，左下，右上，右下;
-enum EArcLabel
+enum EPartOfArc
 {
 	LEFT_TOP,
 	LEFT_BOTTOM,
 	RIGHT_TOP,
 	RIGHT_BOTTOM,
+	JUST_ALONE，//表示这个弧本身就是单调的;
 	NONE_NONE
 };
 
 
 
-//
+//枚举，指示线段类型
+enum ETypeOfArc
+{
+	Line_Type,
+	Arc_Type,
+	Circle_Type,
+	Polyline_Type,
+	AcGeCircArc2d_Type，
+	None_Type //problem type;
+};
 
 /*
 类名：CSegement
@@ -97,17 +107,38 @@ enum EArcLabel
 */
 class CSegement
 {
-	AcDbPolyline::segType m_segmentType;
-	AcGeLineSeg2d m_lineSeg;
-	AcGeCircArc2d m_arcSegL1;
-	//if it is arc segment
-	EArcLabel m_arcLabel;
-	AcGeCircArc2d m_arcSegL2;
+public:
+	CSegement();
+	CSegement(IN AcDbLine* dbLinePtr);
+	CSegement(IN AcDbPolyline* polylinePtr,IN int indexVertex,IN int arcPartNumber);
+	CSegement(IN AcDbCircle* circlePtr,IN int arcPartNumber);
+	CSegement(IN AcDbArc* arcPtr, IN int arcPartNumber);
+	
+public:
+	//线段的x坐标
+	double m_x;
 
-	//是弧是线是多义线；
+	//本线段，是弧？是线？是多义线？
+	ETypeOfArc m_myselfType ; 
 	AcDbArc* m_arcPtr;
-	AcDbLine* m_LinePtr;
+	AcDbLine* m_LinePtr;	
+	EPartOfArc m_whichPart;
+
+	//母线段，是弧？是圆？是多义线？:不可能是线line;
+	ETypeOfArc m_parentType ;
+	AcDbArc* m_arcPtr;
+	AcDbCircle* m_circlePtr;
+	//AcDbLine* m_LinePtr;
+	AcGeCircArc2d* m_circArc2d;
 	AcDbPolyline* m_polylinePtr;
+
+	//祖母线段，是弧？是线？是多义线？
+	ETypeOfArc m_grandmaType;
+	//AcDbArc* m_arcPtr;
+	//AcDbLine* m_LinePtr;
+	AcDbPolyline* m_polylinePtr; 
+public:
+	;
 };
 
 
