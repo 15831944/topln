@@ -109,22 +109,21 @@ class CSegement
 {
 public:
 	CSegement();
-	CSegement(IN AcDbLine* dbLinePtr);
-	CSegement(IN AcDbPolyline* polylinePtr,IN int indexVertex,IN int arcPartNumber);
-	CSegement(IN AcDbCircle* circlePtr,IN int arcPartNumber);
-	CSegement(IN AcDbArc* arcPtr, IN int arcPartNumber);
-	
+	~CSegement();
+
 public:
-	//线段的x坐标
+	//线段的端点x坐标
+	bool m_isLeftPoint;
 	double m_x;
+	double m_y;
 
 	//本线段，是弧？是线？是多义线？
 	ETypeOfArc m_myselfType ; 
 	AcDbArc* m_arcPtr;
 	AcDbLine* m_LinePtr;	
-	EPartOfArc m_whichPart;
+	EPartOfArc m_whichPart; 
 
-	//母线段，是弧？是圆？是多义线？:不可能是线line;
+	//母线段，是弧？是圆？是多义线？:不可能是线line;  
 	ETypeOfArc m_parentType ;
 	AcDbArc* m_arcPtr;
 	AcDbCircle* m_circlePtr;
@@ -132,13 +131,21 @@ public:
 	AcGeCircArc2d* m_circArc2d;
 	AcDbPolyline* m_polylinePtr;
 
-	//祖母线段，是弧？是线？是多义线？
+	//祖母线段，是弧？是线？是多义线?  
 	ETypeOfArc m_grandmaType;
 	//AcDbArc* m_arcPtr;
 	//AcDbLine* m_LinePtr;
-	AcDbPolyline* m_polylinePtr; 
+	AcDbPolyline* m_polylinePtr;
+
 public:
-	;
+	bool initCSegementFromLeftPoint(IN AcDbLine* dbLinePtr);
+	bool initCSegementFromRightPoint(IN AcDbLine* dbLinePtr);
+	bool initCSegementFromLeftPoint(IN AcDbPolyline* polylinePtr,IN int indexVertex,IN int arcPartNumber);
+	bool initCSegementFromRightPoint(IN AcDbPolyline* polylinePtr,IN int indexVertex,IN int arcPartNumber);
+	bool initCSegementFromLeftPoint(IN AcDbCircle* circlePtr,IN int arcPartNumber);
+	bool initCSegementFromRightPoint(IN AcDbCircle* circlePtr,IN int arcPartNumber);
+	bool initCSegementFromLeftPoint(IN AcDbArc* arcPtr, IN int arcPartNumber);
+	bool initCSegementFromRightPoint(IN AcDbArc* arcPtr, IN int arcPartNumber);
 };
 
 
