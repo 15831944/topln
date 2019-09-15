@@ -21,11 +21,12 @@ David 96/10/12 1.0 build this moudle
 
 
 /*
-class CSegement
-功能：建立线段：从line，arc，circle，polyline提取线段;
+class CSegement::initCSegement
+功能：1.建立线段：从line，arc，circle，polyline提取线段;
+      2.初始化Csegement;
 */
 bool
-CSegement::initCSegementFromLeftPoint(IN AcDbLine* linePtr)
+CSegement::initCSegement(IN AcDbLine* linePtr)
 {
 	double x1;
 	double y1;
@@ -35,15 +36,53 @@ CSegement::initCSegementFromLeftPoint(IN AcDbLine* linePtr)
 	y1 = linePtr->startPoint().y;
 	x2 = linePtr->endPoint().x;
 	y2 = linePtr->endPoint().y;
-	
+	s
 	//m_x赋值
-	(x1 > x2)? (m_x = x1):(m_x = x2);
+	if(y1 > y2)
+	{
+		m_xTop = x1;
+		m_yTop = y1;
+		m_xBottom = x2;
+		m_yBottom = y2;
+	}
+	else
+	{
+		m_xTop = x2;
+		m_yTop = y2;
+		m_xBottom = x1;
+		m_yBottom = y2;
+	}
 
-	//
+	//self
 	m_myselfType = Line_Type;
 	m_arcPtr = NULL;
 	m_circlePtr = NULL;
 	m_LinePtr = linePtr;
 
-	//
+	//mather
+	m_parentType =  None_Type;
+	m_arcPtr = NULL;
+	AcDbCircle* m_circlePtr = NULL;
+	//AcDbLine* m_LinePtr;
+	AcGeCircArc2d* m_circArc2d = NULL;
+	AcDbPolyline* m_polylinePtr = NULL;
+
+	//grandmather
+	ETypeOfArc m_grandmaType = None_Type;
+	//AcDbArc* m_arcPtr;
+	//AcDbLine* m_LinePtr;
+	AcDbPolyline* m_polylinePtr = NULL;
+	
+	return true;
+}
+
+
+/*
+从多义线某段(已知是弧)，提取弧段的某部分（分四部分）;
+
+*/
+bool
+CSegement::initCSegement(IN AcDbPolyline* polylinePtr,IN int indexVertex,IN int arcPartNumber)
+{
+	;
 }

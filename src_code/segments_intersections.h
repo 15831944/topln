@@ -82,7 +82,7 @@ enum EPartOfArc
 	LEFT_BOTTOM,
 	RIGHT_TOP,
 	RIGHT_BOTTOM,
-	JUST_ALONE，//表示这个弧本身就是单调的;
+	JUST_ALONE， //表示这个弧本身就是单调的;
 	NONE_NONE
 };
 
@@ -113,10 +113,10 @@ public:
 
 public:
 	//线段的端点x坐标	
-	double m_xLeft;
-	double m_yLeft;
-	double m_xRight;
-	double m_yRight;
+	double m_xTop;
+	double m_yTop;
+	double m_xBottom;
+	double m_yBottom;
 
 	//本线段，是弧？是线？是多义线？
 	ETypeOfArc m_myselfType ; 
@@ -136,17 +136,13 @@ public:
 	ETypeOfArc m_grandmaType;
 	//AcDbArc* m_arcPtr;
 	//AcDbLine* m_LinePtr;
-	AcDbPolyline* m_polylinePtr;
+	AcDbPolyline* m_polylinePtr; 
 
 public:
-	bool initCSegementFromLeftPoint(IN AcDbLine* dbLinePtr);
-	bool initCSegementFromRightPoint(IN AcDbLine* dbLinePtr);
-	bool initCSegementFromLeftPoint(IN AcDbPolyline* polylinePtr,IN int indexVertex,IN int arcPartNumber);
-	bool initCSegementFromRightPoint(IN AcDbPolyline* polylinePtr,IN int indexVertex,IN int arcPartNumber);
-	bool initCSegementFromLeftPoint(IN AcDbCircle* circlePtr,IN int arcPartNumber);
-	bool initCSegementFromRightPoint(IN AcDbCircle* circlePtr,IN int arcPartNumber);
-	bool initCSegementFromLeftPoint(IN AcDbArc* arcPtr, IN int arcPartNumber);
-	bool initCSegementFromRightPoint(IN AcDbArc* arcPtr, IN int arcPartNumber);
+	bool initCSegement(IN AcDbLine* dbLinePtr);
+	bool initCSegement(IN AcDbPolyline* polylinePtr,IN int indexVertex,IN int arcPartNumber);
+	bool initCSegement(IN AcDbCircle* circlePtr,IN int arcPartNumber);
+	bool initCSegement(IN AcDbArc* arcPtr, IN int arcPartNumber);
 };
 
 
