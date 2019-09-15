@@ -112,10 +112,11 @@ public:
 	~CSegement();
 
 public:
-	//线段的端点x坐标
-	bool m_isLeftPoint;
-	double m_x;
-	double m_y;
+	//线段的端点x坐标	
+	double m_xLeft;
+	double m_yLeft;
+	double m_xRight;
+	double m_yRight;
 
 	//本线段，是弧？是线？是多义线？
 	ETypeOfArc m_myselfType ; 
