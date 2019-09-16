@@ -140,7 +140,7 @@ public:
 
 public:
 	bool initCSegement(IN AcDbLine* dbLinePtr);
-	bool initCSegement(IN AcDbPolyline* polylinePtr,IN int indexVertex,IN int arcPartNumber);
+	bool initCSegement(IN AcDbPolyline* polylinePtr,IN int indexVertex,IN int arcPartNumber); 
 	bool initCSegement(IN AcDbCircle* circlePtr,IN int arcPartNumber);
 	bool initCSegement(IN AcDbArc* arcPtr, IN int arcPartNumber);
 };
