@@ -141,9 +141,28 @@ public:
 public:
 	bool initCSegement(IN AcDbLine* dbLinePtr);
 	bool initCSegement(IN AcDbPolyline* polylinePtr,IN int indexVertex,IN int arcPartNumber); 
-	bool initCSegement(IN AcDbCircle* circlePtr,IN int arcPartNumber);
+	bool initCSegement(IN AcDbCircle* circlePtr,IN int arcPartNumber); 
 	bool initCSegement(IN AcDbArc* arcPtr, IN int arcPartNumber);
 };
 
+
+
+
+/*
+ª°∂ŒÃ·»°œﬂ∂ŒCSegement
+*/
+class CArcToSegment
+{
+public:
+	CArcToSegment();
+	~CArcToSegment();
+
+private:
+	AcGeCircArc2d* m_geArc2d;  
+
+public:
+	bool getSegment();
+	bool breakArcToFourPart();  
+};
 
 #endif  //ZHOUHUAGANG_20190822_segments_intersections
