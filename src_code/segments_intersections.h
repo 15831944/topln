@@ -149,20 +149,27 @@ public:
 
 
 /*
-弧段提取线段CSegement
+弧段提取线段CSegement;
+将弧段分成四部分：以圆心画垂直线和水平线，将圆弧切割成四部分；
+这样每部分都是单调的弧;
 */
 class CArcToSegment
 {
 public:
-	CArcToSegment();
-	~CArcToSegment();
+	CArcToSegment(); 
+	~CArcToSegment(); 
 
 private:
-	AcGeCircArc2d* m_geArc2d;  
+	AcGeCircArc2d* m_geArc2d;
+	AcGeCircArc2d* m_geArc2dLeftTop;
+	AcGeCircArc2d* m_geArc2dLeftBot;
+	AcGeCircArc2d* m_geArc2dRightTop;
+	AcGeCircArc2d* m_geArc2dRightBot;
+	bool breakToFourPart();
 
 public:
 	bool getSegment();
-	bool breakArcToFourPart();  
+	bool breakArcToFourPart();
 };
 
 #endif  //ZHOUHUAGANG_20190822_segments_intersections

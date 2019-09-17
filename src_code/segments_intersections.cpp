@@ -86,3 +86,23 @@ CSegement::initCSegement(IN AcDbPolyline* polylinePtr,IN int indexVertex,IN int 
 {
 	;
 }
+
+
+
+/*
+CArcToSegment
+*/
+
+bool CArcToSegment::getSegment()
+{
+	if(m_geArc2dLeftTop == NULL)
+	{
+		return false;
+	}
+
+	double startAngle = m_geArc2d->startAng();
+	double endAngle = m_geArc2d->endAng();
+	double radius = m_geArc2d->radius();
+	AcGeVector3d vec3d = m_geArc2d->
+	;
+}
