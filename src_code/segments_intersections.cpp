@@ -91,6 +91,7 @@ CSegement::initCSegement(IN AcDbPolyline* polylinePtr,IN int indexVertex,IN int 
 
 /*
 CArcToSegment
+功能：把弧段切分成四份，每个象限一份;
 */
 
 bool CArcToSegment::getSegment()
@@ -100,9 +101,22 @@ bool CArcToSegment::getSegment()
 		return false;
 	}
 
+	AcGeTol tol;
+
 	double startAngle = m_geArc2d->startAng();   
 	double endAngle = m_geArc2d->endAng();
 	double radius = m_geArc2d->radius();
-	AcGeVector3d vec3d = m_geArc2d->
-	;
+	AcGeVector2d vec2d = m_geArc2d->refVec();
+	Adesk::Boolean isclockwise = m_geArc2d->isClockWise();
+	
+	bool isZeroIN = false;
+	bool isNintyIn = false;
+	bool is270In = false;
+	bool is180In = false;
+	//判断其实角度和结束角度的关系:0,90,180,270度可否插入; 
+	//0度可插入吗？
+	if(startAngle < 0 - tol.equalPoint() && endAngle > 0 + tol.equalPoint())
+	{
+		isZeroIN = true;
+	}
 }
