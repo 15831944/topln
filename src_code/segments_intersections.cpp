@@ -111,9 +111,16 @@ CBreakAcGeCircArcToTwoPart::CBreakAcGeCircArcToTwoPart()
 {
 }
 
+<<<<<<< HEAD
 CBreakAcGeCircArcToTwoPart::~CBreakAcGeCircArcToTwoPart()
 {
 }
+=======
+/*
+CArcToSegment
+功能：把弧段切分成四份，每个象限一份;
+*/
+>>>>>>> 37dd28f380eb75c30be740c2401645f6f951599b
 
 //initialize the member variables;
 bool
@@ -142,6 +149,7 @@ CBreakAcGeCircArcToTwoPart::setArcToBeBrked(IN AcGeCircArc2d* pArc)
 	}
 }
 
+<<<<<<< HEAD
 
 //initialize
 //误差值以AcGeTol::equalPoint()为准;
@@ -177,3 +185,24 @@ CBreakAcGeCircArcToTwoPart::outputBreakedArc(OUT AcGeCircArc2d* pArcResult1,OUT 
 	;
 }
 
+=======
+	AcGeTol tol;
+
+	double startAngle = m_geArc2d->startAng();   
+	double endAngle = m_geArc2d->endAng();
+	double radius = m_geArc2d->radius();
+	AcGeVector2d vec2d = m_geArc2d->refVec();
+	Adesk::Boolean isclockwise = m_geArc2d->isClockWise();
+	
+	bool isZeroIN = false;
+	bool isNintyIn = false;
+	bool is270In = false;
+	bool is180In = false;
+	//判断其实角度和结束角度的关系:0,90,180,270度可否插入; 
+	//0度可插入吗？
+	if(startAngle < 0 - tol.equalPoint() && endAngle > 0 + tol.equalPoint())
+	{
+		isZeroIN = true;
+	}
+}
+>>>>>>> 37dd28f380eb75c30be740c2401645f6f951599b
