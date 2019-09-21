@@ -20,11 +20,13 @@ David 96/10/12 1.0 build this moudle
 
 
 
-/*
-class CSegement::initCSegement
-功能：1.建立线段：从line，arc，circle，polyline提取线段;
-      2.初始化Csegement;
-*/
+/*------------------------------------------------------------
+class CSegement
+------------------------------------------------------------*/
+
+//class CSegement::initCSegement
+//功能：1.建立线段：从line，arc，circle，polyline提取线段;
+//2.初始化Csegement;
 bool
 CSegement::initCSegement(IN AcDbLine* linePtr)
 {
@@ -77,32 +79,101 @@ CSegement::initCSegement(IN AcDbLine* linePtr)
 }
 
 
+
+
+/*------------------------------------------------------------
+class CArcToSegment
+------------------------------------------------------------*/
 /*
-从多义线某段(已知是弧)，提取弧段的某部分（分四部分）;
-
+CArcToSegment::breakArcIntoTwoPartBy()
 */
-bool
-CSegement::initCSegement(IN AcDbPolyline* polylinePtr,IN int indexVertex,IN int arcPartNumber)
+bool CArcToSegment::breakArcIntoTwoPartBy(IN double dblAngelToBreak,IN AcGeCircArc2d* pGeArc2d,OUT AcGeCircArc2d* pArcResult1,OUT AcGeCircArc2d* pArcResult2)
 {
-	;
-}
-
-
-
-/*
-CArcToSegment
-*/
-
-bool CArcToSegment::getSegment()
-{
-	if(m_geArc2dLeftTop == NULL)
+	if(pGeArc2d == NULL)
 	{
 		return false;
 	}
 
-	double startAngle = m_geArc2d->startAng();
-	double endAngle = m_geArc2d->endAng();
+	double startAngle = m_geArc2d->startAng(); 
+	double endAngle = m_geArc2d->endAng(); 
 	double radius = m_geArc2d->radius();
-	AcGeVector3d vec3d = m_geArc2d->
+	//AcGeVector3d vec3d = m_geArc2d->refVec();
+	
 	;
 }
+
+
+/*-----------------------------------------------
+class CBreakAcGeCircArcToTwoPart
+功能：按给定的弧度，把一段弧打碎为2段；
+-----------------------------------------------*/
+CBreakAcGeCircArcToTwoPart::CBreakAcGeCircArcToTwoPart()
+{
+}
+
+CBreakAcGeCircArcToTwoPart::~CBreakAcGeCircArcToTwoPart()
+{
+}
+
+//initialize the member variables;
+bool
+CBreakAcGeCircArcToTwoPart::setArcAndRadianToBreak(IN AcGeCircArc2d* pArc,IN double radianToBrk)
+{
+	bool b1 = false;
+	bool b2 = false;
+	b1 = setArcToBeBrked(pArc);
+	b2 = setRadianToBeBrked(radianToBrk);
+	return (b1 && b2);
+}
+
+
+//initialize
+bool
+CBreakAcGeCircArcToTwoPart::setArcToBeBrked(IN AcGeCircArc2d* pArc)
+{
+	m_inputArc = pArc;
+	if(pArc == NULL)
+	{		
+		return false;
+	}
+	else
+	{	
+		return true;
+	}
+}
+
+
+//initialize
+//误差值以AcGeTol::equalPoint()为准;
+bool
+CBreakAcGeCircArcToTwoPart::setRadianToBeBrked(IN double radianToBrk)
+{
+	m_inputRadianToBreak = radianToBrk;
+	if((radianToBrk < -AcGeTol::equalPoint()) && (radianToBrk >= (2*Pi -AcGeTol::equalPoint())))
+	{		
+		return false;
+	}
+	else
+	{	
+		return true;
+	}
+}
+
+
+//break the input arc
+bool
+CBreakAcGeCircArcToTwoPart::breakArc()
+{
+	double startAng = m_inputArc->startAng();
+	double endAng = m_inputArc->endAng();
+	double radius = m_inputArc->radius();
+}
+
+
+//output the result arcs
+bool
+CBreakAcGeCircArcToTwoPart::outputBreakedArc(OUT AcGeCircArc2d* pArcResult1,OUT AcGeCircArc2d* pArcResult2)
+{
+	;
+}
+

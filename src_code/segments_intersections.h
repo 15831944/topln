@@ -17,14 +17,11 @@ eg： Date:	Author: 	Modification:
 #ifndef  ZHOUHUAGANG_20190822_segments_intersections
 #define  ZHOUHUAGANG_20190822_segments_intersections
 
-
-
-#include <vector>
 #include <map>   
 #include <algorithm>
-//#include <>
-
-
+#include <vector>
+#include <list>
+//--------------------
 #include <stdlib.h>
 #include <ctype.h>
 #include <aced.h>
@@ -54,9 +51,9 @@ eg： Date:	Author: 	Modification:
 #include "..\StdAfx.h"
 #include "TCHAR.h"
 
-#include <vector>
-#include <list>
-#include <map>
+#include "opt.h"
+
+
 
 
 //建立3个结构：
@@ -158,18 +155,46 @@ class CArcToSegment
 public:
 	CArcToSegment(); 
 	~CArcToSegment(); 
+	CArcToSegment(AcGeCircArc2d* pGeArc2d);
 
 private:
 	AcGeCircArc2d* m_geArc2d;
 	AcGeCircArc2d* m_geArc2dLeftTop;
 	AcGeCircArc2d* m_geArc2dLeftBot;
 	AcGeCircArc2d* m_geArc2dRightTop;
-	AcGeCircArc2d* m_geArc2dRightBot;
-	bool breakToFourPart();
+	AcGeCircArc2d* m_geArc2dRightBot; 
+	vector<AcGeCircArc2d*> m_arcs;
+private:
+	bool breakArcIntoTwoPartBy(IN double dblAngelToBreak,IN AcGeCircArc2d* pGeArc2d,OUT AcGeCircArc2d* pArcResult1,OUT AcGeCircArc2d* pArcResult2);
 
 public:
-	bool getSegment();
-	bool breakArcToFourPart();
+	bool inputArcSeg(AcGeCircArc2d* pGeArc2d); 
+};
+
+
+
+/*
+class CBreakAcGeCircArcToTwoPart
+
+*/
+class CBreakAcGeCircArcToTwoPart
+{
+private:
+	AcGeCircArc2d* m_inputArc;
+	double m_inputRadianToBreak;
+	AcGeCircArc2d* m_arcResult1;
+	AcGeCircArc2d* m_arcResult2;
+public:
+	bool outputBreakedArc(OUT AcGeCircArc2d* pArcResult1,OUT AcGeCircArc2d* pArcResult2);
+	bool breakArc(IN AcGeCircArc2d* pArc,IN double radianToBrk,OUT AcGeCircArc2d* pArcResult1,OUT AcGeCircArc2d* pArcResult2);
+	bool breakArc();
+	bool setArcToBeBrked(IN AcGeCircArc2d* pArc);
+	bool setRadianToBeBrked(IN double radianToBrk);
+	bool setArcAndRadianToBreak(IN AcGeCircArc2d* pArc,IN double radianToBrk);
+
+public:
+	CBreakAcGeCircArcToTwoPart();
+	~CBreakAcGeCircArcToTwoPart(); 
 };
 
 #endif  //ZHOUHUAGANG_20190822_segments_intersections
