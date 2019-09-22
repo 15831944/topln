@@ -175,26 +175,29 @@ public:
 
 /*
 class CBreakAcGeCircArcToTwoPart
-
+功能：将输入的弧，按输入的角度，打破成2段弧;
+输入：弧段，角度;
+输出：打破后的2段弧;
 */
 class CBreakAcGeCircArcToTwoPart
 {
 private:
 	AcGeCircArc2d* m_inputArc;
-	double m_inputRadianToBreak;
-	AcGeCircArc2d* m_arcResult1;
-	AcGeCircArc2d* m_arcResult2;
+	double m_inputRadianToBreak;  
+	AcGeCircArc2d* m_arcResult1; 
+	AcGeCircArc2d* m_arcResult2; 
+	bool isBreakSuccessed;
 public:
-	bool outputBreakedArc(OUT AcGeCircArc2d* pArcResult1,OUT AcGeCircArc2d* pArcResult2);
-	bool breakArc(IN AcGeCircArc2d* pArc,IN double radianToBrk,OUT AcGeCircArc2d* pArcResult1,OUT AcGeCircArc2d* pArcResult2);
+	bool outputBreakedArcs(OUT AcGeCircArc2d* pArcResult1,OUT AcGeCircArc2d* pArcResult2);
+	bool breakArc(IN AcGeCircArc2d* pArc,IN double radianToBrk,OUT AcGeCircArc2d* pArcResult1,OUT AcGeCircArc2d* pArcResult2); 
 	bool breakArc();
-	bool setArcToBeBrked(IN AcGeCircArc2d* pArc);
-	bool setRadianToBeBrked(IN double radianToBrk);
-	bool setArcAndRadianToBreak(IN AcGeCircArc2d* pArc,IN double radianToBrk);
+	bool setArcToBeBrked(IN AcGeCircArc2d* pArc); 
+	bool setRadianToBeBrked(IN double radianToBrk);  
+	bool setArcAndRadianToBreak(IN AcGeCircArc2d* pArc,IN double radianToBrk);   
 
 public:
-	CBreakAcGeCircArcToTwoPart();
-	~CBreakAcGeCircArcToTwoPart(); 
+	CBreakAcGeCircArcToTwoPart();  
+	~CBreakAcGeCircArcToTwoPart();  
 };
 
 #endif  //ZHOUHUAGANG_20190822_segments_intersections

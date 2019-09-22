@@ -83,6 +83,7 @@ CSegement::initCSegement(IN AcDbLine* linePtr)
 
 /*------------------------------------------------------------
 class CArcToSegment
+功能：把弧段切分成四份，每个象限一份;
 ------------------------------------------------------------*/
 /*
 CArcToSegment::breakArcIntoTwoPartBy()
@@ -111,16 +112,12 @@ CBreakAcGeCircArcToTwoPart::CBreakAcGeCircArcToTwoPart()
 {
 }
 
-<<<<<<< HEAD
+
 CBreakAcGeCircArcToTwoPart::~CBreakAcGeCircArcToTwoPart()
 {
 }
-=======
-/*
-CArcToSegment
-功能：把弧段切分成四份，每个象限一份;
-*/
->>>>>>> 37dd28f380eb75c30be740c2401645f6f951599b
+
+
 
 //initialize the member variables;
 bool
@@ -149,7 +146,7 @@ CBreakAcGeCircArcToTwoPart::setArcToBeBrked(IN AcGeCircArc2d* pArc)
 	}
 }
 
-<<<<<<< HEAD
+
 
 //initialize
 //误差值以AcGeTol::equalPoint()为准;
@@ -172,37 +169,84 @@ CBreakAcGeCircArcToTwoPart::setRadianToBeBrked(IN double radianToBrk)
 bool
 CBreakAcGeCircArcToTwoPart::breakArc()
 {
-	double startAng = m_inputArc->startAng();
-	double endAng = m_inputArc->endAng();
-	double radius = m_inputArc->radius();
-}
+	double startAng = m_inputArc->startAng();   
+	double endAng = m_inputArc->endAng();     
+	double radius = m_inputArc->radius();     
+	AcGePoint2d centerPt = m_inputArc->center(); 
 
+	//判断角度m_inputRadianToBreak是否在弧内;
+	if(m_inputArc > (startAng + AcGeTol::equalPoint())) 
+	{ 
+		if(m_inputArc < (endAng - AcGeTol::equalPoint()))  
+		{
+			m_arcResult1->setRadius(radius);
+			m_arcResult1->setAngles(startAng,m_inputArc);  
+			m_arcResult1->setCenter(centerPt);
 
-//output the result arcs
-bool
-CBreakAcGeCircArcToTwoPart::outputBreakedArc(OUT AcGeCircArc2d* pArcResult1,OUT AcGeCircArc2d* pArcResult2)
-{
-	;
-}
+			m_arcResult2->setRadius(radius);
+			m_arcResult2->setAngles(m_inputArc,endAng);
+			m_arcResult2->setCenter(centerPt);
 
-=======
-	AcGeTol tol;
-
-	double startAngle = m_geArc2d->startAng();   
-	double endAngle = m_geArc2d->endAng();
-	double radius = m_geArc2d->radius();
-	AcGeVector2d vec2d = m_geArc2d->refVec();
-	Adesk::Boolean isclockwise = m_geArc2d->isClockWise();
-	
-	bool isZeroIN = false;
-	bool isNintyIn = false;
-	bool is270In = false;
-	bool is180In = false;
-	//判断其实角度和结束角度的关系:0,90,180,270度可否插入; 
-	//0度可插入吗？
-	if(startAngle < 0 - tol.equalPoint() && endAngle > 0 + tol.equalPoint())
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	else
 	{
-		isZeroIN = true;
+		return false;
 	}
 }
->>>>>>> 37dd28f380eb75c30be740c2401645f6f951599b
+
+
+
+//output the result arcs 
+bool
+CBreakAcGeCircArcToTwoPart::outputBreakedArcs(OUT AcGeCircArc2d* pArcResult1,OUT AcGeCircArc2d* pArcResult2)
+{
+	bool b1 = false;
+	bool b2 = false;
+	if(m_arcResult1 != NULL)
+	{
+		pArcResult1 = m_arcResult1;
+		b1 = true;
+	}
+
+	if(m_arcResult2 != NULL)
+	{
+		pArcResult2 = m_arcResult2;
+		b2 = true;
+	}
+}
+
+
+//
+bool
+CBreakAcGeCircArcToTwoPart::breakArc(IN AcGeCircArc2d* pArc,IN double radianToBrk,OUT AcGeCircArc2d* pArcResult1,OUT AcGeCircArc2d* pArcResult2)
+{
+	if(!setArcToBeBrked(pArc))
+	{
+		return false;
+	}
+
+	if(!setRadianToBeBrked(radianToBrk))
+	{
+		return false;
+	}
+
+	if(!breakArc())
+	{
+		return false;
+	}
+
+	if(!outputBreakedArcs(pArcResult1,pArcResult2))
+	{
+		return false;
+	}
+
+	return true;
+}
+
+
