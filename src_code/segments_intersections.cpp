@@ -219,11 +219,13 @@ CBreakAcGeCircArcToTwoPart::outputBreakedArcs(OUT AcGeCircArc2d* pArcResult1,OUT
 		pArcResult2 = m_arcResult2;
 		b2 = true;
 	}
+
+	return (b1 || b2);
 }
 
 
 //
-bool
+bool 
 CBreakAcGeCircArcToTwoPart::breakArc(IN AcGeCircArc2d* pArc,IN double radianToBrk,OUT AcGeCircArc2d* pArcResult1,OUT AcGeCircArc2d* pArcResult2)
 {
 	if(!setArcToBeBrked(pArc))
