@@ -146,29 +146,30 @@ public:
 
 
 /*
-弧段提取线段CSegement;
+弧段提取线段CBreakArcToFourSegment;
 将弧段分成四部分：以圆心画垂直线和水平线，将圆弧切割成四部分；
 这样每部分都是单调的弧;
 */
-class CArcToSegment
+class CBreakArcToFourPart
 {
 public:
-	CArcToSegment(); 
-	~CArcToSegment(); 
-	CArcToSegment(AcGeCircArc2d* pGeArc2d);
+	CBreakArcToFourPart(); 
+	~CBreakArcToFourPart(); 
+	CBreakArcToFourPart(AcGeCircArc2d* pGeArc2d);
 
 private:
-	AcGeCircArc2d* m_geArc2d;
+	AcGeCircArc2d* m_geArc2dToBreaked;   //需要打破的弧段;   
 	AcGeCircArc2d* m_geArc2dLeftTop;
-	AcGeCircArc2d* m_geArc2dLeftBot;
-	AcGeCircArc2d* m_geArc2dRightTop;
-	AcGeCircArc2d* m_geArc2dRightBot; 
-	vector<AcGeCircArc2d*> m_arcs;
+	AcGeCircArc2d* m_geArc2dLeftBot;  
+	AcGeCircArc2d* m_geArc2dRightTop;  
+	AcGeCircArc2d* m_geArc2dRightBot;   
+	vector<AcGeCircArc2d*> m_arcs;    
+
 private:
-	bool breakArcIntoTwoPartBy(IN double dblAngelToBreak,IN AcGeCircArc2d* pGeArc2d,OUT AcGeCircArc2d* pArcResult1,OUT AcGeCircArc2d* pArcResult2);
+	bool breakArcToFourParts(); //也许打碎后小于4个部分;  
 
 public:
-	bool inputArcSeg(AcGeCircArc2d* pGeArc2d); 
+	bool inputArcSegToBreaked(AcGeCircArc2d* pGeArc2d);  //输入需要打碎的弧段;    
 };
 
 
@@ -177,16 +178,15 @@ public:
 class CBreakAcGeCircArcToTwoPart
 功能：将输入的弧，按输入的角度，打破成2段弧;
 输入：弧段，角度;
-输出：打破后的2段弧;
+输出：打破后的2段弧;也可能角度不在弧段上，不打破;
 */
 class CBreakAcGeCircArcToTwoPart
 {
 private:
 	AcGeCircArc2d* m_inputArc;
 	double m_inputRadianToBreak;  
-	AcGeCircArc2d* m_arcResult1; 
-	AcGeCircArc2d* m_arcResult2; 
-	bool isBreakSuccessed;
+	AcGeCircArc2d* m_arcResult1;   
+	AcGeCircArc2d* m_arcResult2; 	
 public:
 	bool outputBreakedArcs(OUT AcGeCircArc2d* pArcResult1,OUT AcGeCircArc2d* pArcResult2);
 	bool breakArc(IN AcGeCircArc2d* pArc,IN double radianToBrk,OUT AcGeCircArc2d* pArcResult1,OUT AcGeCircArc2d* pArcResult2); 

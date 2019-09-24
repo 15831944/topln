@@ -82,26 +82,76 @@ CSegement::initCSegement(IN AcDbLine* linePtr)
 
 
 /*------------------------------------------------------------
-class CArcToSegment
-功能：把弧段切分成四份，每个象限一份;
+class CBreakArcToFourPart
+功能：把弧段切分成四份，每个象限一份,如果有的话;
 ------------------------------------------------------------*/
 /*
-CArcToSegment::breakArcIntoTwoPartBy()
+CBreakArcToFourPart::breakArcToFourParts()
+返回值：true-切割成功； false-没有切割成功;
+算法：1、vector里每个弧进行0度、90度、180度、270度分割；
+      2、如果任何一次分割成功，则原弧删掉，分割的新弧段加入vector；
+	  3、如果没有切割成功，则原弧不删掉;
 */
-bool CArcToSegment::breakArcIntoTwoPartBy(IN double dblAngelToBreak,IN AcGeCircArc2d* pGeArc2d,OUT AcGeCircArc2d* pArcResult1,OUT AcGeCircArc2d* pArcResult2)
+bool CBreakArcToFourPart::breakArcToFourParts()
 {
-	if(pGeArc2d == NULL)
+	AcGeCircArc2d* tmpGeArc2dPtr = NULL;
+	AcGeCircArc2d* brkGeArc2dRslt1Ptr = NULL; //初始化很重要;
+	AcGeCircArc2d* brkGeArc2dRslt2Ptr = NULL;
+	//定义一个对象：
+	CBreakAcGeCircArcToTwoPart objBrkTwo;
+
+	int i = 0;
+	double tmpRadian = 0;
+	vector<AcGeCircArc2d*>::iterator itr = m_arcs.begin();   
+	for(; itr != m_arcs.end(); itr++)
+	{
+		tmpGeArc2dPtr = *itr; 
+		//cut four times
+		for(int i = 0; i < 4; i++)
+		{
+			tmpRadian = (Pi / 2.0) * i;
+			objBrkTwo.breakArc(m_geArc2dToBreaked,tmpRadian,brkGeArc2dRslt1Ptr,brkGeArc2dRslt2Ptr);
+			if(brkGeArc2dRslt1Ptr != NULL || brkGeArc2dRslt2Ptr != NULL)
+			{
+				if(brkGeArc2dRslt1Ptr != NULL)
+				{
+					m_arcs.push_back(brkGeArc2dRslt1Ptr); 
+				}
+				if(brkGeArc2dRslt2Ptr != NULL)
+				{
+					m_arcs.push_back(brkGeArc2dRslt2Ptr);  
+				}
+				m_arcs.erase(itr); //itr指向下一个;
+				break;
+			}
+			else
+			{
+				continue;
+			}			
+		}		
+	}
+}
+
+
+//input one arc,initialize
+bool
+CBreakArcToFourPart::inputArcSegToBreaked(AcGeCircArc2d* pGeArc2d)
+{
+	if(pGeArc2d != NULL)
+	{
+		m_geArc2dToBreaked = pGeArc2d;
+		return true;
+	}
+	else
 	{
 		return false;
 	}
-
-	double startAngle = m_geArc2d->startAng(); 
-	double endAngle = m_geArc2d->endAng(); 
-	double radius = m_geArc2d->radius();
-	//AcGeVector3d vec3d = m_geArc2d->refVec();
-	
-	;
 }
+
+
+//
+
+
 
 
 /*-----------------------------------------------
@@ -115,6 +165,9 @@ CBreakAcGeCircArcToTwoPart::CBreakAcGeCircArcToTwoPart()
 
 CBreakAcGeCircArcToTwoPart::~CBreakAcGeCircArcToTwoPart()
 {
+	m_inputArc = NULL;
+	m_arcResult1 = NULL;
+	m_arcResult2 = NULL;
 }
 
 
@@ -125,8 +178,8 @@ CBreakAcGeCircArcToTwoPart::setArcAndRadianToBreak(IN AcGeCircArc2d* pArc,IN dou
 {
 	bool b1 = false;
 	bool b2 = false;
-	b1 = setArcToBeBrked(pArc);
-	b2 = setRadianToBeBrked(radianToBrk);
+	b1 = setArcToBeBrked(pArc);  
+	b2 = setRadianToBeBrked(radianToBrk);  
 	return (b1 && b2);
 }
 
@@ -179,12 +232,14 @@ CBreakAcGeCircArcToTwoPart::breakArc()
 	{ 
 		if(m_inputArc < (endAng - AcGeTol::equalPoint()))  
 		{
+			m_arcResult1 = new AcGeCircArc2d;
 			m_arcResult1->setRadius(radius);
 			m_arcResult1->setAngles(startAng,m_inputArc);  
 			m_arcResult1->setCenter(centerPt);
 
+			m_arcResult2 = new AcGeCircArc2d;
 			m_arcResult2->setRadius(radius);
-			m_arcResult2->setAngles(m_inputArc,endAng);
+			m_arcResult2->setAngles(m_inputArc,endAng);  
 			m_arcResult2->setCenter(centerPt);
 
 			return true;
