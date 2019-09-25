@@ -170,6 +170,10 @@ private:
 
 public:
 	bool inputArcSegToBreaked(AcGeCircArc2d* pGeArc2d);  //输入需要打碎的弧段;    
+	bool outputPartOne(AcGeCircArc2d* geArcPartOne); //输出第一象限弧段，如果有的话；
+	bool outputPartOne(AcGeCircArc2d* geArcPartOne); //输出第一象限弧段，如果有的话；
+	bool outputPartOne(AcGeCircArc2d* geArcPartOne); //输出第一象限弧段，如果有的话；
+	bool outputPartOne(AcGeCircArc2d* geArcPartOne); //输出第一象限弧段，如果有的话；
 };
 
 

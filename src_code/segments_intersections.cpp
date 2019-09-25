@@ -139,7 +139,7 @@ CBreakArcToFourPart::inputArcSegToBreaked(AcGeCircArc2d* pGeArc2d)
 {
 	if(pGeArc2d != NULL)
 	{
-		m_geArc2dToBreaked = pGeArc2d;
+		m_geArc2dToBreaked = pGeArc2d;   
 		return true;
 	}
 	else
@@ -149,7 +149,23 @@ CBreakArcToFourPart::inputArcSegToBreaked(AcGeCircArc2d* pGeArc2d)
 }
 
 
-//
+//功能：判断某个弧段是否在第一象限;如果在第一象限，输出它;
+bool 
+CBreakArcToFourPart::outputPartOne(AcGeCircArc2d* geArcPartOne)
+{
+	double tmpStartAng = -1;
+	double tmpEndAng = -1;
+
+	AcGeCircArc2d* tmpCircArc2dPtr = NULL;
+	vector<AcGeCircArc2d*>::iterator itr = m_arcs.begin();  
+	for(; itr != m_arcs.end(); itr++)
+	{
+		tmpCircArc2dPtr = *itr;
+		tmpStartAng = tmpCircArc2dPtr->startAng();
+		tmpEndAng = tmpCircArc2dPtr->endAng();
+		if()
+	}
+}
 
 
 
