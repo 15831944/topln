@@ -151,10 +151,17 @@ CBreakArcToFourPart::inputArcSegToBreaked(AcGeCircArc2d* pGeArc2d)
 
 //功能：判断某个弧段是否在第一象限;如果在第一象限，输出它;
 bool 
-CBreakArcToFourPart::outputPartOne(AcGeCircArc2d* geArcPartOne)
+CBreakArcToFourPart::outputWhatPartAng(OUT AcGeCircArc2d* geArcPartOne,IN EPartOfArc whatPart)
 {
 	double tmpStartAng = -1;
 	double tmpEndAng = -1;
+	double startQuadrantAngle = -1;
+	double endQuadrantAngle = -1;
+	CQuadrantAnglePair objQuadrantAngle;
+	if(!objQuadrantAngle.getQuadrantAnglePair(whatPart,startQuadrantAngle,endQuadrantAngle))
+	{
+		return false;
+	}
 
 	AcGeCircArc2d* tmpCircArc2dPtr = NULL;
 	vector<AcGeCircArc2d*>::iterator itr = m_arcs.begin();  
@@ -163,8 +170,13 @@ CBreakArcToFourPart::outputPartOne(AcGeCircArc2d* geArcPartOne)
 		tmpCircArc2dPtr = *itr;
 		tmpStartAng = tmpCircArc2dPtr->startAng();
 		tmpEndAng = tmpCircArc2dPtr->endAng();
-		if()
+		if((tmpStartAng >= (startQuadrantAngle + AcGeTol::equalPoint())) && (tmpEndAng < (endQuadrantAngle + AcGeTol::equalPoint())) )
+		{
+			geArcPartOne = *itr;
+			return true
+		}
 	}
+	return false;
 }
 
 
@@ -323,3 +335,53 @@ CBreakAcGeCircArcToTwoPart::breakArc(IN AcGeCircArc2d* pArc,IN double radianToBr
 }
 
 
+
+
+/*
+class CQuadrantAnglePair
+功能：根据弧段部位，判断象限，得出象限最小角度，最大角度;
+*/
+CQuadrantAnglePair::CQuadrantAnglePair()
+{
+}
+
+
+CQuadrantAnglePair::~CQuadrantAnglePair()
+{
+}
+
+
+//判断是哪个象限，及象限的最小角和最大角度
+bool
+CQuadrantAnglePair::getQuadrantAnglePair(IN EPartOfArc whichPart,OUT double& startAngle,OUT double& endAngle)
+{
+	int n = -1;
+	switch(whichPart)
+	{
+	case LEFT_BOTTOM:
+		n = 2;
+		break;
+	case LEFT_TOP:
+		n = 1;
+		break;
+	case RIGHT_BOTTOM:
+		n = 3;
+		break;
+	case RIGHT_TOP:
+		n = 0;
+		break;
+	default:
+		break;
+	}
+
+	if(n >= 0 && n < 4)
+	{
+		startAngle = n*Pi/2;
+		endAngle = (n+1)*Pi/2;
+	}
+	else
+	{
+		return false;
+	}
+	
+}

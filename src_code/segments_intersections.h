@@ -92,7 +92,7 @@ enum ETypeOfArc
 	Arc_Type,
 	Circle_Type,
 	Polyline_Type,
-	AcGeCircArc2d_Type，
+	AcGeCircArc2d_Type,
 	None_Type //problem type;
 };
 
@@ -170,10 +170,7 @@ private:
 
 public:
 	bool inputArcSegToBreaked(AcGeCircArc2d* pGeArc2d);  //输入需要打碎的弧段;    
-	bool outputPartOne(AcGeCircArc2d* geArcPartOne); //输出第一象限弧段，如果有的话；
-	bool outputPartOne(AcGeCircArc2d* geArcPartOne); //输出第一象限弧段，如果有的话；
-	bool outputPartOne(AcGeCircArc2d* geArcPartOne); //输出第一象限弧段，如果有的话；
-	bool outputPartOne(AcGeCircArc2d* geArcPartOne); //输出第一象限弧段，如果有的话；
+	bool outputWhatPartAng(OUT AcGeCircArc2d* geArcPartOne,IN EPartOfArc whatPart); //输出第一象限弧段，如果有的话；
 };
 
 
@@ -203,5 +200,39 @@ public:
 	CBreakAcGeCircArcToTwoPart();  
 	~CBreakAcGeCircArcToTwoPart();  
 };
+
+
+/*
+class CQuadrantAnglePair
+功能：根据弧段部位，判断象限，得出象限最小角度，最大角度;
+*/
+class CQuadrantAnglePair
+{
+public:
+	CQuadrantAnglePair();
+	~CQuadrantAnglePair();
+public:
+	bool getQuadrantAnglePair(IN EPartOfArc whichPart,OUT double& startAngle,OUT double& endAngle);
+};
+
+
+
+
+/*
+class CAcGeCircArcToAcDbArc
+功能：从AcGeCircArc2d到AcDbArc2d转换;
+*/
+class CAcGeCircArcToAcDbArc
+{
+public:
+	CAcGeCircArcToAcDbArc();
+	~CAcGeCircArcToAcDbArc();
+public:
+	bool transToAcDbArc();
+private:
+	AcGeCircArc2d* m_geArcPtr;  
+	AcDbArc* m_dbArcPtr;
+};
+
 
 #endif  //ZHOUHUAGANG_20190822_segments_intersections
