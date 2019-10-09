@@ -84,6 +84,17 @@ enum EPartOfArc
 };
 
 
+//指示某个顶点是线段的上端点还是下端点,是平行线段的话，是左端点还是右端点;
+enum ETopOrBotPoint
+{
+	TOP_POINT,
+	BOT_POINT,
+	LEFT_POINT,
+	DOWN_POINT,
+	NONE_INDICTATION  //错误指示;
+};
+
+
 
 //枚举，指示线段类型
 enum ETypeOfArc
@@ -140,6 +151,17 @@ public:
 	bool initCSegement(IN AcDbPolyline* polylinePtr,IN int indexVertex,IN int arcPartNumber); 
 	bool initCSegement(IN AcDbCircle* circlePtr,IN int arcPartNumber); 
 	bool initCSegement(IN AcDbArc* arcPtr, IN int arcPartNumber);
+};
+
+
+
+/*
+class CIntersectPoint;
+定义交点结构；
+*/
+class CIntersectPoint
+{
+	;
 };
 
 
