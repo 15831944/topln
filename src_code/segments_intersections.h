@@ -140,11 +140,11 @@ public:
 	AcGeCircArc2d* m_circArc2d;
 	AcDbPolyline* m_polylinePtr;
 
-	//祖母线段，是弧？是线？是多义线? :若有，只能是多义线了;
+	//祖母线段，是弧？是线？是多义线? :若有，只能是多义线了; 
 	ETypeOfArc m_grandmaType;
 	//AcDbArc* m_arcPtr;
 	//AcDbLine* m_LinePtr;
-	AcDbPolyline* m_polylinePtr; 
+	AcDbPolyline* m_polylinePtr;  
 
 public:
 	bool initCSegement(IN AcDbLine* dbLinePtr);
@@ -172,6 +172,17 @@ private:
 	ELocationTypeOfPoint m_eLocationInSeg2;   
 };
 
+
+
+
+/*
+定义P点结构： CPointEvent
+*/
+class CPointEvent
+{
+	ELocationTypeOfPoint m_ePointEventType;
+	CSegement* 
+};
 
 
 
