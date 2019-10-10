@@ -85,12 +85,13 @@ enum EPartOfArc
 
 
 //指示某个顶点是线段的上端点还是下端点,是平行线段的话，是左端点还是右端点;
-enum ETopOrBotPoint
+enum ELocationTypeOfPoint
 {
 	TOP_POINT,
 	BOT_POINT,
 	LEFT_POINT,
 	DOWN_POINT,
+	MIDDLE_POINT,
 	NONE_INDICTATION  //错误指示;
 };
 
@@ -109,7 +110,8 @@ enum ETypeOfArc
 
 /*
 类名：CSegement
-用途：表示一个线段，可能是一条直线，也可能是一条弧;   
+用途：表示和扫描线想交的线段
+表示为：一个线段，可能是一条直线，也可能是一条弧;   
 一条多一线分解成多个直线段和弧段
 弧段划分成四段：弧段用通过中心的垂线和水平线划分成四段; 每段弧是单调的
 */
@@ -117,14 +119,12 @@ class CSegement
 {
 public:
 	CSegement();
-	~CSegement();
+	~CSegement(); 
 
 public:
 	//线段的端点x坐标	
-	double m_xTop;
-	double m_yTop;
-	double m_xBottom;
-	double m_yBottom;
+	double m_xCoord;
+	double m_yCoord;	
 
 	//本线段，是弧？是线？是多义线？
 	ETypeOfArc m_myselfType ; 
@@ -140,7 +140,7 @@ public:
 	AcGeCircArc2d* m_circArc2d;
 	AcDbPolyline* m_polylinePtr;
 
-	//祖母线段，是弧？是线？是多义线?  
+	//祖母线段，是弧？是线？是多义线? :若有，只能是多义线了;
 	ETypeOfArc m_grandmaType;
 	//AcDbArc* m_arcPtr;
 	//AcDbLine* m_LinePtr;
@@ -161,7 +161,15 @@ class CIntersectPoint;
 */
 class CIntersectPoint
 {
-	;
+private:
+	double m_x;
+	double m_y;
+	AcGePoint3d m_acgePoint;
+
+	CSegement m_segment1;  
+	ELocationTypeOfPoint m_eLocationInSeg1;  
+	CSegement m_segment2;
+	ELocationTypeOfPoint m_eLocationInSeg2;   
 };
 
 
