@@ -1052,6 +1052,10 @@
 			Filter="reg;rgs;mak;clw;vsdir;vsz;css;inf;vcproj;csproj"
 			>
 		</Filter>
+		<File
+			RelativePath=".\ClassDiagram1.cd"
+			>
+		</File>
 	</Files>
 	<Globals>
 		<Global

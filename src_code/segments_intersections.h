@@ -21,6 +21,7 @@ eg： Date:	Author: 	Modification:
 #include <algorithm>
 #include <vector>
 #include <list>
+#include <set>
 //--------------------
 #include <stdlib.h>
 #include <ctype.h>
@@ -52,6 +53,9 @@ eg： Date:	Author: 	Modification:
 #include "TCHAR.h"
 
 #include "opt.h"
+
+
+using namespace  std;
 
 
 
@@ -122,9 +126,9 @@ public:
 	~CSegement(); 
 
 public:
-	//线段的端点x坐标	
-	double m_xCoord;
-	double m_yCoord;	
+	////线段的端点x坐标	
+	//double m_xCoord;
+	//double m_yCoord;	
 
 	//本线段，是弧？是线？是多义线？
 	ETypeOfArc m_myselfType ; 
@@ -158,9 +162,14 @@ public:
 /*
 class CIntersectPoint;
 定义交点结构；
+交点为真正的交点，在扫描过程中发现的交点;
 */
 class CIntersectPoint
 {
+public:
+	CIntersectPoint();
+	~CIntersectPoint();
+
 private:
 	double m_x;
 	double m_y;
@@ -174,14 +183,35 @@ private:
 
 
 
+/*
+定义事件点的结构；
+事件点存储于事件Q及扫描线想交线段结构T中：
+*/
+class CEventPoint
+{
+public:
+	CEventPoint();
+	~CEventPoint();
+
+private:
+	ELocationTypeOfPoint m_eLocation;
+	AcGePoint3d m_point;
+	CSegement* m_segmentPtr;
+};
+
+
 
 /*
 定义P点结构： CPointEvent
 */
 class CPointEvent
 {
+public:
+	CPointEvent();
+	~CPointEvent();
+private:
 	ELocationTypeOfPoint m_ePointEventType;
-	CSegement* 
+	CSegement*  m_segmentPtr;
 };
 
 
@@ -274,6 +304,43 @@ private:
 	AcGeCircArc2d* m_geArcPtr;  
 	AcDbArc* m_dbArcPtr;
 };
+
+
+
+
+/*************************************************
+class CParseIntersectPoints
+Function:       // 函数名称
+Description:    // 函数功能、性能等的描述
+Calls:          // 被本函数调用的函数清单
+Input:          // 输入参数说明，包括每个参数的作
+                  // 用、取值说明及参数间关系。
+Output:         // 对输出参数的说明。
+Return:         // 函数返回值的说明
+Others:         // 其它说明
+*************************************************/
+class CParseIntersectPoints
+{
+public:
+	CParseIntersectPoints();
+	~CParseIntersectPoints();
+
+public:
+	bool findIntersectPoints();
+
+private:
+	;
+
+private:
+	vector<CIntersectPoint> m_allIntersectPointsFound;
+	multiset<CEventPoint,eventPointCmp> m_allEventPoint;
+	multiset<CEventPoint,sweepLinePointCmp> m_sweepLinePoints;
+};
+
+
+/*
+class CEventPointQueue;
+*/
 
 
 #endif  //ZHOUHUAGANG_20190822_segments_intersections
