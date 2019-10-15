@@ -160,6 +160,18 @@ public:
 
 
 /*
+struct SPointAndSegment
+功能：表示一个点和一个弧段的组合；
+      用于事件点、交点、扫描线结构的表达;
+*/
+struct SPointAndSegment
+{
+	AcGePoint2d m_point;
+	ELocationTypeOfPoint m_ePointLocation;
+	CSegement* m_segment;
+};
+
+/*
 class CIntersectPoint;
 定义交点结构；
 交点为真正的交点，在扫描过程中发现的交点;
