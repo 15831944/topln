@@ -345,10 +345,10 @@ public:
 	~CParseIntersectPoints();
 
 public:
-	bool findIntersectPoints(); 
+	bool findIntersectPoints();  //发现所有交点;
 
 private: 
-	bool initSegmentsAll();
+	bool initSegmentsAll();  //初始化所有弧段;获取端点; 
 	bool ;
 
 private:

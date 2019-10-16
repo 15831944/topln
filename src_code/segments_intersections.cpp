@@ -385,3 +385,27 @@ CQuadrantAnglePair::getQuadrantAnglePair(IN EPartOfArc whichPart,OUT double& sta
 	}
 	
 }
+
+
+
+
+/*-----------------------------------------------
+class CParseIntersectPoints
+功能：扫描线算法，计算所有交点；
+-----------------------------------------------*/
+
+CParseIntersectPoints::CParseIntersectPoints
+{
+}
+
+CParseIntersectPoints::~CParseIntersectPoints()
+{
+}
+
+
+//求所有交点
+bool 
+CParseIntersectPoints::findIntersectPoints()
+{
+	//从Q中弹出第一个事件点;
+}
