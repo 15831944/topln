@@ -1,5 +1,5 @@
 /************************************************************
-Copyright (C), 2016-6-12, shiyuan procision maskmaking. Co., Ltd.
+Copyright (C), 2016-6-12, XuMiJieZi procision maskmaking. Co., Ltd.
 FileName: ofstAndChamfer.cpp
 Author: Version :
 Date:

@@ -1,5 +1,5 @@
 /*************************************************************************
-Copyright (C), 2017-12-1, shiyuan precision maskmaking. Co., Ltd.
+Copyright (C), 2017-12-1, XuMiJieZi.
 FileName: pointMap.h
 Author: 
 Version:
@@ -161,70 +161,45 @@ public:
 
 /*
 struct SPointAndSegment
-功能：表示一个点和一个弧段的组合；
-      用于事件点、交点、扫描线结构的表达;
+功能：定义一个点和一个弧段的组合；
+      用于事件点、扫描线上的弧段的结构的表达;
+	  定义事件点的结构；
+	  交点存储结构;
+	  事件点存储于事件Q及扫描线想交线段结构T中；
 */
 struct SPointAndSegment
 {
-	AcGePoint2d m_point;
-	ELocationTypeOfPoint m_ePointLocation;
-	CSegement* m_segment;
-};
-
-/*
-class CIntersectPoint;
-定义交点结构；
-交点为真正的交点，在扫描过程中发现的交点;
-*/
-class CIntersectPoint
-{
-public:
-	CIntersectPoint();
-	~CIntersectPoint();
-
-private:
-	double m_x;
-	double m_y;
-	AcGePoint3d m_acgePoint;
-
-	CSegement m_segment1;  
-	ELocationTypeOfPoint m_eLocationInSeg1;  
-	CSegement m_segment2;
-	ELocationTypeOfPoint m_eLocationInSeg2;   
-};
-
-
-
-/*
-定义事件点的结构；
-事件点存储于事件Q及扫描线想交线段结构T中：
-*/
-class CEventPoint
-{
-public:
-	CEventPoint();
-	~CEventPoint();
-
-private:
-	ELocationTypeOfPoint m_eLocation;
 	AcGePoint3d m_point;
-	CSegement* m_segmentPtr;
+	ELocationTypeOfPoint m_ePointLocation;  
+	CSegement* m_segment;  
 };
 
 
 
-/*
-定义P点结构： CPointEvent
-*/
-class CPointEvent
-{
-public:
-	CPointEvent();
-	~CPointEvent();
-private:
-	ELocationTypeOfPoint m_ePointEventType;
-	CSegement*  m_segmentPtr;
-};
+
+///*
+//class CIntersectPoint;
+//定义交点结构；
+//交点为真正的交点，在扫描过程中发现的交点;
+//*/
+//class CIntersectPoint
+//{
+//public:
+//	CIntersectPoint();
+//	~CIntersectPoint();
+//
+//private:
+//	double m_x;
+//	double m_y;
+//	AcGePoint3d m_acgePoint;
+//
+//	CSegement m_segment1;  
+//	ELocationTypeOfPoint m_eLocationInSeg1;  
+//	CSegement m_segment2;
+//	ELocationTypeOfPoint m_eLocationInSeg2;   
+//};
+
+
 
 
 
@@ -319,6 +294,38 @@ private:
 
 
 
+/*
+功能：比较两个点的位置大小;
+大小规则：在误差值equalPoint内，则判相等;超出者才比较大小;  
+*/
+
+
+
+/*
+本项目的multiset的元素之间大小比较，结构;
+这个用来比较事件点集合中的点，按y值从小到大排序；   
+*/
+struct multisetCmpEventPoint
+{
+	bool operator()(const SPointAndSegment& ps1,const SPointAndSegment& ps2)const  
+	{
+		double x1 = ps1.m_point.x; 
+		double y1 = ps1.m_point.y;  
+		double x2 = ps2.m_point.x;  
+		double y2 = ps2.m_point.y;  
+
+		//如果2个点距离不大于equalPoint()则判定相等;   
+		if(ps1.m_point.distanceTo(ps2) <= AcGeTol::equalPoint())   
+		{
+			return false;  //如果相等，新插入的点往后排;
+		}
+		else
+		{
+			return (y1 > y2) || (y1 == y2 && x1 < x2);
+		}
+	}
+}
+
 
 /*************************************************
 class CParseIntersectPoints
@@ -338,15 +345,17 @@ public:
 	~CParseIntersectPoints();
 
 public:
-	bool findIntersectPoints();
+	bool findIntersectPoints(); 
+
+private: 
+	bool initSegmentsAll();
+	bool ;
 
 private:
+	vector<vector<SPointAndSegment>> m_vecIntersectPoints; //存放交点;
+	multiset<SPointAndSegment,multisetCmpEventPoint> m_vEventPointsQueue; //事件；
+	multiset<SPointAndSegment,multisetCmpEventPoint> m_vSweepLinePointsQueue;  //扫描线想交的弧段; 
 	;
-
-private:
-	vector<CIntersectPoint> m_allIntersectPointsFound;
-	multiset<CEventPoint,eventPointCmp> m_allEventPoint;
-	multiset<CEventPoint,sweepLinePointCmp> m_sweepLinePoints;
 };
 
 

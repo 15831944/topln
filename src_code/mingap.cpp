@@ -1,5 +1,5 @@
 /************************************************************
-Copyright (C), 2017-9-12, shiyuan procision maskmaking. Co., Ltd.
+Copyright (C), 2017-9-12, XuMiJieZi.
 FileName: mingap.cpp
 Author: Version :
 Date:

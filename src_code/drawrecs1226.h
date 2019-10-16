@@ -1,5 +1,5 @@
 /*************************************************************************
-Copyright (C), 2016-6-12, shiyuan procision maskmaking. Co., Ltd.
+Copyright (C), 2016-6-12,XuMiJieZi.
 FileName: drawrecs1226.cpp
 Author: 
 Version:

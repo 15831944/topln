@@ -1,5 +1,5 @@
 /************************************************************
-Copyright (C), 2016-6-12, shiyuan procision maskmaking. Co., Ltd.
+Copyright (C), 2016-6-12, XuMiJieZi.
 FileName: to_pl.cpp
 Author: Version :
 Date:
