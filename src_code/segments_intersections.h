@@ -305,7 +305,7 @@ private:
 本项目的multiset的元素之间大小比较，结构;
 这个用来比较事件点集合中的点，按y值从小到大排序；   
 */
-struct multisetCmpEventPoint
+struct eventPointCmp
 {
 	bool operator()(const SPointAndSegment& ps1,const SPointAndSegment& ps2)const  
 	{
@@ -348,13 +348,13 @@ public:
 	bool findIntersectPoints();  //发现所有交点;
 
 private: 
-	bool initSegmentsAll();  //初始化所有弧段;获取端点; 
+	bool initSegmentsAll();  //初始化所有弧段;获取端点;  
 	bool ;
 
 private:
 	vector<vector<SPointAndSegment>> m_vecIntersectPoints; //存放交点;
-	multiset<SPointAndSegment,multisetCmpEventPoint> m_vEventPointsQueue; //事件；
-	multiset<SPointAndSegment,multisetCmpEventPoint> m_vSweepLinePointsQueue;  //扫描线想交的弧段; 
+	multiset<SPointAndSegment,eventPointCmp> m_vEventPointsQueue; //事件；
+	multiset<SPointAndSegment,eventPointCmp> m_vSweepLinePointsQueue;  //扫描线想交的弧段; 
 	;
 };
 
