@@ -347,21 +347,40 @@ public:
 public:
 	bool findIntersectPoints();  //发现所有交点;
 
+	//for m_vEventPointsQueue事件点集合
 private: 
 	bool initSegmentsAll();  //初始化所有弧段;获取端点;  
-	bool ;
+	bool insertEventPoint(IN const SPointAndSegment& eventPoint);
+	bool outputEventPoints(OUT vector<SPointAndSegment>& vecEventPoints); 
+
+	//for m_vSweepLinePointsQueue
+private:
+	;
 
 private:
-	vector<vector<SPointAndSegment>> m_vecIntersectPoints; //存放交点;
-	multiset<SPointAndSegment,eventPointCmp> m_vEventPointsQueue; //事件；
-	multiset<SPointAndSegment,eventPointCmp> m_vSweepLinePointsQueue;  //扫描线想交的弧段; 
+	vector<vector<SPointAndSegment>> m_vecIntersectPoints; //存放交点;  
+	 
+	multiset<SPointAndSegment,eventPointCmp> m_vSweepLinePointsQueue;  //扫描线想交的弧段;  
 	;
 };
 
 
 /*
-class CEventPointQueue;
+class CEventPointOpt;
+功能：
 */
+class CEventPointQueue
+{
+public:
+	CEventPointOpt();
+	~CEventPointOpt();
 
+private:
+	bool initSegmentsAll();  //初始化所有弧段;获取端点; 
+	bool insert;
+
+private:
+	multiset<SPointAndSegment,eventPointCmp> m_vEventPointsQueue; //事件点集合;
+};
 
 #endif  //ZHOUHUAGANG_20190822_segments_intersections
