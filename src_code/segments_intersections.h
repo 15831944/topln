@@ -349,9 +349,7 @@ public:
 
 	//for m_vEventPointsQueue事件点集合
 private: 
-	bool initSegmentsAll();  //初始化所有弧段;获取端点;  
-	bool insertEventPoint(IN const SPointAndSegment& eventPoint);
-	bool outputEventPoints(OUT vector<SPointAndSegment>& vecEventPoints); 
+
 
 	//for m_vSweepLinePointsQueue
 private:
@@ -376,8 +374,9 @@ public:
 	~CEventPointOpt();
 
 private:
-	bool initSegmentsAll();  //初始化所有弧段;获取端点; 
-	bool insert;
+	bool initSegmentsAll();  //初始化所有弧段;获取端点,插入事件队列;  
+	bool insertEventPoint(IN const SPointAndSegment& eventPoint);
+	bool popOneEventPoint(OUT vector<SPointAndSegment>& vecEventPoints); 
 
 private:
 	multiset<SPointAndSegment,eventPointCmp> m_vEventPointsQueue; //事件点集合;
