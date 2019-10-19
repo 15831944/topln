@@ -159,49 +159,6 @@ public:
 
 
 
-/*
-struct SPointAndSegment
-功能：定义一个点和一个弧段的组合；
-      用于事件点、扫描线上的弧段的结构的表达;
-	  定义事件点的结构；
-	  交点存储结构;
-	  事件点存储于事件Q及扫描线想交线段结构T中；
-*/
-struct SPointAndSegment
-{
-	AcGePoint3d m_point;
-	ELocationTypeOfPoint m_ePointLocation;  
-	CSegement* m_segment;  
-};
-
-
-
-
-///*
-//class CIntersectPoint;
-//定义交点结构；
-//交点为真正的交点，在扫描过程中发现的交点;
-//*/
-//class CIntersectPoint
-//{
-//public:
-//	CIntersectPoint();
-//	~CIntersectPoint();
-//
-//private:
-//	double m_x;
-//	double m_y;
-//	AcGePoint3d m_acgePoint;
-//
-//	CSegement m_segment1;  
-//	ELocationTypeOfPoint m_eLocationInSeg1;  
-//	CSegement m_segment2;
-//	ELocationTypeOfPoint m_eLocationInSeg2;   
-//};
-
-
-
-
 
 /*
 弧段提取线段CBreakArcToFourSegment;
@@ -327,6 +284,50 @@ struct eventPointCmp
 }
 
 
+
+/*
+struct SPointAndSegment
+功能：定义一个点和一个弧段的组合；
+      用于事件点、扫描线上的弧段的结构的表达;
+	  定义事件点的结构；
+	  交点存储结构;
+	  事件点存储于事件Q及扫描线想交线段结构T中；
+*/
+struct SPointAndSegment
+{
+	AcGePoint3d m_point;
+	ELocationTypeOfPoint m_ePointLocation;  
+	CSegement* m_segment;  
+};
+
+
+
+
+///*
+//class CIntersectPoint;
+//定义交点结构；
+//交点为真正的交点，在扫描过程中发现的交点;
+//*/
+//class CIntersectPoint
+//{
+//public:
+//	CIntersectPoint();
+//	~CIntersectPoint();
+//
+//private:
+//	double m_x;
+//	double m_y;
+//	AcGePoint3d m_acgePoint;
+//
+//	CSegement m_segment1;  
+//	ELocationTypeOfPoint m_eLocationInSeg1;  
+//	CSegement m_segment2;
+//	ELocationTypeOfPoint m_eLocationInSeg2;   
+//};
+
+
+
+
 /*************************************************
 class CParseIntersectPoints
 Function:       // 函数名称
@@ -341,45 +342,84 @@ Others:         // 其它说明
 class CParseIntersectPoints
 {
 public:
-	CParseIntersectPoints();
-	~CParseIntersectPoints();
+	CParseIntersectPoints();  
+	~CParseIntersectPoints();  
 
 public:
-	bool findIntersectPoints();  //发现所有交点;
+	bool findIntersectPoints();  //发现所有交点;  	
+	bool outputIntersectPoints(OUT ); 
 
-	//for m_vEventPointsQueue事件点集合
 private: 
-
-
-	//for m_vSweepLinePointsQueue
-private:
-	;
+	;  
 
 private:
-	vector<vector<SPointAndSegment>> m_vecIntersectPoints; //存放交点;  
-	 
-	multiset<SPointAndSegment,eventPointCmp> m_vSweepLinePointsQueue;  //扫描线想交的弧段;  
-	;
+	vector<vector<SPointAndSegment>> m_vecIntersectPoints; //存放交点;  	
 };
 
 
 /*
 class CEventPointOpt;
-功能：
+功能：事件队列上的操作；
+是不是同样可以用于扫描线相交弧段的操作？？？
 */
 class CEventPointQueue
 {
 public:
-	CEventPointOpt();
-	~CEventPointOpt();
+	CEventPointOpt();   
+	~CEventPointOpt();  
 
 private:
-	bool initSegmentsAll();  //初始化所有弧段;获取端点,插入事件队列;  
-	bool insertEventPoint(IN const SPointAndSegment& eventPoint);
-	bool popOneEventPoint(OUT vector<SPointAndSegment>& vecEventPoints); 
+	bool initSegmentsAll();  //初始化所有弧段;获取端点,插入事件队列;   
+	bool insertEventPoint(IN const SPointAndSegment& eventPoint);   
+	bool popOneEventPoint(OUT vector<SPointAndSegment>& vecEventPoints);   
 
 private:
-	multiset<SPointAndSegment,eventPointCmp> m_vEventPointsQueue; //事件点集合;
+	multiset<SPointAndSegment,eventPointCmp> m_vEventPointsQueue; //事件点集合; 
 };
+
+
+
+
+/*
+class CSweeplinePointOpt;
+功能：事件队列上的操作；
+*/
+class CSweeplinePointOpt
+{
+public:
+	CSweeplinePointOpt(); 
+	~CSweeplinePointOpt();  
+
+private:
+	multiset<SPointAndSegment,eventPointCmp> m_vEventPointsQueue; //扫描线上的事件点（即弧段）集合;
+
+private:
+	bool insertSegment(IN SPointAndSegment* strPntSegPtr);
+	bool popPointSegment(IN AcGePoint3d pt,OUT vector<SPointAndSegment>& vStrPntSeg);  
+	;
+};
+
+
+
+
+/*
+class CIntersectPointOpt; 
+功能：交点集合的操作；
+*/
+class CIntersectPointOpt
+{
+public:
+	CIntersectPointOpt();
+	~CIntersectPointOpt();
+
+private:
+	bool insertSegment(IN SPointAndSegment* strPntSegPtr);
+	bool popPointSegment(IN AcGePoint3d pt,OUT vector<SPointAndSegment>& vStrPntSeg);  
+
+private:
+	vector<SPointAndSegment> m_vecIntsectPoints;  //交点集合;
+};
+
+
 
 #endif  //ZHOUHUAGANG_20190822_segments_intersections
