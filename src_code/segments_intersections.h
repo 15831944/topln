@@ -306,7 +306,7 @@ struct SPointAndSegment
 ///*
 //class CIntersectPoint;
 //定义交点结构；
-//交点为真正的交点，在扫描过程中发现的交点;
+//交点为真正的交点，在扫描过程中发现的交点;   
 //*/
 //class CIntersectPoint
 //{
