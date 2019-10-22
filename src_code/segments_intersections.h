@@ -346,14 +346,25 @@ public:
 	~CParseIntersectPoints();  
 
 public:
-	bool findIntersectPoints();  //发现所有交点;  	
-	bool outputIntersectPoints(OUT ); 
-
+	bool findIntersectPoints();  //发现所有交点;  	 
+	bool outputIntersectPoints(OUT CSweeplinePointOpt* sweepLinePntsPtr);  
+ 
 private: 
-	;  
+	bool findNewEventPoint();  
+	;
 
 private:
-	vector<vector<SPointAndSegment>> m_vecIntersectPoints; //存放交点;  	
+	CIntersectPointOpt m_intsectPointsOpt;   
+	CEventPointQueue m_eventPointsOpt;   
+	CSweeplinePointOpt m_sweepOpt;   
+
+	vector<SPointAndSegment> m_vEventPoints; //从Q中取出的事件点; 
+	vector<SPointAndSegment> m_vSweepLinePoints; //从扫描线上取出来的“线段”； 
+	vector<SPointAndSegment> m_vTopPoints; //上端点事件点集合; 
+	vector<SPointAndSegment> m_vBottomPoints; //下端点事件点集合; 
+	vector<SPointAndSegment> m_vecPointSegmentsNow; //当前事件点和扫描线点集合; 元素最少有1个; 
+	int m_topPointsNum; //上端点事件点数量;
+	int m_botPointsNum; //下端点事件点数量;
 };
 
 
@@ -417,7 +428,7 @@ private:
 	bool popPointSegment(IN AcGePoint3d pt,OUT vector<SPointAndSegment>& vStrPntSeg);  
 
 private:
-	vector<SPointAndSegment> m_vecIntsectPoints;  //交点集合;
+	multiset<SPointAndSegment,eventPointCmp> m_intersectPoints;  //交点集合;
 };
 
 

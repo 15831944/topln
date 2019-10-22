@@ -407,7 +407,10 @@ CParseIntersectPoints::~CParseIntersectPoints()
 bool 
 CParseIntersectPoints::findIntersectPoints()
 {
-	//从Q中弹出第一个事件点,一个坐标点可能有多个相同的点;
-	multiset<SPointAndSegment,eventPointCmp>::iterator =  m_vEventPointsQueue.begin();
-	;
+	//从Q中弹出第一个事件点,一个事件点可能有多个相同的点;	
+	m_eventPointsOpt.popOneEventPoint(m_vEventPoints);
+	m_sweepOpt.popPointSegment(m_vSweepLinePoints);
 }
+
+
+//
