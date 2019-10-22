@@ -347,15 +347,15 @@ public:
 
 public:
 	bool findIntersectPoints();  //发现所有交点;  	 
-	bool outputIntersectPoints(OUT CSweeplinePointOpt* sweepLinePntsPtr);  
+	bool outputIntersectPoints(OUT CSweeplinePointOpt* sweepLinePntsPtr);  s
  
 private: 
 	bool findNewEventPoint();  
 	;
 
 private:
-	CIntersectPointOpt m_intsectPointsOpt;   
-	CEventPointQueue m_eventPointsOpt;   
+	CIntersectPointOpt m_intsectPointsOpt;    
+	CEventPointQueue m_eventPointsOpt;     
 	CSweeplinePointOpt m_sweepOpt;   
 
 	vector<SPointAndSegment> m_vEventPoints; //从Q中取出的事件点; 
@@ -363,8 +363,10 @@ private:
 	vector<SPointAndSegment> m_vTopPoints; //上端点事件点集合; 
 	vector<SPointAndSegment> m_vBottomPoints; //下端点事件点集合; 
 	vector<SPointAndSegment> m_vecPointSegmentsNow; //当前事件点和扫描线点集合; 元素最少有1个; 
-	int m_topPointsNum; //上端点事件点数量;
-	int m_botPointsNum; //下端点事件点数量;
+	int m_topPointsNum; //上端点事件点数量;  
+	int m_botPointsNum; //下端点事件点数量; 
+	AcGePoint3d m_curPoint; //当前坐标点;
+	//SPointAndSegment m_curPointAndSegment; //当前
 };
 
 
