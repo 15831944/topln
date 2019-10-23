@@ -94,7 +94,7 @@ enum ELocationTypeOfPoint
 	TOP_POINT,
 	BOT_POINT,
 	LEFT_POINT,
-	DOWN_POINT,
+	RIGHT_POINT,
 	MIDDLE_POINT,
 	NONE_INDICTATION  //错误指示;
 };
@@ -347,26 +347,31 @@ public:
 
 public:
 	bool findIntersectPoints();  //发现所有交点;  	 
-	bool outputIntersectPoints(OUT CSweeplinePointOpt* sweepLinePntsPtr);  s
+	bool outputIntersectPoints(OUT CSweeplinePointOpt* sweepLinePntsPtr);  
  
 private: 
 	bool findNewEventPoint();  
-	;
+	bool parsePointLocationType();  
+	bool sortByPointLocation(IN const <SPointAndSegment>& vecPoints);  
 
 private:
 	CIntersectPointOpt m_intsectPointsOpt;    
 	CEventPointQueue m_eventPointsOpt;     
 	CSweeplinePointOpt m_sweepOpt;   
 
-	vector<SPointAndSegment> m_vEventPoints; //从Q中取出的事件点; 
-	vector<SPointAndSegment> m_vSweepLinePoints; //从扫描线上取出来的“线段”； 
+	vector<SPointAndSegment> m_vEventPoints; //从Q中取出的事件点;    
+	vector<SPointAndSegment> m_vSweepLinePoints; //从扫描线上取出来的“线段”；   
+
 	vector<SPointAndSegment> m_vTopPoints; //上端点事件点集合; 
 	vector<SPointAndSegment> m_vBottomPoints; //下端点事件点集合; 
-	vector<SPointAndSegment> m_vecPointSegmentsNow; //当前事件点和扫描线点集合; 元素最少有1个; 
+	vector<SPointAndSegment> m_vIntersectPoints; //相交点集合;
+	vector<SPointAndSegment> m_vecPointSegmentsNow; //当前事件点和扫描线点集合; 元素最少有1个;  
+
 	int m_topPointsNum; //上端点事件点数量;  
 	int m_botPointsNum; //下端点事件点数量; 
+	int m_intsectPointsNum; //相交点数量;
 	AcGePoint3d m_curPoint; //当前坐标点;
-	//SPointAndSegment m_curPointAndSegment; //当前
+	//SPointAndSegment m_curPointAndSegment; //当前   
 };
 
 

@@ -398,19 +398,75 @@ CParseIntersectPoints::CParseIntersectPoints
 {
 }
 
-CParseIntersectPoints::~CParseIntersectPoints()
+CParseIntersectPoints::~CParseIntersectPoints()  
 {
 }
 
 
 //求所有交点
 bool 
-CParseIntersectPoints::findIntersectPoints()
+CParseIntersectPoints::findIntersectPoints()  
 {
-	//从Q中弹出第一个事件点,一个事件点可能有多个相同的点;	
-	m_eventPointsOpt.popOneEventPoint(m_vEventPoints); 
-	m_sweepOpt.popPointSegment(m_vSweepLinePoints); 
+	//从Q中弹出第一个事件点,一个事件点可能有多个相同的点;	  
+	m_eventPointsOpt.popOneEventPoint(m_vEventPoints);      
+
+	//从扫描线弹出事件点(这里称弧段);
+	m_sweepOpt.popPointSegment(m_vSweepLinePoints);     
+
+	//对上俩集合进行分类;
+	parsePointLocationType();   
+
+	int numSegment = m_vecPointSegmentsNow.size();  
+
+	if(numSegment > 1)
+	{
+		findIntersectPoint();  //发现交点;
+	}
+
+	//检查上端点事件和中端点事件个数；
+	;
+
+	//检查下端点个数;
 }
 
 
-//
+
+//分析现有的事件点、扫描线点，区分为上端点时间，下端点事件，中间点时间  
+//然后分别存储；
+bool
+CParseIntersectPoints::sortByPointLocation(IN const <SPointAndSegment>& vecPoints)   
+{
+	vector<SPointAndSegment>::iterator itr = vecPoints.begin();
+	for(; itr != vecPoints.end(); itr++)
+	{
+		switch(itr->m_ePointLocation)
+		{
+		case ELocationTypeOfPoint::TOP_POINT:
+		case ELocationTypeOfPoint::LEFT_POINT:
+			m_vTopPoints.push_back((SPointAndSegment)(*itr));
+			break;
+		case ELocationTypeOfPoint::BOT_POINT:
+		case ELocationTypeOfPoint::RIGHT_POINT:
+			m_vBottomPoints.push_back((SPointAndSegment)(*itr));
+			break;
+		case ELocationTypeOfPoint::MIDDLE_POINT:
+			m_vIntersectPoints.push_back((SPointAndSegment)(*itr));
+			break;
+		default:
+			break;
+		}
+	}
+
+	return true;
+}
+
+
+//分析现有的事件点、扫描线点，区分为上端点时间，下端点事件，中间点时间
+//然后分别存储；
+bool
+CParseIntersectPoints::parsePointLocationType()
+{
+	sortByPointLocation(m_eventPointsOpt);
+	sortByPointLocation(m_sweepOpt);
+	return true;
+}
