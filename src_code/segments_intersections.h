@@ -364,12 +364,12 @@ private:
 
 	vector<SPointAndSegment> m_vTopPoints; //上端点事件点集合; 
 	vector<SPointAndSegment> m_vBottomPoints; //下端点事件点集合; 
-	vector<SPointAndSegment> m_vIntersectPoints; //相交点集合;
+	vector<SPointAndSegment> m_vMiddlePoints; //相交点集合(点在线段中间);   
 	vector<SPointAndSegment> m_vecPointSegmentsNow; //当前事件点和扫描线点集合; 元素最少有1个;  
 
 	int m_topPointsNum; //上端点事件点数量;  
 	int m_botPointsNum; //下端点事件点数量; 
-	int m_intsectPointsNum; //相交点数量;
+	int m_middlePointsNum; //相交点数量;
 	AcGePoint3d m_curPoint; //当前坐标点;
 	//SPointAndSegment m_curPointAndSegment; //当前   
 };
@@ -406,15 +406,21 @@ class CSweeplinePointOpt
 {
 public:
 	CSweeplinePointOpt(); 
-	~CSweeplinePointOpt();  
+	~CSweeplinePointOpt();   
 
 private:
 	multiset<SPointAndSegment,eventPointCmp> m_vEventPointsQueue; //扫描线上的事件点（即弧段）集合;
+	vector<SPointAndSegment> m_vNowPointSegs;
+	AcGePoint3d m_point3dNow; //当前事件点;  
 
 private:
-	bool insertSegment(IN SPointAndSegment* strPntSegPtr);
-	bool popPointSegment(IN AcGePoint3d pt,OUT vector<SPointAndSegment>& vStrPntSeg);  
-	;
+	bool insertSegment(IN SPointAndSegment* strPntSegPtr);  
+	bool popPointSegment(IN AcGePoint3d pt,OUT vector<SPointAndSegment>& vStrPntSeg);    
+	bool findPreviousSegment(OUT SPointAndSegment& prePointSegment); //发现最左边segmeng的左边segment； 
+	bool findNextSegment(OUT SPointAndSegment& prePointSegment);   //发现最右边segmeng的右边segment； 
+	bool findLeftSegment();
+	bool findRightSegment();  //发现最右边的segment;     
+	bool deleteSegment();
 };
 
 
@@ -437,6 +443,21 @@ private:
 private:
 	multiset<SPointAndSegment,eventPointCmp> m_intersectPoints;  //交点集合;
 };
+
+
+
+
+/*
+class CParseIntersectPointByTwoSegment; 
+功能：求俩弧段的交点；
+*/
+class CParseIntersectPointByTwoSegment
+{
+public:
+protected:
+private:
+};
+
 
 
 

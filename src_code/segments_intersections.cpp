@@ -416,15 +416,26 @@ CParseIntersectPoints::findIntersectPoints()
 	//对上俩集合进行分类;
 	parsePointLocationType();   
 
-	int numSegment = m_vecPointSegmentsNow.size();  
+	int numSegment = m_vecPointSegmentsNow.size();   
 
-	if(numSegment > 1)
+	if(numSegment > 1)  
 	{
 		findIntersectPoint();  //发现交点;
 	}
 
 	//检查上端点事件和中端点事件个数；
-	;
+	m_topPointsNum = m_vTopPoints.size();
+	m_botPointsNum = m_vBottomPoints.size(); 
+	m_middlePointsNum = m_vMiddlePoints.size();
+	if(m_topPointsNum == 0 && m_middlePointsNum == 0) //如果没有上端点事件，也没有中间点事件
+	{
+		m_sweepOpt.deleteSegment();
+	}
+	else
+	{
+		//测试有无交点，有交点，则纳入事件点Q
+		m_sweepOpt.testIntersectEvent();   
+	}
 
 	//检查下端点个数;
 }
