@@ -360,15 +360,15 @@ private:
 	CSweeplinePointOpt m_sweepOpt;   
 
 	vector<SPointAndSegment> m_vEventPoints; //从Q中取出的事件点;    
-	vector<SPointAndSegment> m_vSweepLinePoints; //从扫描线上取出来的“线段”；   
+	vector<SPointAndSegment> m_vSweepLinePoints; //从扫描线上取出来的“线段”;  
 
 	vector<SPointAndSegment> m_vTopPoints; //上端点事件点集合; 
 	vector<SPointAndSegment> m_vBottomPoints; //下端点事件点集合; 
 	vector<SPointAndSegment> m_vMiddlePoints; //相交点集合(点在线段中间);   
-	vector<SPointAndSegment> m_vecPointSegmentsNow; //当前事件点和扫描线点集合; 元素最少有1个;  
+	vector<SPointAndSegment> m_vecPointSegmentsNow; //当前事件点和扫描线点集合; 元素最少有1个;   
 
-	int m_topPointsNum; //上端点事件点数量;  
-	int m_botPointsNum; //下端点事件点数量; 
+	int m_topPointsNum; //上端点事件点数量;    
+	int m_botPointsNum; //下端点事件点数量;   
 	int m_middlePointsNum; //相交点数量;
 	AcGePoint3d m_curPoint; //当前坐标点;
 	//SPointAndSegment m_curPointAndSegment; //当前   

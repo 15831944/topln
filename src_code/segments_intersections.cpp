@@ -420,7 +420,7 @@ CParseIntersectPoints::findIntersectPoints()
 
 	if(numSegment > 1)  
 	{
-		findIntersectPoint();  //发现交点;
+		findIntersectPoint();  //发现交点;   
 	}
 
 	//检查上端点事件和中端点事件个数；
