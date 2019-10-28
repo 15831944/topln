@@ -411,7 +411,7 @@ CParseIntersectPoints::findIntersectPoints()
 	m_eventPointsOpt.popOneEventPoint(m_vEventPoints);      
 
 	//从扫描线弹出事件点(这里称弧段);
-	m_sweepOpt.popPointSegment(m_vSweepLinePoints);     
+	m_sweepOpt.popPointSegment(m_curPoint,m_vSweepLinePoints);     
 
 	//对上俩集合进行分类;
 	parsePointLocationType();   
@@ -424,16 +424,18 @@ CParseIntersectPoints::findIntersectPoints()
 	}
 
 	//检查上端点事件和中端点事件个数；
-	m_topPointsNum = m_vTopPoints.size();
-	m_botPointsNum = m_vBottomPoints.size(); 
-	m_middlePointsNum = m_vMiddlePoints.size();
-	if(m_topPointsNum == 0 && m_middlePointsNum == 0) //如果没有上端点事件，也没有中间点事件
+	m_topPointsNum = m_vTopPoints.size();   
+	m_botPointsNum = m_vBottomPoints.size();    
+	m_middlePointsNum = m_vMiddlePoints.size();     
+	if(m_topPointsNum == 0 && m_middlePointsNum == 0) //如果没有上端点事件，也没有中间点事件   
 	{
-		m_sweepOpt.deleteSegment();
+		m_sweepOpt.deleteSegments(m_vBottomPoints);  
+		//find new intersectpoints
+		;
 	}
 	else
 	{
-		//测试有无交点，有交点，则纳入事件点Q
+		//测试有无交点，有交点，则纳入事件点Q  
 		m_sweepOpt.testIntersectEvent();   
 	}
 

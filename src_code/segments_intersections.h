@@ -352,7 +352,7 @@ public:
 private: 
 	bool findNewEventPoint();  
 	bool parsePointLocationType();  
-	bool sortByPointLocation(IN const <SPointAndSegment>& vecPoints);  
+	bool sortByPointLocation(IN const <SPointAndSegment>& vecPoints);    
 
 private:
 	CIntersectPointOpt m_intsectPointsOpt;    
@@ -365,12 +365,22 @@ private:
 	vector<SPointAndSegment> m_vTopPoints; //上端点事件点集合; 
 	vector<SPointAndSegment> m_vBottomPoints; //下端点事件点集合; 
 	vector<SPointAndSegment> m_vMiddlePoints; //相交点集合(点在线段中间);   
-	vector<SPointAndSegment> m_vecPointSegmentsNow; //当前事件点和扫描线点集合; 元素最少有1个;   
+	vector<SPointAndSegment> m_vecPointSegmentsNow; //当前事件点和扫描线点集合; 元素最少有1个;  
+
+	//当前事件点的前一个事件点弧段； 和当前事件点的下一个事件点弧段；  --为了求交点（新事件）；
+	SPointAndSegment m_preSegment;   
+	SPointAndSegment m_nextSegment;    
 
 	int m_topPointsNum; //上端点事件点数量;    
 	int m_botPointsNum; //下端点事件点数量;   
+<<<<<<< HEAD
 	int m_middlePointsNum; //相交点数量;
 	AcGePoint3d m_curPoint; //当前坐标点;	
+=======
+	int m_middlePointsNum; //相交点数量;    
+	AcGePoint3d m_curPoint; //当前坐标点;    
+	//SPointAndSegment m_curPointAndSegment; //当前   
+>>>>>>> 40f6ca878a8aa3229949a43fde31e1adddcf47b6
 };
 
 
@@ -408,18 +418,22 @@ public:
 	~CSweeplinePointOpt();   
 
 private:
-	multiset<SPointAndSegment,eventPointCmp> m_vEventPointsQueue; //扫描线上的事件点（即弧段）集合;
-	vector<SPointAndSegment> m_vNowPointSegs;
-	AcGePoint3d m_point3dNow; //当前事件点;  
+	multiset<SPointAndSegment,eventPointCmp> m_vSweepLineSegments; //扫描线上的事件点（即弧段）集合;  
+	vector<SPointAndSegment> m_vNowPointSegs;   
+	AcGePoint3d m_point3dNow; //当前事件点;    
 
-private:
-	bool insertSegment(IN SPointAndSegment* strPntSegPtr);  
-	bool popPointSegment(IN AcGePoint3d pt,OUT vector<SPointAndSegment>& vStrPntSeg);    
+public:   
+	bool insertSegment(IN SPointAndSegment& strPntSegPtr);  
+	bool findPointSegments(IN AcGePoint3d pt,OUT vector<SPointAndSegment>& vStrPntSeg);    
 	bool findPreviousSegment(OUT SPointAndSegment& prePointSegment); //发现最左边segmeng的左边segment； 
 	bool findNextSegment(OUT SPointAndSegment& prePointSegment);   //发现最右边segmeng的右边segment； 
-	bool findLeftSegment();
-	bool findRightSegment();  //发现最右边的segment;     
-	bool deleteSegment();
+	bool findLeftSegmentOf(IN SPointAndSegment& refPointSegment,OUT SPointAndSegment& outPointSegment);   
+	bool findRightSegmentOf(IN SPointAndSegment& pointSegment);  //发现最右边的segment;     
+	bool deleteSegment(IN SPointAndSegment& pointSegment); 
+	bool deleteSegments(IN vector<SPointAndSegment>& vSegments);   
+
+public:
+	bool ;
 };
 
 
@@ -448,13 +462,29 @@ private:
 
 /*
 class CParseIntersectPointByTwoSegment; 
-功能：求俩弧段的交点；
+功能：求俩弧段的交点，即新的事件点(交点类型);
+注意：
+1.如果2个segments已经有交点，则新的交点不能小于这个交点;
+2.如果2个segments没有交点，则求的交点如何保证不是“旧交点”？
+  解答：如果是旧交点，且已经经过事件处理,在已经发现的交点集合里应该存在;  
+        如果是旧交点，还在事件集合里，事件集合不会重复插入;
+3.这里只管计算出交点?
 */
-class CParseIntersectPointByTwoSegment
+class CIntersectTwoSegments
 {
 public:
-protected:
+	CIntersectTwoSegments();   
+	CIntersectTwoSegments(IN const SPointAndSegment& segment1,IN const SPointAndSegment& segment2);
+	~CIntersectTwoSegments();    
+
+public:
+	bool input(IN const SPointAndSegment& segment1,IN const SPointAndSegment& segment2);   
+	bool output(OUT vector<SPointAndSegment>& vIntersectPoints);
 private:
+	SPointAndSegment m_firstSegment;    
+	SPointAndSegment m_secondSegment;     
+	//SPointAndSegment ;    
+	vector<SPointAndSegment> m_vecIntersectPointsResult;
 };
 
 
