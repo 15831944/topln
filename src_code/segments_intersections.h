@@ -370,15 +370,14 @@ private:
 	int m_topPointsNum; //上端点事件点数量;    
 	int m_botPointsNum; //下端点事件点数量;   
 	int m_middlePointsNum; //相交点数量;
-	AcGePoint3d m_curPoint; //当前坐标点;
-	//SPointAndSegment m_curPointAndSegment; //当前   
+	AcGePoint3d m_curPoint; //当前坐标点;	
 };
 
 
 /*
 class CEventPointOpt;
 功能：事件队列上的操作；
-是不是同样可以用于扫描线相交弧段的操作？？？
+是不是同样可以用于扫描线相交弧段的操作？？？  
 */
 class CEventPointQueue
 {
@@ -387,9 +386,9 @@ public:
 	~CEventPointOpt();  
 
 private:
-	bool initSegmentsAll();  //初始化所有弧段;获取端点,插入事件队列;   
+	bool initSegmentsAll();  //初始化所有弧段;获取端点,插入事件队列;       
 	bool insertEventPoint(IN const SPointAndSegment& eventPoint);   
-	bool popOneEventPoint(OUT vector<SPointAndSegment>& vecEventPoints);   
+	bool popOneEventPoint(OUT vector<SPointAndSegment>& vecEventPoints);    
 
 private:
 	multiset<SPointAndSegment,eventPointCmp> m_vEventPointsQueue; //事件点集合; 
