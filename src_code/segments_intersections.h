@@ -375,18 +375,10 @@ private:
 
 	int m_topPointsNum; //上端点事件点数量;    
 	int m_botPointsNum; //下端点事件点数量;   
-<<<<<<< HEAD
-
-	int m_middlePointsNum; //相交点数量;    
-	AcGePoint3d m_curPoint; //当前坐标点;    
-	//SPointAndSegment m_curPointAndSegment; //当前   
-=======
 	int m_middlePointsNum; //相交点数量,也许只有一条弧段，有2条及以上弧段则说明是交点;
 
 	AcGePoint3d m_curPoint; //当前坐标点;    
 	//SPointAndSegment m_curPointAndSegment; //当前   
-
->>>>>>> 746c26818c71ebad7c4a93fcb3024c2d68b83158
 };
 
 

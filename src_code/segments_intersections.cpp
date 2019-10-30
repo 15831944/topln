@@ -473,7 +473,7 @@ CParseIntersectPoints::sortByPointLocation(IN const <SPointAndSegment>& vecPoint
 			m_vBottomPoints.push_back((SPointAndSegment)(*itr));
 			break;
 		case ELocationTypeOfPoint::MIDDLE_POINT:
-			m_vIntersectPoints.push_back((SPointAndSegment)(*itr));
+			m_vIntersectPoints.push_back((SPointAndSegment)(*itr));   
 			break;
 		default:
 			break;
