@@ -424,25 +424,30 @@ CParseIntersectPoints::findIntersectPoints()
 	}
 
 	//检查上端点事件和中端点事件个数；
-	m_topPointsNum = m_vTopPoints.size();   
-	m_botPointsNum = m_vBottomPoints.size();    
-	m_middlePointsNum = m_vMiddlePoints.size();     
+	//m_topPointsNum = m_vTopPoints.size();   
+	//m_botPointsNum = m_vBottomPoints.size();    
+	//m_middlePointsNum = m_vMiddlePoints.size();     
 	if(m_topPointsNum == 0 && m_middlePointsNum == 0) //如果没有上端点事件，也没有中间点事件   
 	{
 		m_sweepOpt.deleteSegments(m_vBottomPoints);  
-		m_sweepOpt.deleteSegments(m_vMiddlePoints);
+		m_sweepOpt.deleteSegments(m_vMiddlePoints); 
+		m_sweepOpt.insertSegment(m_vTopPoints);
+		m_sweepOpt.insertSegment(m_vMiddlePoints);
 		//find new intersectpoints
-		m_sweepOpt.findLeftSegmentOf();
-		m_sweepOpt.findRightSegmentOf();
-		//测试有无交点，有交点，则纳入事件点Q
-		;
+		findLeftSegments();
+		findRightSegments();
+		findFrontSegments();
+		findBehindSegments();		
+		//测试有无交点，有交点，则纳入事件点Q   
+		calNewEventPoints();   
+		insertNewEventPoints();    
 	}
-	else
+	else  //
 	{
 		//出入U(p)和C（p)中的线段，按逆序，也即按扫描线离开后的线段顺序；
 		vector<SPointAndSegment> vecUpAndCross;
-		vecUpAndCross.insert(m_vTopPoints.begin(),m_vTopPoints.end());
-		vecUpAndCross.insert(m_vMiddlePoints.begin(),m_vMiddlePoints.end());
+		vecUpAndCross.insert(m_vTopPoints.begin(),m_vTopPoints.end());   
+		vecUpAndCross.insert(m_vMiddlePoints.begin(),m_vMiddlePoints.end());  
 		COptOnPointsGroup optOnPnGrp;
 		optOnPnGrp.sortByAngle(vecUpAndCross);
 		//测试有无交点，有交点，则纳入事件点Q  

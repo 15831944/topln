@@ -346,13 +346,27 @@ public:
 	~CParseIntersectPoints();  
 
 public:
-	bool findIntersectPoints();  //发现所有交点;  	 
-	bool outputIntersectPoints(OUT CSweeplinePointOpt* sweepLinePntsPtr);  
- 
+	bool outputIntersectPoints(OUT CSweeplinePointOpt& sweepLinePnts);
+	bool findAllIntersectPoints();
+
+private:
+	bool prsCurrentIntersectPoints();  //发现当前交点(可能有超过2条的弧段相交);
+
 private: 
-	bool findNewEventPoint();  
-	bool parsePointLocationType();  
-	bool sortByPointLocation(IN const <SPointAndSegment>& vecPoints);    
+	bool calNewEventPoints();  
+
+private:
+	bool popEventPoint();   
+	bool getCurSweepLineSegments();   	 
+	bool sortByPointLocation();    
+	bool findLeftSegments();   
+	bool findRightSegments();   
+	bool findFrontSegments();    
+	bool findBehindSegments();  
+	bool insertNewEventPoints();     
+
+private:
+	bool parsePointByLocationType();  
 
 private:
 	CIntersectPointOpt m_intsectPointsOpt;    
@@ -368,17 +382,19 @@ private:
 	vector<SPointAndSegment> m_vecPointSegmentsNow; //当前事件点和扫描线点集合; 元素最少有1个;  
 
 	//当前事件点的前一个事件点弧段； 和当前事件点的下一个事件点弧段；  --为了求交点（新事件）；
-	SPointAndSegment m_preSegment;   
-	vector<SPointAndSegment>  m_vecNextSegment;    //右边下一个弧段可能有多个;
-	SPointAndSegment m_leftSegment;
-	vector<SPointAndSegment > m_vecRightSegments; //最右边弧段，可能不止一个,如果不止一个，则都是平行的;
+	vector<SPointAndSegment> m_frontSegment;    //当前弧段的前一个弧段群的最右边弧段可能有多个;
+	 //当前弧段的下一个弧段群的最左边弧段可能有一个（不平行的弧段），也可能有多个（平行弧段）;
+	vector<SPointAndSegment>  m_vecBehindSegments;   
+	vector<SPointAndSegment>  m_leftSegments;   //当前弧段最左边边弧段，可能不止一个,如果不止一个，则都是平行的;
+	vector<SPointAndSegment > m_vecRightSegments; //当前弧段最右边弧段，可能不止一个,如果不止一个，则都是平行的;
+	vector<SPointAndSegment> m_vecNewEventPoints;  //计算出来的新的事件点;  
 
 	int m_topPointsNum; //上端点事件点数量;    
 	int m_botPointsNum; //下端点事件点数量;   
-	int m_middlePointsNum; //相交点数量,也许只有一条弧段，有2条及以上弧段则说明是交点;
+	int m_curMiddlePointsNum; //相交点数量,也许只有一条弧段，有2条及以上弧段则说明是交点;
 
 	AcGePoint3d m_curPoint; //当前坐标点;    
-	//SPointAndSegment m_curPointAndSegment; //当前   
+	//SPointAndSegment m_curPointAndSegment; //当前弧段：这个参数没意义，当前弧段可能不止一条；
 };
 
 
@@ -488,16 +504,12 @@ private:
 
 
 /*
-class COptOnPointsGroup; 
-功能：对弧段（事件点）集合的一些操作;
+class COptOnPointSegmentGroup; 
+功能：;
 注意：
-1.如果2个segments已经有交点，则新的交点不能小于这个交点;
-2.如果2个segments没有交点，则求的交点如何保证不是“旧交点”？
-  解答：如果是旧交点，且已经经过事件处理,在已经发现的交点集合里应该存在;   
-        如果是旧交点，还在事件集合里，事件集合不会重复插入;  
-3.这里只管计算出交点?
+
 */
-class COptOnPointsGroup
+class COptOnPointSegmentGroup
 {
 public:
 	COptOnPointsGroup();  
@@ -509,6 +521,14 @@ public:
 private:
 	vector<SPointAndSegment> m_vPointsGroup;   
 };
+
+
+
+/*
+class ; 
+功能：;
+注意：
+*/
 
 
 #endif  //ZHOUHUAGANG_20190822_segments_intersections
