@@ -396,6 +396,8 @@ class CParseIntersectPoints
 
 CParseIntersectPoints::CParseIntersectPoints
 {
+	//清空;
+	m_vEventPoints.clear();
 }
 
 CParseIntersectPoints::~CParseIntersectPoints()  
@@ -417,44 +419,25 @@ CParseIntersectPoints::findIntersectPoints()
 	parsePointLocationType();   
 
 	int numSegment = m_vecPointSegmentsNow.size();   
-
 	if(numSegment > 1)  
 	{
 		findIntersectPoint();  //发现交点;   
 	}
-
-	//检查上端点事件和中端点事件个数；
-	//m_topPointsNum = m_vTopPoints.size();   
-	//m_botPointsNum = m_vBottomPoints.size();    
-	//m_middlePointsNum = m_vMiddlePoints.size();     
-	if(m_topPointsNum == 0 && m_middlePointsNum == 0) //如果没有上端点事件，也没有中间点事件   
-	{
-		m_sweepOpt.deleteSegments(m_vBottomPoints);  
-		m_sweepOpt.deleteSegments(m_vMiddlePoints); 
-		m_sweepOpt.insertSegment(m_vTopPoints);
-		m_sweepOpt.insertSegment(m_vMiddlePoints);
-		//find new intersectpoints
-		findLeftSegments();
-		findRightSegments();
-		findFrontSegments();
-		findBehindSegments();		
-		//测试有无交点，有交点，则纳入事件点Q   
-		calNewEventPoints();   
-		insertNewEventPoints();    
-	}
-	else  //
-	{
-		//出入U(p)和C（p)中的线段，按逆序，也即按扫描线离开后的线段顺序；
-		vector<SPointAndSegment> vecUpAndCross;
-		vecUpAndCross.insert(m_vTopPoints.begin(),m_vTopPoints.end());   
-		vecUpAndCross.insert(m_vMiddlePoints.begin(),m_vMiddlePoints.end());  
-		COptOnPointsGroup optOnPnGrp;
-		optOnPnGrp.sortByAngle(vecUpAndCross);
-		//测试有无交点，有交点，则纳入事件点Q  
-		
-	}
-
-	//检查下端点个数;
+	
+	//删除扫描线上的弧段; 扫描线上的弧段不重复;点可以重复;  
+	m_sweepOpt.deleteSegments(m_vBottomPoints);   
+	m_sweepOpt.deleteSegments(m_vMiddlePoints);  
+	//向扫描线插入弧段;
+	m_sweepOpt.insertSegment(m_vTopPoints);     
+	m_sweepOpt.insertSegment(m_vMiddlePoints);  
+	//发现左右弧段;
+	findLeftSegments();   
+	findRightSegments();
+	findFrontSegments();    
+	findBehindSegments();		  
+	//测试有无交点，有交点，则纳入事件点Q    
+	calNewEventPoints();   
+	insertNewEventPoints();   
 }
 
 

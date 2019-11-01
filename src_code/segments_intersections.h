@@ -353,6 +353,8 @@ private:
 	bool prsCurrentIntersectPoints();  //发现当前交点(可能有超过2条的弧段相交);
 
 private: 
+	//检测新的事件点;
+	//bool cal();
 	bool calNewEventPoints();  
 
 private:
@@ -361,7 +363,7 @@ private:
 	bool sortByPointLocation();    
 	bool findLeftSegments();   
 	bool findRightSegments();   
-	bool findFrontSegments();    
+	bool findFrontSegments();   
 	bool findBehindSegments();  
 	bool insertNewEventPoints();     
 
@@ -374,12 +376,12 @@ private:
 	CSweeplinePointOpt m_sweepOpt;   
 
 	vector<SPointAndSegment> m_vEventPoints; //从Q中取出的事件点;    
-	vector<SPointAndSegment> m_vSweepLinePoints; //从扫描线上取出来的“线段”;  
+	vector<SPointAndSegment> m_vSweepLinePoints; //从扫描线上取出来的“线段”;     
 
 	vector<SPointAndSegment> m_vTopPoints; //上端点事件点集合; 
-	vector<SPointAndSegment> m_vBottomPoints; //下端点事件点集合; 
-	vector<SPointAndSegment> m_vMiddlePoints; //相交点集合(点在线段中间);   
-	vector<SPointAndSegment> m_vecPointSegmentsNow; //当前事件点和扫描线点集合; 元素最少有1个;  
+	vector<SPointAndSegment> m_vBottomPoints; //下端点事件点集合;   
+	vector<SPointAndSegment> m_vMiddlePoints; //相交点集合(点在线段中间);    
+	vector<SPointAndSegment> m_vecPointSegmentsNow; //当前事件点和扫描线点集合; 元素最少有1个,否则说明程序写的有问题;  
 
 	//当前事件点的前一个事件点弧段； 和当前事件点的下一个事件点弧段；  --为了求交点（新事件）；
 	vector<SPointAndSegment> m_frontSegment;    //当前弧段的前一个弧段群的最右边弧段可能有多个;
@@ -387,11 +389,11 @@ private:
 	vector<SPointAndSegment>  m_vecBehindSegments;   
 	vector<SPointAndSegment>  m_leftSegments;   //当前弧段最左边边弧段，可能不止一个,如果不止一个，则都是平行的;
 	vector<SPointAndSegment > m_vecRightSegments; //当前弧段最右边弧段，可能不止一个,如果不止一个，则都是平行的;
-	vector<SPointAndSegment> m_vecNewEventPoints;  //计算出来的新的事件点;  
+	vector<SPointAndSegment> m_vecNewEventPoints;  //计算出来的新的事件点;    
 
 	int m_topPointsNum; //上端点事件点数量;    
 	int m_botPointsNum; //下端点事件点数量;   
-	int m_curMiddlePointsNum; //相交点数量,也许只有一条弧段，有2条及以上弧段则说明是交点;
+	int m_curMiddlePointsNum; //相交点数量,也许只有一条弧段，有2条及以上弧段则说明是交点;   
 
 	AcGePoint3d m_curPoint; //当前坐标点;    
 	//SPointAndSegment m_curPointAndSegment; //当前弧段：这个参数没意义，当前弧段可能不止一条；
