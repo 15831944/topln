@@ -1,16 +1,16 @@
-/*************************************************************************
+﻿/*************************************************************************
 Copyright (C), 2017-12-1, XuMiJieZi.
 FileName: pointMap.h
 Author: 
 Version:
 Date: //zhg 1.0
-Description: // 1.��ѡ�е�ʵ�弯�Ͻ��������������ѯ;
-             // 2.ʹ��map�ṹ; �Ե������x��yΪ��ѯkeyֵ; x��mapǶ��y��map��
-Function List: // ��Ҫ�����б���ÿ����¼Ӧ���������������ܼ�Ҫ˵��
+Description: // 1.¶ÔÑ¡ÖÐµÄÊµÌå¼¯ºÏ½¨Á¢¶¥µã±í£¬¹©²éÑ¯;
+             // 2.Ê¹ÓÃmap½á¹¹; ÒÔµã×ø±êµÄx¡¢yÎª²éÑ¯keyÖµ; xµÄmapÇ¶Ì×yµÄmap£»
+Function List: // Ö÷Òªº¯ÊýÁÐ±í£¬Ã¿Ìõ¼ÇÂ¼Ó¦°üÀ¨º¯ÊýÃû¼°¹¦ÄÜ¼òÒªËµÃ÷
 1. ....
-History: // �޸���ʷ��¼�б���ÿ���޸ļ�¼Ӧ�����޸����ڡ��޸�
-		// �߼��޸����ݼ���
-eg�� Date:	Author: 	Modification:
+History: // ÐÞ¸ÄÀúÊ·¼ÇÂ¼ÁÐ±í£¬Ã¿ÌõÐÞ¸Ä¼ÇÂ¼Ó¦°üÀ¨ÐÞ¸ÄÈÕÆÚ¡¢ÐÞ¸Ä
+		// Õß¼°ÐÞ¸ÄÄÚÈÝ¼òÊö
+eg£º Date:	Author: 	Modification:
 1. ...
 2.
 *************************************************************************/
@@ -60,35 +60,35 @@ using namespace  std;
 
 
 
-//����3���ṹ��
-//1.�洢�����߶εĶ˵�list�������·��ֵĽ���;
-//2.�洢ɨ�����ϵĵ�set��������������
-//3.�洢���ֵĽ���;
+//½¨Á¢3¸ö½á¹¹£º
+//1.´æ´¢ËùÓÐÏß¶ÎµÄ¶Ëµãlist£¨°üÀ¨ÐÂ·¢ÏÖµÄ½»µã;
+//2.´æ´¢É¨ÃèÏßÉÏµÄµãset£¨¶þ²æÊ÷£¿£©£»
+//3.´æ´¢·¢ÏÖµÄ½»µã;
 
-//��������㣺
-//1.�˵��غϵ��߶���ô����;
-//2.Բ����ô��ʾ���߶Σ�: ������ͨ�����ĵĴ��ߺ�ˮƽ�߻��ֳ��Ķ�; ÿ�λ��ǵ�����;
-//3.�������¶˵㣻
+//¼¸¸öÎÊÌâµã£º
+//1.¶ËµãÖØºÏµÄÏß¶ÎÔõÃ´±í´ï;
+//2.Ô²»¡ÔõÃ´±íÊ¾³ÉÏß¶Î£¿: »¡¶ÎÓÃÍ¨¹ýÖÐÐÄµÄ´¹ÏßºÍË®Æ½Ïß»®·Ö³ÉËÄ¶Î; Ã¿¶Î»¡ÊÇµ¥µ÷µÄ;
+//3.½»µãÊÇÏÂ¶Ëµã£»
 
-//���������ܣ���N���߶εĽ��㼯;
-//����ɨ�����ཻ�㷨;
+//±¾Èí¼þ¹¦ÄÜ£ºÇóN¸öÏß¶ÎµÄ½»µã¼¯;
+//²ÉÓÃÉ¨ÃèÏßÏà½»Ëã·¨;
 //
 
 
-//ָʾ���η�λ��
-//������ͨ�����ĵĴ��ߺ�ˮƽ�߻��ֳ��Ķ�:���ϣ����£����ϣ�����;
+//Ö¸Ê¾»¡¶Î·½Î»£º
+//»¡¶ÎÓÃÍ¨¹ýÖÐÐÄµÄ´¹ÏßºÍË®Æ½Ïß»®·Ö³ÉËÄ¶Î:×óÉÏ£¬×óÏÂ£¬ÓÒÉÏ£¬ÓÒÏÂ;
 enum EPartOfArc
 {
 	LEFT_TOP,
 	LEFT_BOTTOM,
 	RIGHT_TOP,
 	RIGHT_BOTTOM,
-	JUST_ALONE�� //��ʾ������������ǵ�����;
+	JUST_ALONE£¬ //±íÊ¾Õâ¸ö»¡±¾Éí¾ÍÊÇµ¥µ÷µÄ;
 	NONE_NONE
 };
 
 
-//ָʾĳ���������߶ε��϶˵㻹���¶˵�,��ƽ���߶εĻ�������˵㻹���Ҷ˵�;
+//Ö¸Ê¾Ä³¸ö¶¥µãÊÇÏß¶ÎµÄÉÏ¶Ëµã»¹ÊÇÏÂ¶Ëµã,ÊÇÆ½ÐÐÏß¶ÎµÄ»°£¬ÊÇ×ó¶Ëµã»¹ÊÇÓÒ¶Ëµã;
 enum ELocationTypeOfPoint
 {
 	TOP_POINT,
@@ -96,12 +96,12 @@ enum ELocationTypeOfPoint
 	LEFT_POINT,
 	RIGHT_POINT,
 	MIDDLE_POINT,
-	NONE_INDICTATION  //����ָʾ;
+	NONE_INDICTATION  //´íÎóÖ¸Ê¾;
 };
 
 
 
-//ö�٣�ָʾ�߶�����
+//Ã¶¾Ù£¬Ö¸Ê¾Ïß¶ÎÀàÐÍ
 enum ETypeOfArc
 {
 	Line_Type,
@@ -113,11 +113,11 @@ enum ETypeOfArc
 };
 
 /*
-������CSegement
-��;����ʾ��ɨ�����뽻���߶�
-��ʾΪ��һ���߶Σ�������һ��ֱ�ߣ�Ҳ������һ����;   
-һ����һ�߷ֽ�ɶ��ֱ�߶κͻ���
-���λ��ֳ��ĶΣ�������ͨ�����ĵĴ��ߺ�ˮƽ�߻��ֳ��Ķ�; ÿ�λ��ǵ�����
+ÀàÃû£ºCSegement
+ÓÃÍ¾£º±íÊ¾ºÍÉ¨ÃèÏßÏë½»µÄÏß¶Î
+±íÊ¾Îª£ºÒ»¸öÏß¶Î£¬¿ÉÄÜÊÇÒ»ÌõÖ±Ïß£¬Ò²¿ÉÄÜÊÇÒ»Ìõ»¡;   
+Ò»Ìõ¶àÒ»Ïß·Ö½â³É¶à¸öÖ±Ïß¶ÎºÍ»¡¶Î
+»¡¶Î»®·Ö³ÉËÄ¶Î£º»¡¶ÎÓÃÍ¨¹ýÖÐÐÄµÄ´¹ÏßºÍË®Æ½Ïß»®·Ö³ÉËÄ¶Î; Ã¿¶Î»¡ÊÇµ¥µ÷µÄ
 */
 class CSegement
 {
@@ -126,17 +126,17 @@ public:
 	~CSegement(); 
 
 public:
-	////�߶εĶ˵�x����	
+	////Ïß¶ÎµÄ¶Ëµãx×ø±ê	
 	//double m_xCoord;
 	//double m_yCoord;	
 
-	//���߶Σ��ǻ������ߣ��Ƕ����ߣ�
+	//±¾Ïß¶Î£¬ÊÇ»¡£¿ÊÇÏß£¿ÊÇ¶àÒåÏß£¿
 	ETypeOfArc m_myselfType ; 
 	AcDbArc* m_arcPtr;
 	AcDbLine* m_LinePtr;	
 	EPartOfArc m_whichPart; 
 
-	//ĸ�߶Σ��ǻ�����Բ���Ƕ����ߣ�:����������line;  
+	//Ä¸Ïß¶Î£¬ÊÇ»¡£¿ÊÇÔ²£¿ÊÇ¶àÒåÏß£¿:²»¿ÉÄÜÊÇÏßline;  
 	ETypeOfArc m_parentType ;
 	AcDbArc* m_arcPtr;
 	AcDbCircle* m_circlePtr;
@@ -144,7 +144,7 @@ public:
 	AcGeCircArc2d* m_circArc2d;
 	AcDbPolyline* m_polylinePtr;
 
-	//��ĸ�߶Σ��ǻ������ߣ��Ƕ�����? :���У�ֻ���Ƕ�������; 
+	//×æÄ¸Ïß¶Î£¬ÊÇ»¡£¿ÊÇÏß£¿ÊÇ¶àÒåÏß? :ÈôÓÐ£¬Ö»ÄÜÊÇ¶àÒåÏßÁË; 
 	ETypeOfArc m_grandmaType;
 	//AcDbArc* m_arcPtr;
 	//AcDbLine* m_LinePtr;
@@ -161,9 +161,9 @@ public:
 
 
 /*
-������ȡ�߶�CBreakArcToFourSegment;
-�����ηֳ��Ĳ��֣���Բ�Ļ���ֱ�ߺ�ˮƽ�ߣ���Բ���и���Ĳ��֣�
-����ÿ���ֶ��ǵ����Ļ�;
+»¡¶ÎÌáÈ¡Ïß¶ÎCBreakArcToFourSegment;
+½«»¡¶Î·Ö³ÉËÄ²¿·Ö£ºÒÔÔ²ÐÄ»­´¹Ö±ÏßºÍË®Æ½Ïß£¬½«Ô²»¡ÇÐ¸î³ÉËÄ²¿·Ö£»
+ÕâÑùÃ¿²¿·Ö¶¼ÊÇµ¥µ÷µÄ»¡;
 */
 class CBreakArcToFourPart
 {
@@ -173,7 +173,7 @@ public:
 	CBreakArcToFourPart(AcGeCircArc2d* pGeArc2d);
 
 private:
-	AcGeCircArc2d* m_geArc2dToBreaked;   //��Ҫ���ƵĻ���;   
+	AcGeCircArc2d* m_geArc2dToBreaked;   //ÐèÒª´òÆÆµÄ»¡¶Î;   
 	AcGeCircArc2d* m_geArc2dLeftTop;
 	AcGeCircArc2d* m_geArc2dLeftBot;  
 	AcGeCircArc2d* m_geArc2dRightTop;  
@@ -181,20 +181,20 @@ private:
 	vector<AcGeCircArc2d*> m_arcs;    
 
 private:
-	bool breakArcToFourParts(); //Ҳ�������С��4������;  
+	bool breakArcToFourParts(); //Ò²Ðí´òËéºóÐ¡ÓÚ4¸ö²¿·Ö;  
 
 public:
-	bool inputArcSegToBreaked(AcGeCircArc2d* pGeArc2d);  //������Ҫ����Ļ���;    
-	bool outputWhatPartAng(OUT AcGeCircArc2d* geArcPartOne,IN EPartOfArc whatPart); //�����һ���޻��Σ�����еĻ���
+	bool inputArcSegToBreaked(AcGeCircArc2d* pGeArc2d);  //ÊäÈëÐèÒª´òËéµÄ»¡¶Î;    
+	bool outputWhatPartAng(OUT AcGeCircArc2d* geArcPartOne,IN EPartOfArc whatPart); //Êä³öµÚÒ»ÏóÏÞ»¡¶Î£¬Èç¹ûÓÐµÄ»°£»
 };
 
 
 
 /*
 class CBreakAcGeCircArcToTwoPart
-���ܣ�������Ļ���������ĽǶȣ����Ƴ�2�λ�;
-���룺���Σ��Ƕ�;
-��������ƺ��2�λ�;Ҳ���ܽǶȲ��ڻ����ϣ�������;
+¹¦ÄÜ£º½«ÊäÈëµÄ»¡£¬°´ÊäÈëµÄ½Ç¶È£¬´òÆÆ³É2¶Î»¡;
+ÊäÈë£º»¡¶Î£¬½Ç¶È;
+Êä³ö£º´òÆÆºóµÄ2¶Î»¡;Ò²¿ÉÄÜ½Ç¶È²»ÔÚ»¡¶ÎÉÏ£¬²»´òÆÆ;
 */
 class CBreakAcGeCircArcToTwoPart
 {
@@ -219,7 +219,7 @@ public:
 
 /*
 class CQuadrantAnglePair
-���ܣ����ݻ��β�λ���ж����ޣ��ó�������С�Ƕȣ����Ƕ�;
+¹¦ÄÜ£º¸ù¾Ý»¡¶Î²¿Î»£¬ÅÐ¶ÏÏóÏÞ£¬µÃ³öÏóÏÞ×îÐ¡½Ç¶È£¬×î´ó½Ç¶È;
 */
 class CQuadrantAnglePair
 {
@@ -235,7 +235,7 @@ public:
 
 /*
 class CAcGeCircArcToAcDbArc
-���ܣ���AcGeCircArc2d��AcDbArc2dת��;
+¹¦ÄÜ£º´ÓAcGeCircArc2dµ½AcDbArc2d×ª»»;
 */
 class CAcGeCircArcToAcDbArc
 {
@@ -252,15 +252,15 @@ private:
 
 
 /*
-���ܣ��Ƚ��������λ�ô�С;
-��С���������ֵequalPoint�ڣ��������;�����߲űȽϴ�С;  
+¹¦ÄÜ£º±È½ÏÁ½¸öµãµÄÎ»ÖÃ´óÐ¡;
+´óÐ¡¹æÔò£ºÔÚÎó²îÖµequalPointÄÚ£¬ÔòÅÐÏàµÈ;³¬³öÕß²Å±È½Ï´óÐ¡;  
 */
 
 
 
 /*
-����Ŀ��multiset��Ԫ��֮���С�Ƚϣ��ṹ;
-��������Ƚ��¼��㼯���еĵ㣬��yֵ��С��������   
+±¾ÏîÄ¿µÄmultisetµÄÔªËØÖ®¼ä´óÐ¡±È½Ï£¬½á¹¹;
+Õâ¸öÓÃÀ´±È½ÏÊÂ¼þµã¼¯ºÏÖÐµÄµã£¬°´yÖµ´ÓÐ¡µ½´óÅÅÐò£»   
 */
 struct eventPointCmp
 {
@@ -271,10 +271,10 @@ struct eventPointCmp
 		double x2 = ps2.m_point.x;  
 		double y2 = ps2.m_point.y;  
 
-		//���2������벻����equalPoint()���ж����;   
+		//Èç¹û2¸öµã¾àÀë²»´óÓÚequalPoint()ÔòÅÐ¶¨ÏàµÈ;   
 		if(ps1.m_point.distanceTo(ps2) <= AcGeTol::equalPoint())   
 		{
-			return false;  //�����ȣ��²���ĵ�������;
+			return false;  //Èç¹ûÏàµÈ£¬ÐÂ²åÈëµÄµãÍùºóÅÅ;
 		}
 		else
 		{
@@ -287,11 +287,11 @@ struct eventPointCmp
 
 /*
 struct SPointAndSegment
-���ܣ�����һ�����һ�����ε���ϣ�
-      �����¼��㡢ɨ�����ϵĻ��εĽṹ�ı���;
-	  �����¼���Ľṹ��
-	  ����洢�ṹ;
-	  �¼���洢���¼�Q��ɨ�����뽻�߶νṹT�У�
+¹¦ÄÜ£º¶¨ÒåÒ»¸öµãºÍÒ»¸ö»¡¶ÎµÄ×éºÏ£»
+      ÓÃÓÚÊÂ¼þµã¡¢É¨ÃèÏßÉÏµÄ»¡¶ÎµÄ½á¹¹µÄ±í´ï;
+	  ¶¨ÒåÊÂ¼þµãµÄ½á¹¹£»
+	  ½»µã´æ´¢½á¹¹;
+	  ÊÂ¼þµã´æ´¢ÓÚÊÂ¼þQ¼°É¨ÃèÏßÏë½»Ïß¶Î½á¹¹TÖÐ£»
 */
 struct SPointAndSegment
 {
@@ -305,8 +305,8 @@ struct SPointAndSegment
 
 ///*
 //class CIntersectPoint;
-//���彻��ṹ��
-//����Ϊ�����Ľ��㣬��ɨ������з��ֵĽ���;   
+//¶¨Òå½»µã½á¹¹£»
+//½»µãÎªÕæÕýµÄ½»µã£¬ÔÚÉ¨Ãè¹ý³ÌÖÐ·¢ÏÖµÄ½»µã;   
 //*/
 //class CIntersectPoint
 //{
@@ -330,36 +330,38 @@ struct SPointAndSegment
 
 /*************************************************
 class CParseIntersectPoints
-Function:       // ��������
-Description:    // �������ܡ����ܵȵ�����
-Calls:          // �����������õĺ����嵥
-Input:          // �������˵��������ÿ����������
-                  // �á�ȡֵ˵�����������ϵ��
-Output:         // �����������˵����
-Return:         // ��������ֵ��˵��
-Others:         // ����˵��
+Function:       // º¯ÊýÃû³Æ
+Description:    // º¯Êý¹¦ÄÜ¡¢ÐÔÄÜµÈµÄÃèÊö
+Calls:          // ±»±¾º¯Êýµ÷ÓÃµÄº¯ÊýÇåµ¥
+Input:          // ÊäÈë²ÎÊýËµÃ÷£¬°üÀ¨Ã¿¸ö²ÎÊýµÄ×÷
+                  // ÓÃ¡¢È¡ÖµËµÃ÷¼°²ÎÊý¼ä¹ØÏµ¡£
+Output:         // ¶ÔÊä³ö²ÎÊýµÄËµÃ÷¡£
+Return:         // º¯Êý·µ»ØÖµµÄËµÃ÷
+Others:         // ÆäËüËµÃ÷
 *************************************************/
 class CParseIntersectPoints
 {
 public:
 	CParseIntersectPoints();  
-	~CParseIntersectPoints();  
+	~CParseIntersectPoints();   
+
 
 public:
-	bool outputIntersectPoints(OUT CSweeplinePointOpt& sweepLinePnts);
-	bool findAllIntersectPoints();
+	bool outputIntersectPoints(OUT CSweeplinePointOpt& sweepLinePnts); 
+	bool findAllIntersectPoints();  
 
 private:
-	bool prsCurrentIntersectPoints();  //���ֵ�ǰ����(�����г���2���Ļ����ཻ);
+	bool prsCurrentIntersectPoints();  //·¢ÏÖµ±Ç°½»µã(¿ÉÄÜÓÐ³¬¹ý2ÌõµÄ»¡¶ÎÏà½»); 
+	bool insertIntersectPoints();  
 
-private: 
-	//����µ��¼���;
+private:  
+	//¼ì²âÐÂµÄÊÂ¼þµã; 
 	//bool cal();
-	bool calNewEventPoints();  
+	bool calNewEventPoints();   
 
 private:
 	bool popEventPoint();   
-	bool getCurSweepLineSegments();   	 
+	bool getCurSweepLineSegments();     	 
 	bool sortByPointLocation();    
 	bool findLeftSegments();   
 	bool findRightSegments();   
@@ -375,35 +377,35 @@ private:
 	CEventPointQueue m_eventPointsOpt;     
 	CSweeplinePointOpt m_sweepOpt;   
 
-	vector<SPointAndSegment> m_vEventPoints; //��Q��ȡ�����¼���;    
-	vector<SPointAndSegment> m_vSweepLinePoints; //��ɨ������ȡ�����ġ��߶Ρ�;     
+	vector<SPointAndSegment> m_vEventPoints; //´ÓQÖÐÈ¡³öµÄÊÂ¼þµã;    
+	vector<SPointAndSegment> m_vSweepLinePoints; //´ÓÉ¨ÃèÏßÉÏÈ¡³öÀ´µÄ¡°Ïß¶Î¡±;     
 
-	vector<SPointAndSegment> m_vTopPoints; //�϶˵��¼��㼯��; 
-	vector<SPointAndSegment> m_vBottomPoints; //�¶˵��¼��㼯��;   
-	vector<SPointAndSegment> m_vMiddlePoints; //�ཻ�㼯��(�����߶��м�);    
-	vector<SPointAndSegment> m_vecPointSegmentsNow; //��ǰ�¼����ɨ���ߵ㼯��; Ԫ��������1��,����˵������д��������;  
+	vector<SPointAndSegment> m_vTopPoints; //ÉÏ¶ËµãÊÂ¼þµã¼¯ºÏ; 
+	vector<SPointAndSegment> m_vBottomPoints; //ÏÂ¶ËµãÊÂ¼þµã¼¯ºÏ;   
+	vector<SPointAndSegment> m_vMiddlePoints; //Ïà½»µã¼¯ºÏ(µãÔÚÏß¶ÎÖÐ¼ä);    
+	vector<SPointAndSegment> m_vecPointSegmentsNow; //µ±Ç°ÊÂ¼þµãºÍÉ¨ÃèÏßµã¼¯ºÏ; ÔªËØ×îÉÙÓÐ1¸ö,·ñÔòËµÃ÷³ÌÐòÐ´µÄÓÐÎÊÌâ;  
 
-	//��ǰ�¼����ǰһ���¼��㻡�Σ� �͵�ǰ�¼������һ���¼��㻡�Σ�  --Ϊ���󽻵㣨���¼�����
-	vector<SPointAndSegment> m_frontSegment;    //��ǰ���ε�ǰһ������Ⱥ�����ұ߻��ο����ж��;
-	 //��ǰ���ε���һ������Ⱥ������߻��ο�����һ������ƽ�еĻ��Σ���Ҳ�����ж����ƽ�л��Σ�;
+	//µ±Ç°ÊÂ¼þµãµÄÇ°Ò»¸öÊÂ¼þµã»¡¶Î£» ºÍµ±Ç°ÊÂ¼þµãµÄÏÂÒ»¸öÊÂ¼þµã»¡¶Î£»  --ÎªÁËÇó½»µã£¨ÐÂÊÂ¼þ£©£»
+	vector<SPointAndSegment> m_frontSegment;    //µ±Ç°»¡¶ÎµÄÇ°Ò»¸ö»¡¶ÎÈºµÄ×îÓÒ±ß»¡¶Î¿ÉÄÜÓÐ¶à¸ö;
+	 //µ±Ç°»¡¶ÎµÄÏÂÒ»¸ö»¡¶ÎÈºµÄ×î×ó±ß»¡¶Î¿ÉÄÜÓÐÒ»¸ö£¨²»Æ½ÐÐµÄ»¡¶Î£©£¬Ò²¿ÉÄÜÓÐ¶à¸ö£¨Æ½ÐÐ»¡¶Î£©;
 	vector<SPointAndSegment>  m_vecBehindSegments;   
-	vector<SPointAndSegment>  m_leftSegments;   //��ǰ��������߱߻��Σ����ܲ�ֹһ��,�����ֹһ��������ƽ�е�;
-	vector<SPointAndSegment > m_vecRightSegments; //��ǰ�������ұ߻��Σ����ܲ�ֹһ��,�����ֹһ��������ƽ�е�;
-	vector<SPointAndSegment> m_vecNewEventPoints;  //����������µ��¼���;    
+	vector<SPointAndSegment>  m_vecleftSegments;   //µ±Ç°»¡¶Î×î×ó±ß±ß»¡¶Î£¬¿ÉÄÜ²»Ö¹Ò»¸ö,Èç¹û²»Ö¹Ò»¸ö£¬Ôò¶¼ÊÇÆ½ÐÐµÄ;
+	vector<SPointAndSegment > m_vecRightSegments; //µ±Ç°»¡¶Î×îÓÒ±ß»¡¶Î£¬¿ÉÄÜ²»Ö¹Ò»¸ö,Èç¹û²»Ö¹Ò»¸ö£¬Ôò¶¼ÊÇÆ½ÐÐµÄ;
+	vector<SPointAndSegment> m_vecNewEventPoints;  //¼ÆËã³öÀ´µÄÐÂµÄÊÂ¼þµã;    
 
-	int m_topPointsNum; //�϶˵��¼�������;    
-	int m_botPointsNum; //�¶˵��¼�������;   
-	int m_curMiddlePointsNum; //�ཻ������,Ҳ��ֻ��һ�����Σ���2�������ϻ�����˵���ǽ���;   
+	int m_topPointsNum; //ÉÏ¶ËµãÊÂ¼þµãÊýÁ¿;    
+	int m_botPointsNum; //ÏÂ¶ËµãÊÂ¼þµãÊýÁ¿;   
+	int m_curMiddlePointsNum; //Ïà½»µãÊýÁ¿,Ò²ÐíÖ»ÓÐÒ»Ìõ»¡¶Î£¬ÓÐ2Ìõ¼°ÒÔÉÏ»¡¶ÎÔòËµÃ÷ÊÇ½»µã;    
 
-	AcGePoint3d m_curPoint; //��ǰ�����;    
-	//SPointAndSegment m_curPointAndSegment; //��ǰ���Σ��������û���壬��ǰ���ο��ܲ�ֹһ����
+	AcGePoint3d m_curPoint; //µ±Ç°×ø±êµã;    
+	//SPointAndSegment m_curPointAndSegment; //µ±Ç°»¡¶Î£ºÕâ¸ö²ÎÊýÃ»ÒâÒå£¬µ±Ç°»¡¶Î¿ÉÄÜ²»Ö¹Ò»Ìõ£»
 };
 
 
 /*
 class CEventPointOpt;
-���ܣ��¼������ϵĲ�����
-�ǲ���ͬ����������ɨ�����ཻ���εĲ���������  
+¹¦ÄÜ£ºÊÂ¼þ¶ÓÁÐÉÏµÄ²Ù×÷£»
+ÊÇ²»ÊÇÍ¬Ñù¿ÉÒÔÓÃÓÚÉ¨ÃèÏßÏà½»»¡¶ÎµÄ²Ù×÷£¿£¿£¿  
 */
 class CEventPointQueue
 {
@@ -412,12 +414,12 @@ public:
 	~CEventPointOpt();  
 
 private:
-	bool initSegmentsAll();  //��ʼ�����л���;��ȡ�˵�,�����¼�����;       
+	bool initSegmentsAll();  //³õÊ¼»¯ËùÓÐ»¡¶Î;»ñÈ¡¶Ëµã,²åÈëÊÂ¼þ¶ÓÁÐ;       
 	bool insertEventPoint(IN const SPointAndSegment& eventPoint);   
 	bool popOneEventPoint(OUT vector<SPointAndSegment>& vecEventPoints);    
 
 private:
-	multiset<SPointAndSegment,eventPointCmp> m_vEventPointsQueue; //�¼��㼯��; 
+	multiset<SPointAndSegment,eventPointCmp> m_vEventPointsQueue; //ÊÂ¼þµã¼¯ºÏ; 
 };
 
 
@@ -425,7 +427,7 @@ private:
 
 /*
 class CSweeplinePointOpt;
-���ܣ��¼������ϵĲ�����
+¹¦ÄÜ£ºÊÂ¼þ¶ÓÁÐÉÏµÄ²Ù×÷£»
 */
 class CSweeplinePointOpt
 {
@@ -434,17 +436,17 @@ public:
 	~CSweeplinePointOpt();   
 
 private:
-	multiset<SPointAndSegment,eventPointCmp> m_vSweepLineSegments; //ɨ�����ϵ��¼��㣨�����Σ�����;  
+	multiset<SPointAndSegment,eventPointCmp> m_vSweepLineSegments; //É¨ÃèÏßÉÏµÄÊÂ¼þµã£¨¼´»¡¶Î£©¼¯ºÏ;  
 	vector<SPointAndSegment> m_vNowPointSegs;   
-	AcGePoint3d m_point3dNow; //��ǰ�¼���;    
+	AcGePoint3d m_point3dNow; //µ±Ç°ÊÂ¼þµã;    
 
 public:   
 	bool insertSegment(IN SPointAndSegment& strPntSegPtr);  
 	bool findPointSegments(IN AcGePoint3d pt,OUT vector<SPointAndSegment>& vStrPntSeg);    
-	bool findPreviousSegment(OUT SPointAndSegment& prePointSegment); //���������segmeng�����segment�� 
-	bool findNextSegment(OUT SPointAndSegment& prePointSegment);   //�������ұ�segmeng���ұ�segment�� 
+	bool findPreviousSegment(OUT SPointAndSegment& prePointSegment); //·¢ÏÖ×î×ó±ßsegmengµÄ×ó±ßsegment£» 
+	bool findNextSegment(OUT SPointAndSegment& prePointSegment);   //·¢ÏÖ×îÓÒ±ßsegmengµÄÓÒ±ßsegment£» 
 	bool findLeftSegmentOf(IN SPointAndSegment& refPointSegment,OUT SPointAndSegment& outPointSegment);   
-	bool findRightSegmentOf(IN SPointAndSegment& pointSegment);  //�������ұߵ�segment;     
+	bool findRightSegmentOf(IN SPointAndSegment& pointSegment);  //·¢ÏÖ×îÓÒ±ßµÄsegment;     
 	bool deleteSegment(IN SPointAndSegment& pointSegment); 
 	bool deleteSegments(IN vector<SPointAndSegment>& vSegments);   
 
@@ -457,7 +459,7 @@ public:
 
 /*
 class CIntersectPointOpt; 
-���ܣ����㼯�ϵĲ�����
+¹¦ÄÜ£º½»µã¼¯ºÏµÄ²Ù×÷£»
 */
 class CIntersectPointOpt
 {
@@ -470,7 +472,7 @@ private:
 	bool popPointSegment(IN AcGePoint3d pt,OUT vector<SPointAndSegment>& vStrPntSeg);  
 
 private:
-	multiset<SPointAndSegment,eventPointCmp> m_intersectPoints;  //���㼯��;
+	multiset<SPointAndSegment,eventPointCmp> m_intersectPoints;  //½»µã¼¯ºÏ;
 };
 
 
@@ -478,13 +480,13 @@ private:
 
 /*
 class CParseIntersectPointByTwoSegment; 
-���ܣ��������εĽ��㣬���µ��¼���(��������);
-ע�⣺
-1.���2��segments�Ѿ��н��㣬���µĽ��㲻��С���������;
-2.���2��segmentsû�н��㣬����Ľ�����α�֤���ǡ��ɽ��㡱��
-  �������Ǿɽ��㣬���Ѿ������¼�����,���Ѿ����ֵĽ��㼯����Ӧ�ô���;  
-        ����Ǿɽ��㣬�����¼�������¼����ϲ����ظ�����;
-3.����ֻ�ܼ��������?
+¹¦ÄÜ£ºÇóÁ©»¡¶ÎµÄ½»µã£¬¼´ÐÂµÄÊÂ¼þµã(½»µãÀàÐÍ);
+×¢Òâ£º
+1.Èç¹û2¸ösegmentsÒÑ¾­ÓÐ½»µã£¬ÔòÐÂµÄ½»µã²»ÄÜÐ¡ÓÚÕâ¸ö½»µã;
+2.Èç¹û2¸ösegmentsÃ»ÓÐ½»µã£¬ÔòÇóµÄ½»µãÈçºÎ±£Ö¤²»ÊÇ¡°¾É½»µã¡±£¿
+  ½â´ð£ºÈç¹ûÊÇ¾É½»µã£¬ÇÒÒÑ¾­¾­¹ýÊÂ¼þ´¦Àí,ÔÚÒÑ¾­·¢ÏÖµÄ½»µã¼¯ºÏÀïÓ¦¸Ã´æÔÚ;  
+        Èç¹ûÊÇ¾É½»µã£¬»¹ÔÚÊÂ¼þ¼¯ºÏÀï£¬ÊÂ¼þ¼¯ºÏ²»»áÖØ¸´²åÈë;
+3.ÕâÀïÖ»¹Ü¼ÆËã³ö½»µã?
 */
 class CIntersectTwoSegments
 {
@@ -507,8 +509,8 @@ private:
 
 /*
 class COptOnPointSegmentGroup; 
-���ܣ�;
-ע�⣺
+¹¦ÄÜ£º;
+×¢Òâ£º
 
 */
 class COptOnPointSegmentGroup
@@ -517,7 +519,7 @@ public:
 	COptOnPointsGroup();  
 	~COptOnPointsGroup();    
 public:
-	bool sortByAngle(IN OUT vector<SPointAndSegment>& vPoints); //����ɨ�����뿪���ཻ˳������;
+	bool sortByAngle(IN OUT vector<SPointAndSegment>& vPoints); //°´ºÍÉ¨ÃèÏßÀë¿ªºóÏà½»Ë³ÐòÅÅÐò;
 	bool getLeftSegment(OUT vector<SPointAndSegment>& vPoints);  
 	bool getRightSegment(OUT vector<SPointAndSegment>& vPoints);  
 private:
@@ -528,8 +530,8 @@ private:
 
 /*
 class ; 
-���ܣ�;
-ע�⣺
+¹¦ÄÜ£º;
+×¢Òâ£º
 */
 
 

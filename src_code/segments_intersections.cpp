@@ -3,14 +3,14 @@ Copyright (C), 2016-6-12, XuMiJieZi procision maskmaking. Co., Ltd.
 FileName: to_pl.cpp
 Author: Version :
 Date:
-Description:  1��line,arc������ȡ��
+Description:  1¡¢line,arcÂÖÀªÌáÈ¡£»
 
-Version: // �汾��Ϣ;
-Function List: // ��Ҫ�������书��
+Version: // °æ±¾ÐÅÏ¢;
+Function List: // Ö÷Òªº¯Êý¼°Æä¹¦ÄÜ
 1. 
 2.
 3.
-History: // ��ʷ�޸ļ�¼
+History: // ÀúÊ·ÐÞ¸Ä¼ÇÂ¼
 <author> <time> <version > <desc>
 David 96/10/12 1.0 build this moudle
 ***********************************************************/
@@ -25,8 +25,8 @@ class CSegement
 ------------------------------------------------------------*/
 
 //class CSegement::initCSegement
-//���ܣ�1.�����߶Σ���line��arc��circle��polyline��ȡ�߶�;
-//2.��ʼ��Csegement;
+//¹¦ÄÜ£º1.½¨Á¢Ïß¶Î£º´Óline£¬arc£¬circle£¬polylineÌáÈ¡Ïß¶Î;
+//2.³õÊ¼»¯Csegement;
 bool
 CSegement::initCSegement(IN AcDbLine* linePtr)
 {
@@ -39,7 +39,7 @@ CSegement::initCSegement(IN AcDbLine* linePtr)
 	x2 = linePtr->endPoint().x;
 	y2 = linePtr->endPoint().y;
 	s
-	//m_x��ֵ
+	//m_x¸³Öµ
 	if(y1 > y2)
 	{
 		m_xTop = x1;
@@ -83,21 +83,21 @@ CSegement::initCSegement(IN AcDbLine* linePtr)
 
 /*------------------------------------------------------------
 class CBreakArcToFourPart
-���ܣ��ѻ����зֳ��ķݣ�ÿ������һ��,����еĻ�;
+¹¦ÄÜ£º°Ñ»¡¶ÎÇÐ·Ö³ÉËÄ·Ý£¬Ã¿¸öÏóÏÞÒ»·Ý,Èç¹ûÓÐµÄ»°;
 ------------------------------------------------------------*/
 /*
 CBreakArcToFourPart::breakArcToFourParts()
-����ֵ��true-�и�ɹ��� false-û���и�ɹ�;
-�㷨��1��vector��ÿ��������0�ȡ�90�ȡ�180�ȡ�270�ȷָ
-      2������κ�һ�ηָ�ɹ�����ԭ��ɾ�����ָ���»��μ���vector��
-	  3�����û���и�ɹ�����ԭ����ɾ��;
+·µ»ØÖµ£ºtrue-ÇÐ¸î³É¹¦£» false-Ã»ÓÐÇÐ¸î³É¹¦;
+Ëã·¨£º1¡¢vectorÀïÃ¿¸ö»¡½øÐÐ0¶È¡¢90¶È¡¢180¶È¡¢270¶È·Ö¸î£»
+      2¡¢Èç¹ûÈÎºÎÒ»´Î·Ö¸î³É¹¦£¬ÔòÔ­»¡É¾µô£¬·Ö¸îµÄÐÂ»¡¶Î¼ÓÈëvector£»
+	  3¡¢Èç¹ûÃ»ÓÐÇÐ¸î³É¹¦£¬ÔòÔ­»¡²»É¾µô;
 */
 bool CBreakArcToFourPart::breakArcToFourParts()
 {
 	AcGeCircArc2d* tmpGeArc2dPtr = NULL;
-	AcGeCircArc2d* brkGeArc2dRslt1Ptr = NULL; //��ʼ������Ҫ;
+	AcGeCircArc2d* brkGeArc2dRslt1Ptr = NULL; //³õÊ¼»¯ºÜÖØÒª;
 	AcGeCircArc2d* brkGeArc2dRslt2Ptr = NULL;
-	//����һ������
+	//¶¨ÒåÒ»¸ö¶ÔÏó£º
 	CBreakAcGeCircArcToTwoPart objBrkTwo;
 
 	int i = 0;
@@ -121,7 +121,7 @@ bool CBreakArcToFourPart::breakArcToFourParts()
 				{
 					m_arcs.push_back(brkGeArc2dRslt2Ptr);  
 				}
-				m_arcs.erase(itr); //itrָ����һ��;
+				m_arcs.erase(itr); //itrÖ¸ÏòÏÂÒ»¸ö;
 				break;
 			}
 			else
@@ -149,7 +149,7 @@ CBreakArcToFourPart::inputArcSegToBreaked(AcGeCircArc2d* pGeArc2d)
 }
 
 
-//���ܣ��ж�ĳ�������Ƿ��ڵ�һ����;����ڵ�һ���ޣ������;
+//¹¦ÄÜ£ºÅÐ¶ÏÄ³¸ö»¡¶ÎÊÇ·ñÔÚµÚÒ»ÏóÏÞ;Èç¹ûÔÚµÚÒ»ÏóÏÞ£¬Êä³öËü;
 bool 
 CBreakArcToFourPart::outputWhatPartAng(OUT AcGeCircArc2d* geArcPartOne,IN EPartOfArc whatPart)
 {
@@ -184,7 +184,7 @@ CBreakArcToFourPart::outputWhatPartAng(OUT AcGeCircArc2d* geArcPartOne,IN EPartO
 
 /*-----------------------------------------------
 class CBreakAcGeCircArcToTwoPart
-���ܣ��������Ļ��ȣ���һ�λ�����Ϊ2�Σ�
+¹¦ÄÜ£º°´¸ø¶¨µÄ»¡¶È£¬°ÑÒ»¶Î»¡´òËéÎª2¶Î£»
 -----------------------------------------------*/
 CBreakAcGeCircArcToTwoPart::CBreakAcGeCircArcToTwoPart()
 {
@@ -230,7 +230,7 @@ CBreakAcGeCircArcToTwoPart::setArcToBeBrked(IN AcGeCircArc2d* pArc)
 
 
 //initialize
-//���ֵ��AcGeTol::equalPoint()Ϊ׼;
+//Îó²îÖµÒÔAcGeTol::equalPoint()Îª×¼;
 bool
 CBreakAcGeCircArcToTwoPart::setRadianToBeBrked(IN double radianToBrk)
 {
@@ -255,7 +255,7 @@ CBreakAcGeCircArcToTwoPart::breakArc()
 	double radius = m_inputArc->radius();     
 	AcGePoint2d centerPt = m_inputArc->center(); 
 
-	//�жϽǶ�m_inputRadianToBreak�Ƿ��ڻ���;
+	//ÅÐ¶Ï½Ç¶Èm_inputRadianToBreakÊÇ·ñÔÚ»¡ÄÚ;
 	if(m_inputArc > (startAng + AcGeTol::equalPoint())) 
 	{ 
 		if(m_inputArc < (endAng - AcGeTol::equalPoint()))  
@@ -339,7 +339,7 @@ CBreakAcGeCircArcToTwoPart::breakArc(IN AcGeCircArc2d* pArc,IN double radianToBr
 
 /*
 class CQuadrantAnglePair
-���ܣ����ݻ��β�λ���ж����ޣ��ó�������С�Ƕȣ����Ƕ�;
+¹¦ÄÜ£º¸ù¾Ý»¡¶Î²¿Î»£¬ÅÐ¶ÏÏóÏÞ£¬µÃ³öÏóÏÞ×îÐ¡½Ç¶È£¬×î´ó½Ç¶È;
 */
 CQuadrantAnglePair::CQuadrantAnglePair()
 {
@@ -351,7 +351,7 @@ CQuadrantAnglePair::~CQuadrantAnglePair()
 }
 
 
-//�ж����ĸ����ޣ������޵���С�Ǻ����Ƕ�
+//ÅÐ¶ÏÊÇÄÄ¸öÏóÏÞ£¬¼°ÏóÏÞµÄ×îÐ¡½ÇºÍ×î´ó½Ç¶È
 bool
 CQuadrantAnglePair::getQuadrantAnglePair(IN EPartOfArc whichPart,OUT double& startAngle,OUT double& endAngle)
 {
@@ -391,13 +391,14 @@ CQuadrantAnglePair::getQuadrantAnglePair(IN EPartOfArc whichPart,OUT double& sta
 
 /*-----------------------------------------------
 class CParseIntersectPoints
-���ܣ�ɨ�����㷨���������н��㣻
+¹¦ÄÜ£ºÉ¨ÃèÏßËã·¨£¬¼ÆËãËùÓÐ½»µã£»
 -----------------------------------------------*/
 
 CParseIntersectPoints::CParseIntersectPoints
 {
-	//���;
+	//clear
 	m_vEventPoints.clear();
+	m_vecNewEventPoints.clear();
 }
 
 CParseIntersectPoints::~CParseIntersectPoints()  
@@ -405,45 +406,45 @@ CParseIntersectPoints::~CParseIntersectPoints()
 }
 
 
-//�����н���
+//ÇóËùÓÐ½»µã
 bool 
-CParseIntersectPoints::findIntersectPoints()  
+CParseIntersectPoints::prsCurrentIntersectPoints()  
 {
-	//��Q�е�����һ���¼���,һ���¼�������ж����ͬ�ĵ�;	  
+	//´ÓQÖÐµ¯³öµÚÒ»¸öÊÂ¼þµã,Ò»¸öÊÂ¼þµã¿ÉÄÜÓÐ¶à¸öÏàÍ¬µÄµã;	  
 	m_eventPointsOpt.popOneEventPoint(m_vEventPoints);      
 
-	//��ɨ���ߵ����¼���(����ƻ���);
+	//´ÓÉ¨ÃèÏßµ¯³öÊÂ¼þµã(ÕâÀï³Æ»¡¶Î);
 	m_sweepOpt.popPointSegment(m_curPoint,m_vSweepLinePoints);     
 
-	//���������Ͻ��з���;
+	//¶ÔÉÏÁ©¼¯ºÏ½øÐÐ·ÖÀà;
 	parsePointLocationType();   
 
 	int numSegment = m_vecPointSegmentsNow.size();   
 	if(numSegment > 1)  
 	{
-		findIntersectPoint();  //���ֽ���;   
+		findIntersectPoint();  //·¢ÏÖ½»µã;   
 	}
 	
-	//ɾ��ɨ�����ϵĻ���; ɨ�����ϵĻ��β��ظ�;������ظ�;  
+	//É¾³ýÉ¨ÃèÏßÉÏµÄ»¡¶Î; É¨ÃèÏßÉÏµÄ»¡¶Î²»ÖØ¸´;µã¿ÉÒÔÖØ¸;  
 	m_sweepOpt.deleteSegments(m_vBottomPoints);   
 	m_sweepOpt.deleteSegments(m_vMiddlePoints);  
-	//��ɨ���߲��뻡��;
+	//ÏòÉ¨ÃèÏß²åÈë»¡¶Î;
 	m_sweepOpt.insertSegment(m_vTopPoints);     
 	m_sweepOpt.insertSegment(m_vMiddlePoints);  
-	//�������һ���;
+	//·¢ÏÖ×óÓÒ»¡¶Î;
 	findLeftSegments();   
-	findRightSegments();
-	findFrontSegments();    
-	findBehindSegments();		  
-	//�������޽��㣬�н��㣬�������¼���Q    
+	findRightSegments();   
+	findFrontSegments();     
+	findBehindSegments();		   
+	//²âÊÔÓÐÎÞ½»µã£¬ÓÐ½»µã£¬ÔòÄÉÈëÊÂ¼þµãQ      
 	calNewEventPoints();   
 	insertNewEventPoints();   
 }
 
 
 
-//�������е��¼��㡢ɨ���ߵ㣬����Ϊ�϶˵�ʱ�䣬�¶˵��¼����м��ʱ��  
-//Ȼ��ֱ�洢��
+//·ÖÎöÏÖÓÐµÄÊÂ¼þµã¡¢É¨ÃèÏßµã£¬Çø·ÖÎªÉÏ¶ËµãÊ±¼ä£¬ÏÂ¶ËµãÊÂ¼þ£¬ÖÐ¼äµãÊ±¼ä  
+//È»ºó·Ö±ð´æ´¢£»
 bool
 CParseIntersectPoints::sortByPointLocation(IN const <SPointAndSegment>& vecPoints)   
 {
@@ -461,7 +462,7 @@ CParseIntersectPoints::sortByPointLocation(IN const <SPointAndSegment>& vecPoint
 			m_vBottomPoints.push_back((SPointAndSegment)(*itr));
 			break;
 		case ELocationTypeOfPoint::MIDDLE_POINT:
-			m_vIntersectPoints.push_back((SPointAndSegment)(*itr));   
+			m_vMiddlePoints.push_back((SPointAndSegment)(*itr));   
 			break;
 		default:
 			break;
@@ -472,12 +473,21 @@ CParseIntersectPoints::sortByPointLocation(IN const <SPointAndSegment>& vecPoint
 }
 
 
-//�������е��¼��㡢ɨ���ߵ㣬����Ϊ�϶˵�ʱ�䣬�¶˵��¼����м��ʱ��
-//Ȼ��ֱ�洢��
+//·ÖÎöÏÖÓÐµÄÊÂ¼þµã¡¢É¨ÃèÏßµã£¬Çø·ÖÎªÉÏ¶ËµãÊ±¼ä£¬ÏÂ¶ËµãÊÂ¼þ£¬ÖÐ¼äµãÊ±¼ä
+//È»ºó·Ö±ð´æ´¢£»
 bool
 CParseIntersectPoints::parsePointLocationType()
 {
-	sortByPointLocation(m_eventPointsOpt);
-	sortByPointLocation(m_sweepOpt);
+	sortByPointLocation();  
+	sortByPointLocation();  
 	return true;
+}
+
+
+//find new event point
+//1.当没有U(p)和C(p)元素个数时；2.当U(p)和C(p)元素个数不为0时; 
+bool
+CParseIntersectPoints::calNewEventPoints() 
+{
+	;
 }
