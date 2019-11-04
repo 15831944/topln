@@ -330,7 +330,7 @@ struct SPointAndSegment
 
 /*************************************************
 class CParseIntersectPoints
-Function:       // º¯ÊýÃû³Æ
+Function:       // 求交点;
 Description:    // º¯Êý¹¦ÄÜ¡¢ÐÔÄÜµÈµÄÃèÊö
 Calls:          // ±»±¾º¯Êýµ÷ÓÃµÄº¯ÊýÇåµ¥
 Input:          // ÊäÈë²ÎÊýËµÃ÷£¬°üÀ¨Ã¿¸ö²ÎÊýµÄ×÷
@@ -347,57 +347,32 @@ public:
 
 
 public:
-	bool outputIntersectPoints(OUT CSweeplinePointOpt& sweepLinePnts); 
-	bool findAllIntersectPoints();  
+	bool outputIntersectPoints(OUT vector<SPointAndSegment>& vAllIntersectPoints); 
+	bool prsAllIntersectPoints();  
 
 private:
-	bool prsCurrentIntersectPoints();  //·¢ÏÖµ±Ç°½»µã(¿ÉÄÜÓÐ³¬¹ý2ÌõµÄ»¡¶ÎÏà½»); 
+	bool chkCurrentIntersectPoints();  //检查当前点是否相交点;     
 	bool insertIntersectPoints();  
-
-private:  
-	//¼ì²âÐÂµÄÊÂ¼þµã; 
-	//bool cal();
-	bool calNewEventPoints();   
 
 private:
 	bool popEventPoint();   
-	bool getCurSweepLineSegments();     	 
-	bool sortByPointLocation();    
-	bool findLeftSegments();   
-	bool findRightSegments();   
-	bool findFrontSegments();   
-	bool findBehindSegments();  
-	bool insertNewEventPoints();     
+	bool getCurSweepLineSegments();     
+	bool sortByPointLocation();    	  
 
 private:
-	bool parsePointByLocationType();  
-
-private:
-	CIntersectPointOpt m_intsectPointsOpt;    
+	CSegmentsOpt m_intsectPointsOpt;    
 	CEventPointQueue m_eventPointsOpt;     
 	CSweeplinePointOpt m_sweepOpt;   
 
-	vector<SPointAndSegment> m_vEventPoints; //´ÓQÖÐÈ¡³öµÄÊÂ¼þµã;    
-	vector<SPointAndSegment> m_vSweepLinePoints; //´ÓÉ¨ÃèÏßÉÏÈ¡³öÀ´µÄ¡°Ïß¶Î¡±;     
+	vector<SPointAndSegment> m_vEventPoints; //所有当前事件点;  
+	vector<SPointAndSegment> m_vSweepLinePoints; //扫描线上的当前弧段（也是事件点);     
 
-	vector<SPointAndSegment> m_vTopPoints; //ÉÏ¶ËµãÊÂ¼þµã¼¯ºÏ; 
-	vector<SPointAndSegment> m_vBottomPoints; //ÏÂ¶ËµãÊÂ¼þµã¼¯ºÏ;   
-	vector<SPointAndSegment> m_vMiddlePoints; //Ïà½»µã¼¯ºÏ(µãÔÚÏß¶ÎÖÐ¼ä);    
-	vector<SPointAndSegment> m_vecPointSegmentsNow; //µ±Ç°ÊÂ¼þµãºÍÉ¨ÃèÏßµã¼¯ºÏ; ÔªËØ×îÉÙÓÐ1¸ö,·ñÔòËµÃ÷³ÌÐòÐ´µÄÓÐÎÊÌâ;  
+	vector<SPointAndSegment> m_vTopPoints; //上端点事件; 
+	vector<SPointAndSegment> m_vBottomPoints; //下端点事件;   
+	vector<SPointAndSegment> m_vMiddlePoints; //中端点事件;    
+	vector<SPointAndSegment> m_vecPointSegmentsNow; //所有事件点;    
 
-	//µ±Ç°ÊÂ¼þµãµÄÇ°Ò»¸öÊÂ¼þµã»¡¶Î£» ºÍµ±Ç°ÊÂ¼þµãµÄÏÂÒ»¸öÊÂ¼þµã»¡¶Î£»  --ÎªÁËÇó½»µã£¨ÐÂÊÂ¼þ£©£»
-	vector<SPointAndSegment> m_frontSegment;    //µ±Ç°»¡¶ÎµÄÇ°Ò»¸ö»¡¶ÎÈºµÄ×îÓÒ±ß»¡¶Î¿ÉÄÜÓÐ¶à¸ö;
-	 //µ±Ç°»¡¶ÎµÄÏÂÒ»¸ö»¡¶ÎÈºµÄ×î×ó±ß»¡¶Î¿ÉÄÜÓÐÒ»¸ö£¨²»Æ½ÐÐµÄ»¡¶Î£©£¬Ò²¿ÉÄÜÓÐ¶à¸ö£¨Æ½ÐÐ»¡¶Î£©;
-	vector<SPointAndSegment>  m_vecBehindSegments;   
-	vector<SPointAndSegment>  m_vecleftSegments;   //µ±Ç°»¡¶Î×î×ó±ß±ß»¡¶Î£¬¿ÉÄÜ²»Ö¹Ò»¸ö,Èç¹û²»Ö¹Ò»¸ö£¬Ôò¶¼ÊÇÆ½ÐÐµÄ;
-	vector<SPointAndSegment > m_vecRightSegments; //µ±Ç°»¡¶Î×îÓÒ±ß»¡¶Î£¬¿ÉÄÜ²»Ö¹Ò»¸ö,Èç¹û²»Ö¹Ò»¸ö£¬Ôò¶¼ÊÇÆ½ÐÐµÄ;
-	vector<SPointAndSegment> m_vecNewEventPoints;  //¼ÆËã³öÀ´µÄÐÂµÄÊÂ¼þµã;    
-
-	int m_topPointsNum; //ÉÏ¶ËµãÊÂ¼þµãÊýÁ¿;    
-	int m_botPointsNum; //ÏÂ¶ËµãÊÂ¼þµãÊýÁ¿;   
-	int m_curMiddlePointsNum; //Ïà½»µãÊýÁ¿,Ò²ÐíÖ»ÓÐÒ»Ìõ»¡¶Î£¬ÓÐ2Ìõ¼°ÒÔÉÏ»¡¶ÎÔòËµÃ÷ÊÇ½»µã;    
-
-	AcGePoint3d m_curPoint; //µ±Ç°×ø±êµã;    
+	AcGePoint3d m_curPoint; //当前坐标点;    
 	//SPointAndSegment m_curPointAndSegment; //µ±Ç°»¡¶Î£ºÕâ¸ö²ÎÊýÃ»ÒâÒå£¬µ±Ç°»¡¶Î¿ÉÄÜ²»Ö¹Ò»Ìõ£»
 };
 
@@ -419,7 +394,7 @@ private:
 	bool popOneEventPoint(OUT vector<SPointAndSegment>& vecEventPoints);    
 
 private:
-	multiset<SPointAndSegment,eventPointCmp> m_vEventPointsQueue; //ÊÂ¼þµã¼¯ºÏ; 
+	multiset<SPointAndSegment,eventPointCmp> m_vEventPointsQueue; //事件点集合; 
 };
 
 
@@ -427,52 +402,71 @@ private:
 
 /*
 class CSweeplinePointOpt;
-¹¦ÄÜ£ºÊÂ¼þ¶ÓÁÐÉÏµÄ²Ù×÷£»
+功能：扫描线上的各种操作;包括:1-插入新的弧段，2-删除弧段，
+      3-查找当前坐标点相关新的事件点（新的交点）;
 */
 class CSweeplinePointOpt
 {
 public:
 	CSweeplinePointOpt(); 
-	~CSweeplinePointOpt();   
+	~CSweeplinePointOpt();    
+
+public:   
+	bool insertSegment(IN SPointAndSegment& strPntSegPtr);  
+	bool deleteSegment(IN SPointAndSegment& pointSegment); 
+	bool deleteSegments(IN vector<SPointAndSegment>& vSegments); 
+	bool prsIntersectPoints();  
 
 private:
 	multiset<SPointAndSegment,eventPointCmp> m_vSweepLineSegments; //É¨ÃèÏßÉÏµÄÊÂ¼þµã£¨¼´»¡¶Î£©¼¯ºÏ;  
 	vector<SPointAndSegment> m_vNowPointSegs;   
 	AcGePoint3d m_point3dNow; //µ±Ç°ÊÂ¼þµã;    
 
-public:   
-	bool insertSegment(IN SPointAndSegment& strPntSegPtr);  
-	bool findPointSegments(IN AcGePoint3d pt,OUT vector<SPointAndSegment>& vStrPntSeg);    
-	bool findPreviousSegment(OUT SPointAndSegment& prePointSegment); //·¢ÏÖ×î×ó±ßsegmengµÄ×ó±ßsegment£» 
-	bool findNextSegment(OUT SPointAndSegment& prePointSegment);   //·¢ÏÖ×îÓÒ±ßsegmengµÄÓÒ±ßsegment£» 
-	bool findLeftSegmentOf(IN SPointAndSegment& refPointSegment,OUT SPointAndSegment& outPointSegment);   
-	bool findRightSegmentOf(IN SPointAndSegment& pointSegment);  //·¢ÏÖ×îÓÒ±ßµÄsegment;     
-	bool deleteSegment(IN SPointAndSegment& pointSegment); 
-	bool deleteSegments(IN vector<SPointAndSegment>& vSegments);   
+private:
+	bool findLeftSegments();   
+	bool findRightSegments();   
+	bool findFrontSegments();   
+	bool findBehindSegments();  
 
-public:
-	bool ;
+private:
+	//µ±Ç°ÊÂ¼þµãµÄÇ°Ò»¸öÊÂ¼þµã»¡¶Î£» ºÍµ±Ç°ÊÂ¼þµãµÄÏÂÒ»¸öÊÂ¼þµã»¡¶Î£»  --ÎªÁËÇó½»µã£¨ÐÂÊÂ¼þ£©£»
+	vector<SPointAndSegment> m_frontSegment;    //µ±Ç°»¡¶ÎµÄÇ°Ò»¸ö»¡¶ÎÈºµÄ×îÓÒ±ß»¡¶Î¿ÉÄÜÓÐ¶à¸ö;
+	//µ±Ç°»¡¶ÎµÄÏÂÒ»¸ö»¡¶ÎÈºµÄ×î×ó±ß»¡¶Î¿ÉÄÜÓÐÒ»¸ö£¨²»Æ½ÐÐµÄ»¡¶Î£©£¬Ò²¿ÉÄÜÓÐ¶à¸ö£¨Æ½ÐÐ»¡¶Î£©;
+	vector<SPointAndSegment>  m_vecBehindSegments;   
+	vector<SPointAndSegment>  m_vecleftSegments;   //µ±Ç°»¡¶Î×î×ó±ß±ß»¡¶Î£¬¿ÉÄÜ²»Ö¹Ò»¸ö,Èç¹û²»Ö¹Ò»¸ö£¬Ôò¶¼ÊÇÆ½ÐÐµÄ;
+	vector<SPointAndSegment > m_vecRightSegments; //µ±Ç°»¡¶Î×îÓÒ±ß»¡¶Î£¬¿ÉÄÜ²»Ö¹Ò»¸ö,Èç¹û²»Ö¹Ò»¸ö£¬Ôò¶¼ÊÇÆ½ÐÐµÄ;
+	vector<SPointAndSegment> m_vecNewEventPoints;  //¼ÆËã³öÀ´µÄÐÂµÄÊÂ¼þµã;    
+
+	int m_topPointsNum; //ÉÏ¶ËµãÊÂ¼þµãÊýÁ¿;    
+	int m_botPointsNum; //ÏÂ¶ËµãÊÂ¼þµãÊýÁ¿;   
+	int m_curMiddlePointsNum; //Ïà½»µãÊýÁ¿,Ò²ÐíÖ»ÓÐÒ»Ìõ»¡¶Î£¬ÓÐ2Ìõ¼°ÒÔÉÏ»¡¶ÎÔòËµÃ÷ÊÇ½»µã;    
+
+	AcGePoint3d m_curPoint; //µ±Ç°×ø±êµã;    
 };
 
 
 
 
 /*
-class CIntersectPointOpt; 
-¹¦ÄÜ£º½»µã¼¯ºÏµÄ²Ù×÷£»
+class CSegmentsOpt; 
+功能：
 */
-class CIntersectPointOpt
+class CTwoSegmentsOpt
 {
 public:
-	CIntersectPointOpt();
-	~CIntersectPointOpt();
+	CTwoSegmentsOpt();
+	CTwoSegmentsOpt(IN SPointAndSegment s1,IN SPointAndSegment s2);
+	~CTwoSegmentsOpt();
+
+public:
+	bool prsNewIntersectPoints(OUT vector<SPointAndSegment>& vPoints); 
 
 private:
-	bool insertSegment(IN SPointAndSegment* strPntSegPtr);
-	bool popPointSegment(IN AcGePoint3d pt,OUT vector<SPointAndSegment>& vStrPntSeg);  
+	;
 
 private:
-	multiset<SPointAndSegment,eventPointCmp> m_intersectPoints;  //½»µã¼¯ºÏ;
+	SPointAndSegment m_seg1;  
+	SPointAndSegment m_seg2;  
 };
 
 
@@ -513,7 +507,7 @@ class COptOnPointSegmentGroup;
 ×¢Òâ£º
 
 */
-class COptOnPointSegmentGroup
+class COptOnPointSegmentGroup  
 {
 public:
 	COptOnPointsGroup();  

@@ -431,20 +431,14 @@ CParseIntersectPoints::prsCurrentIntersectPoints()
 	//ÏòÉ¨ÃèÏß²åÈë»¡¶Î;
 	m_sweepOpt.insertSegment(m_vTopPoints);     
 	m_sweepOpt.insertSegment(m_vMiddlePoints);  
-	//·¢ÏÖ×óÓÒ»¡¶Î;
-	findLeftSegments();   
-	findRightSegments();   
-	findFrontSegments();     
-	findBehindSegments();		   
-	//²âÊÔÓÐÎÞ½»µã£¬ÓÐ½»µã£¬ÔòÄÉÈëÊÂ¼þµãQ      
-	calNewEventPoints();   
-	insertNewEventPoints();   
+	//查找新的交点（事件点）
+	m_sweepOpt.prsIntersectPoints();	
 }
 
 
 
-//·ÖÎöÏÖÓÐµÄÊÂ¼þµã¡¢É¨ÃèÏßµã£¬Çø·ÖÎªÉÏ¶ËµãÊ±¼ä£¬ÏÂ¶ËµãÊÂ¼þ£¬ÖÐ¼äµãÊ±¼ä  
-//È»ºó·Ö±ð´æ´¢£»
+//功能：将事件点按端点位置类型分类;  
+//分为：上端点，下端点，中间点（明显就是交点）；
 bool
 CParseIntersectPoints::sortByPointLocation(IN const <SPointAndSegment>& vecPoints)   
 {
@@ -484,10 +478,19 @@ CParseIntersectPoints::parsePointLocationType()
 }
 
 
+
+
+
+
+/*-----------------------------------------------
+class CSweeplinePointOpt
+功能：扫描线类;
+-----------------------------------------------*/
 //find new event point
-//1.当没有U(p)和C(p)元素个数时；2.当U(p)和C(p)元素个数不为0时; 
+//1.当没有U(p)和C(p)元素个数时；2.当U(p)和C(p)元素个数不为0时;  
+//此函数或许应该移动到扫描线类CSweeplinePointOpt； 
 bool
-CParseIntersectPoints::calNewEventPoints() 
+CSweeplinePointOpt::prsIntersectPoints()  
 {
 	;
 }
