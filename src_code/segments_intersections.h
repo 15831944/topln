@@ -60,20 +60,7 @@ using namespace  std;
 
 
 
-//½¨Á¢3¸ö½á¹¹£º
-//1.´æ´¢ËùÓÐÏß¶ÎµÄ¶Ëµãlist£¨°üÀ¨ÐÂ·¢ÏÖµÄ½»µã;
-//2.´æ´¢É¨ÃèÏßÉÏµÄµãset£¨¶þ²æÊ÷£¿£©£»
-//3.´æ´¢·¢ÏÖµÄ½»µã;
-
-//¼¸¸öÎÊÌâµã£º
-//1.¶ËµãÖØºÏµÄÏß¶ÎÔõÃ´±í´ï;
-//2.Ô²»¡ÔõÃ´±íÊ¾³ÉÏß¶Î£¿: »¡¶ÎÓÃÍ¨¹ýÖÐÐÄµÄ´¹ÏßºÍË®Æ½Ïß»®·Ö³ÉËÄ¶Î; Ã¿¶Î»¡ÊÇµ¥µ÷µÄ;
-//3.½»µãÊÇÏÂ¶Ëµã£»
-
-//±¾Èí¼þ¹¦ÄÜ£ºÇóN¸öÏß¶ÎµÄ½»µã¼¯;
-//²ÉÓÃÉ¨ÃèÏßÏà½»Ëã·¨;
-//
-
+//扫描线算法求N条弧段的所有交点;
 
 //Ö¸Ê¾»¡¶Î·½Î»£º
 //»¡¶ÎÓÃÍ¨¹ýÖÐÐÄµÄ´¹ÏßºÍË®Æ½Ïß»®·Ö³ÉËÄ¶Î:×óÉÏ£¬×óÏÂ£¬ÓÒÉÏ£¬ÓÒÏÂ;
@@ -83,7 +70,7 @@ enum EPartOfArc
 	LEFT_BOTTOM,
 	RIGHT_TOP,
 	RIGHT_BOTTOM,
-	JUST_ALONE£¬ //±íÊ¾Õâ¸ö»¡±¾Éí¾ÍÊÇµ¥µ÷µÄ;
+	JUST_ALONE,  //±íÊ¾Õâ¸ö»¡±¾Éí¾ÍÊÇµ¥µ÷µÄ;
 	NONE_NONE
 };
 
@@ -126,10 +113,6 @@ public:
 	~CSegement(); 
 
 public:
-	////Ïß¶ÎµÄ¶Ëµãx×ø±ê	
-	//double m_xCoord;
-	//double m_yCoord;	
-
 	//±¾Ïß¶Î£¬ÊÇ»¡£¿ÊÇÏß£¿ÊÇ¶àÒåÏß£¿
 	ETypeOfArc m_myselfType ; 
 	AcDbArc* m_arcPtr;
@@ -143,6 +126,7 @@ public:
 	//AcDbLine* m_LinePtr;
 	AcGeCircArc2d* m_circArc2d;
 	AcDbPolyline* m_polylinePtr;
+	int index; //多义线中的第几段子弧;
 
 	//×æÄ¸Ïß¶Î£¬ÊÇ»¡£¿ÊÇÏß£¿ÊÇ¶àÒåÏß? :ÈôÓÐ£¬Ö»ÄÜÊÇ¶àÒåÏßÁË; 
 	ETypeOfArc m_grandmaType;
@@ -395,7 +379,7 @@ private:
 
 private:
 	multiset<SPointAndSegment,eventPointCmp> m_vEventPointsQueue; //事件点集合; 
-};
+};  
 
 
 
@@ -491,12 +475,12 @@ public:
 
 public:
 	bool input(IN const SPointAndSegment& segment1,IN const SPointAndSegment& segment2);   
-	bool output(OUT vector<SPointAndSegment>& vIntersectPoints);
+	bool output(OUT vector<SPointAndSegment>& vIntersectPoints);  
 private:
 	SPointAndSegment m_firstSegment;    
 	SPointAndSegment m_secondSegment;     
 	//SPointAndSegment ;    
-	vector<SPointAndSegment> m_vecIntersectPointsResult;
+	vector<SPointAndSegment> m_vecIntersectPointsResult;   
 };
 
 
@@ -507,11 +491,11 @@ class COptOnPointSegmentGroup;
 ×¢Òâ£º
 
 */
-class COptOnPointSegmentGroup  
+class COptOnSegmentsGroup  
 {
 public:
-	COptOnPointsGroup();  
-	~COptOnPointsGroup();    
+	COptOnSegmentsGroup();  
+	~COptOnSegmentsGroup();    
 public:
 	bool sortByAngle(IN OUT vector<SPointAndSegment>& vPoints); //°´ºÍÉ¨ÃèÏßÀë¿ªºóÏà½»Ë³ÐòÅÅÐò;
 	bool getLeftSegment(OUT vector<SPointAndSegment>& vPoints);  
