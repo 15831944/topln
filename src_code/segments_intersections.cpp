@@ -494,3 +494,71 @@ CSweeplinePointOpt::prsIntersectPoints()
 {
 	;
 }
+
+
+
+/*
+class COptOnSegmentsGroup; 
+功能：对多个事件点（有共同交点）进行操作；
+      操作包括:找出最左边弧段、最右边弧段;
+*/
+COptOnSegmentsGroup::COptOnSegmentsGroup()
+{
+}
+
+COptOnSegmentsGroup::~COptOnSegmentsGroup()
+{
+}
+
+
+//sort by tangency angle
+bool
+COptOnSegmentsGroup::sortByAngle(IN OUT vector<SPointAndSegment>& vPoints)
+{
+	;
+}
+
+
+
+
+/*
+class CPrsTangencyOfArc; 
+给定弧段及其上一个点，计算其切线角度；
+1.如果点在弧段中间，则有2个切角，一大一小，相差180度;
+2.如果点在弧段端点处，则只有一个切角，切角指向另一端点;
+*/
+
+CPrsTangencyOfArc::CPrsTangencyOfArc()
+{
+}
+
+CPrsTangencyOfArc::~CPrsTangencyOfArc()
+{
+}
+
+
+CPrsTangencyOfArc::CPrsTangencyOfArc(IN const AcDbEntity* pEnt,IN const AcGePoint3d pt)
+{
+	bool bFlag = false;
+	bFlag = init(pEnt,pt);
+}
+
+
+bool
+CPrsTangencyOfArc::init(IN const AcDbEntity* pEnt,IN const AcGePoint3d pt)
+{
+	if(pEnt != NULL)
+	{
+		m_pEnt = pEnt;
+	}
+	else
+	{
+		return false;
+	}
+
+	m_curPoint = pt;
+	return true;
+}
+
+
+//;

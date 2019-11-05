@@ -486,10 +486,9 @@ private:
 
 
 /*
-class COptOnPointSegmentGroup; 
-¹¦ÄÜ£º;
-×¢Òâ£º
-
+class COptOnSegmentsGroup; 
+功能：对多个事件点（有共同交点）进行操作；
+      操作包括:找出最左边弧段、最右边弧段;
 */
 class COptOnSegmentsGroup  
 {
@@ -507,10 +506,32 @@ private:
 
 
 /*
-class ; 
-¹¦ÄÜ£º;
-×¢Òâ£º
+class CPrsTangencyOfArc; 
+给定弧段及其上一个点，计算其切线角度;
 */
+class CPrsTangencyOfArc
+{
+public:
+	CPrsTangencyOfArc();  
+	CPrsTangencyOfArc(IN const AcDbEntity* pEnt,IN const AcGePoint3d pt);
+	~CPrsTangencyOfArc();   
+
+public:
+	bool init(IN const AcDbEntity* pEnt,IN const AcGePoint3d pt);      
+	bool calStartTangency();  
+	bool calEndTangency();
+	bool cal
+
+private:
+	bool calTangencyOfLine();       
+	bool calTangencyOfArc();    
+
+private:
+	AcGePoint3d m_curPoint;    	 
+	AcDbArc* m_pArc;   	
+	double m_bigTan;    
+	double m_littleTan; //每个点有2个切角，相差180度;小角度的切线;     
+};
 
 
 #endif  //ZHOUHUAGANG_20190822_segments_intersections
