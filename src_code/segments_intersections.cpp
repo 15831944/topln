@@ -537,28 +537,39 @@ CPrsTangencyOfArc::~CPrsTangencyOfArc()
 }
 
 
-CPrsTangencyOfArc::CPrsTangencyOfArc(IN const AcDbEntity* pEnt,IN const AcGePoint3d pt)
+CPrsTangencyOfArc::CPrsTangencyOfArc(IN const SPointAndSegment* pPntSegment)
 {
-	bool bFlag = false;
-	bFlag = init(pEnt,pt);
+	bool bFlag = false;   
+	bFlag = init(pPntSegment);  
 }
 
 
 bool
-CPrsTangencyOfArc::init(IN const AcDbEntity* pEnt,IN const AcGePoint3d pt)
+CPrsTangencyOfArc::init(IN const SPointAndSegment* pPntSegment)
 {
-	if(pEnt != NULL)
+	if(NULL == pPntSegment)
 	{
-		m_pEnt = pEnt;
-	}
-	else
-	{
+		m_tangencyRsult = -1;
 		return false;
 	}
-
-	m_curPoint = pt;
-	return true;
+	else if(pPntSegment->m_segment->m_arcPtr)
+	{
+		m_curPoint = pPntSegment->m_point;
+		m_locationType = pPntSegment->m_ePointLocation;
+		m_pArc = pPntSegment->m_segment->m_arcPtr;
+	}	
+	else
+	{
+		return false;  
+	}
 }
 
 
-//;
+//
+double
+CPrsTangencyOfArc::calBotPointTangency()
+{
+	double startAngle = m_pArc->startAngle();  
+	m_pArc->
+	//判断弧段走向
+}

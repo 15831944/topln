@@ -119,7 +119,7 @@ public:
 	AcDbLine* m_LinePtr;	
 	EPartOfArc m_whichPart; 
 
-	//Ä¸Ïß¶Î£¬ÊÇ»¡£¿ÊÇÔ²£¿ÊÇ¶àÒåÏß£¿:²»¿ÉÄÜÊÇÏßline;  
+	//父母信息(可能存在）；  
 	ETypeOfArc m_parentType ;
 	AcDbArc* m_arcPtr;
 	AcDbCircle* m_circlePtr;
@@ -128,7 +128,7 @@ public:
 	AcDbPolyline* m_polylinePtr;
 	int index; //多义线中的第几段子弧;
 
-	//×æÄ¸Ïß¶Î£¬ÊÇ»¡£¿ÊÇÏß£¿ÊÇ¶àÒåÏß? :ÈôÓÐ£¬Ö»ÄÜÊÇ¶àÒåÏßÁË; 
+	//祖父母信息（可能存在); 
 	ETypeOfArc m_grandmaType;
 	//AcDbArc* m_arcPtr;
 	//AcDbLine* m_LinePtr;
@@ -506,31 +506,79 @@ private:
 
 
 /*
+class CPrsTangencyOfSegment; 
+给定弧段及其上一个点，计算其切线角度;
+*/
+class CPrsTangencyOfSegment
+{
+public:
+	CPrsTangencyOfSegment();  
+	/*CPrsTangencyOfSegment(IN const SPointAndSegment* pPntSegment);  */ 
+	~CPrsTangencyOfSegment();   
+
+public:
+	virtual bool init(IN const SPointAndSegment* pPntSegment) = 0;      
+	virtual double calTopPointTangency() = 0;    
+	virtual double calBotPointTangency() = 0;   
+	virtual double calMidPointTangency() = 0;	   
+
+//private:
+//	AcGePoint3d m_curPoint;    	 
+//	ELocationTypeOfPoint m_locationType;  
+//	AcDbEntity* m_pArc;   	
+//	double m_tangencyRsult;    	 
+};
+
+
+/*
 class CPrsTangencyOfArc; 
 给定弧段及其上一个点，计算其切线角度;
 */
-class CPrsTangencyOfArc
+class CPrsTangencyOfArc:public CPrsTangencyOfSegment()
 {
 public:
-	CPrsTangencyOfArc();  
-	CPrsTangencyOfArc(IN const AcDbEntity* pEnt,IN const AcGePoint3d pt);
-	~CPrsTangencyOfArc();   
+	CPrsTangencyOfSegment();  
+	CPrsTangencyOfSegment(IN const SPointAndSegment* pPntSegment);   
+	~CPrsTangencyOfSegment();   
 
 public:
-	bool init(IN const AcDbEntity* pEnt,IN const AcGePoint3d pt);      
-	bool calStartTangency();  
-	bool calEndTangency();
-	bool cal
+	 bool init(IN const SPointAndSegment* pPntSegment);      
+	 double calTopPointTangency();    
+	 double calBotPointTangency();   
+	 double calMidPointTangency();	   
 
-private:
-	bool calTangencyOfLine();       
-	bool calTangencyOfArc();    
+	private:
+		AcGePoint3d m_curPoint;    	 
+		ELocationTypeOfPoint m_locationType;  
+		AcDbArc* m_pArc;   	
+		double m_tangencyRsult;    	 
+};
+
+
+
+
+/*
+class CPrsTangencyOfLine; 
+给定弧段及其上一个点，计算其切线角度;
+*/
+class CPrsTangencyOfLine:public CPrsTangencyOfSegment()
+{
+public:
+	CPrsTangencyOfLine();  
+	CPrsTangencyOfLine(IN const SPointAndSegment* pPntSegment); 
+	~CPrsTangencyOfLine();   
+
+public:
+	bool init(IN const SPointAndSegment* pPntSegment);      
+	double calTopPointTangency();   
+	double calBotPointTangency();   
+	double calMidPointTangency();	 
 
 private:
 	AcGePoint3d m_curPoint;    	 
-	AcDbArc* m_pArc;   	
-	double m_bigTan;    
-	double m_littleTan; //每个点有2个切角，相差180度;小角度的切线;     
+	ELocationTypeOfPoint m_locationType;  
+	AcDbLine* m_pLine;   	
+	double m_tangencyRsult;    	 
 };
 
 
