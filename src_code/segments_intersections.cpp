@@ -565,11 +565,13 @@ CPrsTangencyOfArc::init(IN const SPointAndSegment* pPntSegment)
 }
 
 
-//
+//判断弧段走向:AcDbArc都是逆时针的;
 double
 CPrsTangencyOfArc::calBotPointTangency()
 {
 	double startAngle = m_pArc->startAngle();  
-	m_pArc->
-	//判断弧段走向
+	double endAngle = m_pArc->endAngle();  
+	m_centerPoint = m_pArc->center();  	
+	//哪个角度是bottom point的角度（圆心到端点）？
+	;
 }

@@ -545,13 +545,24 @@ public:
 	 bool init(IN const SPointAndSegment* pPntSegment);      
 	 double calTopPointTangency();    
 	 double calBotPointTangency();   
-	 double calMidPointTangency();	   
+	 double calMidPointTangency(); 
 
-	private:
-		AcGePoint3d m_curPoint;    	 
-		ELocationTypeOfPoint m_locationType;  
-		AcDbArc* m_pArc;   	
-		double m_tangencyRsult;    	 
+private:
+	 bool prsTopAndBotPoint(); 
+	 bool ;
+	 
+private:
+	AcGePoint3d m_curPoint;    	 
+	ELocationTypeOfPoint m_locationType;   
+	AcDbArc* m_pArc;   	
+	//double m_tangencyRsult;    	 
+
+private:
+	AcGePoint3d m_centerPoint; 
+	double m_startAngle;
+	double m_endAngle;
+	double m_topPointTangency;
+	double m_botPointTangency;
 };
 
 
