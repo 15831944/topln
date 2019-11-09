@@ -99,26 +99,20 @@ enum ETypeOfArc
 	None_Type //problem type;
 };
 
-/*
-ÀàÃû£ºCSegement
-ÓÃÍ¾£º±íÊ¾ºÍÉ¨ÃèÏßÏë½»µÄÏß¶Î
-±íÊ¾Îª£ºÒ»¸öÏß¶Î£¬¿ÉÄÜÊÇÒ»ÌõÖ±Ïß£¬Ò²¿ÉÄÜÊÇÒ»Ìõ»¡;   
-Ò»Ìõ¶àÒ»Ïß·Ö½â³É¶à¸öÖ±Ïß¶ÎºÍ»¡¶Î
-»¡¶Î»®·Ö³ÉËÄ¶Î£º»¡¶ÎÓÃÍ¨¹ýÖÐÐÄµÄ´¹ÏßºÍË®Æ½Ïß»®·Ö³ÉËÄ¶Î; Ã¿¶Î»¡ÊÇµ¥µ÷µÄ
-*/
-class CSegement
-{
-public:
-	CSegement();
-	~CSegement(); 
 
-public:
-	//±¾Ïß¶Î£¬ÊÇ»¡£¿ÊÇÏß£¿ÊÇ¶àÒåÏß£¿
+//一条弧段的信息;
+struct Segment
+{
 	ETypeOfArc m_myselfType ; 
 	AcDbArc* m_arcPtr;
 	AcDbLine* m_LinePtr;	
 	EPartOfArc m_whichPart; 
+};
 
+
+//弧段父辈信息,如果父辈存在的话;
+struct SegmentFather
+{
 	//父母信息(可能存在）；  
 	ETypeOfArc m_parentType ;
 	AcDbArc* m_arcPtr;
@@ -126,13 +120,33 @@ public:
 	//AcDbLine* m_LinePtr;
 	AcGeCircArc2d* m_circArc2d;
 	AcDbPolyline* m_polylinePtr;
-	int index; //多义线中的第几段子弧;
+	
+};
 
+
+
+//弧段祖父的信息，如果存在祖父辈的话：
+struct SegmentGrandfather
+{
 	//祖父母信息（可能存在); 
 	ETypeOfArc m_grandmaType;
 	//AcDbArc* m_arcPtr;
 	//AcDbLine* m_LinePtr;
 	AcDbPolyline* m_polylinePtr;  
+	int index; //多义线中的第几段子弧;
+};
+
+/*
+class CSegement
+功能：记录一条弧段的信息;
+*/
+struct CSegement
+{
+	//segment
+	Segment* m_itself；
+	//father
+	SegmentFather* m_father;
+	SegmentGrandfather* m_granfather;s
 
 public:
 	bool initCSegement(IN AcDbLine* dbLinePtr);
