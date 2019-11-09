@@ -88,7 +88,7 @@ enum ELocationTypeOfPoint
 
 
 
-//Ã¶¾Ù£¬Ö¸Ê¾Ïß¶ÎÀàÐÍ
+//弧段类型;
 enum ETypeOfArc
 {
 	Line_Type,
@@ -101,8 +101,12 @@ enum ETypeOfArc
 
 
 //一条弧段的信息;
-struct Segment
+class Segment
 {
+public:
+	Segment();
+	~Segment();
+private:
 	ETypeOfArc m_myselfType ; 
 	AcDbArc* m_arcPtr;
 	AcDbLine* m_LinePtr;	
@@ -114,7 +118,7 @@ struct Segment
 struct SegmentFather
 {
 	//父母信息(可能存在）；  
-	ETypeOfArc m_parentType ;
+	ETypeOfArc m_parentType ;k
 	AcDbArc* m_arcPtr;
 	AcDbCircle* m_circlePtr;
 	//AcDbLine* m_LinePtr;
