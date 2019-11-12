@@ -530,6 +530,13 @@ class CPrsTangencyOfArc;
 
 CPrsTangencyOfArc::CPrsTangencyOfArc()
 {
+	m_pArc = NULL;
+	m_startAngle = -1;
+	m_endAngle = -1;
+	m_botPointTangency = -1;	
+	m_topPointTangency = -1;
+	m_tanFromMidToBot = -1;
+	m_tanFromMidToTop = -1;
 }
 
 CPrsTangencyOfArc::~CPrsTangencyOfArc()
@@ -537,41 +544,64 @@ CPrsTangencyOfArc::~CPrsTangencyOfArc()
 }
 
 
-CPrsTangencyOfArc::CPrsTangencyOfArc(IN const SPointAndSegment* pPntSegment)
-{
-	bool bFlag = false;   
-	bFlag = init(pPntSegment);  
+CPrsTangencyOfArc::CPrsTangencyOfArc(IN const AcDbArc* pArc,IN AcGePoint3d midPoint) 
+{	 	
+	return init(pArc,midPoint);
 }
 
 
 bool
-CPrsTangencyOfArc::init(IN const SPointAndSegment* pPntSegment)
+CPrsTangencyOfArc::init(IN const AcDbArc* pArc,IN AcGePoint3d midPoint)
 {
-	if(NULL == pPntSegment)
+	if(pArc != NULL)
 	{
-		m_tangencyRsult = -1;
-		return false;
+		m_pArc = pArc;
+		m_midPoint = midPoint;
+		return true;
 	}
-	else if(pPntSegment->m_segment->m_arcPtr)
-	{
-		m_curPoint = pPntSegment->m_point;
-		m_locationType = pPntSegment->m_ePointLocation;
-		m_pArc = pPntSegment->m_segment->m_arcPtr;
-	}	
-	else
-	{
-		return false;  
-	}
+	return false;
 }
 
 
-//判断弧段走向:AcDbArc都是逆时针的;
-double
-CPrsTangencyOfArc::calBotPointTangency()
+bool
+CPrsTangencyOfArc::init(IN const AcDbArc* pArc)
 {
+	if(pArc != NULL)
+	{
+		m_pArc = pArc;		
+		return true;
+	}
+	return false;
+}
+
+
+void
+CPrsTangencyOfArc::init(IN const AcGePoint3d midPoint) 
+{
+	m_midPoint = midPoint; 
+}
+
+
+//判断弧段走向:AcDbArc都是逆时针的;  
+double
+CPrsTangencyOfArc::calBotPointTangency()  
+{
+	double r = m_pArc->radius();
 	double startAngle = m_pArc->startAngle();  
 	double endAngle = m_pArc->endAngle();  
 	m_centerPoint = m_pArc->center();  	
-	//哪个角度是bottom point的角度（圆心到端点）？
+	//哪个角度是bottom point的角度（圆心到端点）？ 
+	
+	AcGeVector2d vtrToStartPoint(r,0);
+	vtrToStartPoint.rotateBy(m_startAngle);
+	double xDlta = vtrToStartPoint.x;
+	double yDlta = vtrToStartPoint.y;
+	
+	AcGeMatrix3d matrix3d;
+	matrix3d.setToTranslation(vtrToStartPoint);  
+	AcGePoint3d startPoint = m_centerPoint;   
+	startPoint.transformBy(matrix3d);   
+
 	;
+
 }
