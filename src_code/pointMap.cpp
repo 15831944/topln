@@ -961,6 +961,14 @@ COptOfTwoPoints::zoomThem()
 }
 
 
+//比较两个点是否Y值相等;
+bool
+COptOfTwoPoints::isEqualYcoord()
+{
+	;
+}
+
+
 
 //=========================================
 //执行函数，对应命令：test001;

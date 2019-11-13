@@ -528,47 +528,50 @@ class CPrsTangencyOfArc;
 2.如果点在弧段端点处，则只有一个切角，切角指向另一端点;
 */
 
-CPrsTangencyOfArc::CPrsTangencyOfArc()
+COptOnArc::COptOnArc()
 {
-	m_pArc = NULL;
-	m_startAngle = -1;
+	m_pArc = NULL;   	
+	r = -1;
+	m_startAngle = -1;   
 	m_endAngle = -1;
-	m_botPointTangency = -1;	
-	m_topPointTangency = -1;
-	m_tanFromMidToBot = -1;
-	m_tanFromMidToTop = -1;
+	m_startPointTangency = -1;     
+	m_endPointTangency= -1;  
+	m_tanFromMidToTop= -1;   
+	m_tanFromMidToBot= -1;	
 }
 
-CPrsTangencyOfArc::~CPrsTangencyOfArc()
+COptOnArc::~COptOnArc()
 {
 }
 
 
-CPrsTangencyOfArc::CPrsTangencyOfArc(IN const AcDbArc* pArc,IN AcGePoint3d midPoint) 
+COptOnArc::COptOnArc(IN const AcDbArc* pArc,IN AcGePoint3d midPoint) 
 {	 	
-	return init(pArc,midPoint);
+	init(pArc,midPoint);
 }
 
 
 bool
-CPrsTangencyOfArc::init(IN const AcDbArc* pArc,IN AcGePoint3d midPoint)
+COptOnArc::init(IN const AcDbArc* pArc,IN AcGePoint3d midPoint)
 {
 	if(pArc != NULL)
 	{
 		m_pArc = pArc;
+		getBaseInfoOfArc();
 		m_midPoint = midPoint;
 		return true;
 	}
-	return false;
+	return false;  
 }
 
 
 bool
-CPrsTangencyOfArc::init(IN const AcDbArc* pArc)
+COptOnArc::init(IN const AcDbArc* pArc)
 {
 	if(pArc != NULL)
 	{
-		m_pArc = pArc;		
+		m_pArc = pArc;	
+		getBaseInfoOfArc();
 		return true;
 	}
 	return false;
@@ -576,32 +579,117 @@ CPrsTangencyOfArc::init(IN const AcDbArc* pArc)
 
 
 void
-CPrsTangencyOfArc::init(IN const AcGePoint3d midPoint) 
+COptOnArc::init(IN const AcGePoint3d midPoint) 
 {
 	m_midPoint = midPoint; 
 }
 
 
+void
+COptOnArc::getBaseInfoOfArc()
+{
+	r = m_pArc->radius();
+	m_startAngle = m_pArc->startAngle();
+	m_endAngle = m_pArc->endAngle();
+	m_centerPoint = m_pArc->center();
+}
+
+
 //判断弧段走向:AcDbArc都是逆时针的;  
 double
-CPrsTangencyOfArc::calBotPointTangency()  
-{
-	double r = m_pArc->radius();
-	double startAngle = m_pArc->startAngle();  
-	double endAngle = m_pArc->endAngle();  
-	m_centerPoint = m_pArc->center();  	
-	//哪个角度是bottom point的角度（圆心到端点）？ 
-	
+COptOnArc::rtnBotPointTangency()  
+{	
+	findTopAndBotPoint();
+
+	if(isStartPointEqualToEndPoint())
+	{
+		return -1; //没法求得上端点和下端点;
+	}
+	else if(isTopPointEqualToStartPoint())
+	{
+		;
+	}
+}
+
+
+//取起点坐标;
+void
+COptOnArc::calStartPoint()
+{	
 	AcGeVector2d vtrToStartPoint(r,0);
 	vtrToStartPoint.rotateBy(m_startAngle);
 	double xDlta = vtrToStartPoint.x;
 	double yDlta = vtrToStartPoint.y;
-	
+
 	AcGeMatrix3d matrix3d;
 	matrix3d.setToTranslation(vtrToStartPoint);  
-	AcGePoint3d startPoint = m_centerPoint;   
-	startPoint.transformBy(matrix3d);   
+	m_startPoint = m_centerPoint;   
+	m_startPoint.transformBy(matrix3d); 	 
+}
 
-	;
 
+//
+void
+COptOnArc::calEndPoint()
+{
+	//取终点坐标;
+	AcGeVector2d vtrToStartPoint(r,0);
+	vtrToStartPoint.rotateBy(m_endAngle);
+	double xDlta = vtrToStartPoint.x;
+	double yDlta = vtrToStartPoint.y;
+
+	AcGeMatrix3d matrix3d;
+	matrix3d.setToTranslation(vtrToStartPoint);
+	m_endPoint = m_centerPoint;
+	m_endPoint.transformBy(matrix3d);  
+}
+
+
+//
+void
+COptOnArc::findTopAndBotPoint()
+{
+	if(isStartPointEqualToEndPoint())
+	{
+		m_topPoint = m_startPoint;
+		m_botPoint = m_startPoint;
+	}
+	else if(isTopPointEqualToStartPoint())
+	{
+		m_topPoint = m_startPoint;
+		m_botPoint = m_endPoint;
+	}
+	else
+	{
+		m_topPoint = m_endPoint;
+		m_botPoint = m_startPoint;
+	}
+}
+
+
+//
+double
+COptOnArc::calStartPointTangency()
+{
+	AcGeVector2d vtr2d(r,0);
+	vtr2d.rotateBy(m_startAngle);
+	vtr2d.rotateBy(Pi* 0.5);
+	m_startPointTangency = vtr2d.angle();
+
+	//调整角度范围，保证在0-2π内;
+	return m_startPointTangency;
+}
+
+
+//
+double
+COptOnArc::calEndPointTangency()
+{
+	AcGeVector2d vtr2d(r,0);
+	vtr2d.rotateBy(m_endAngle);
+	vtr2d.rotateBy(-Pi* 0.5);
+	m_endPointTangency = vtr2d.angle();
+
+	//调整角度范围，保证在0-2π内;
+	return m_endPointTangency;
 }

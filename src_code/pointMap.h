@@ -250,16 +250,18 @@ class COptOfTwoPoints
 public:
 	COptOfTwoPoints();
 	COptOfTwoPoints(IN const AcGePoint3d& pt0, IN const AcGePoint3d& pt1); 
-	~COptOfTwoPoints();
+	~COptOfTwoPoints(); 
 
 public:
 	bool drawLine();
 	bool zoomThem();  //在电脑屏幕上放大这2点;
 	//bool isEqual(IN const double d1,IN const double d2,IN const int m_nDotNum);
+	//判断Y值是否相等;
+	bool isEqualYcoord(); 
 	
 private:
-	AcGePoint3d m_ptStart;
-	AcGePoint3d m_ptEnd;
+	AcGePoint3d m_ptStart; 
+	AcGePoint3d m_ptEnd;  
 };
 
 

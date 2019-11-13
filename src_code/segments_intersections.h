@@ -540,56 +540,89 @@ public:
 
 
 /*
-class CPrsTangencyOfArc; 
+class CParsTangencyOnArc; 
 给定弧段及其上一个点，计算其切线角度;
 Top point:是指Y值更大;
 */
-class CPrsTangencyOfArc:public CPrsTangencyOfSegment
+class CParsTangencyOnArc
 {
 public:
-	CPrsTangencyOfSegment();  
-	CPrsTangencyOfSegment(IN const AcDbArc* pArc);
-	CPrsTangencyOfSegment(IN const AcGePoint3d midPoint);
-	CPrsTangencyOfSegment(IN const AcDbArc* pArc,IN AcGePoint3d midPoint);   
-	~CPrsTangencyOfSegment();   
+	CParsTangencyOnArc();  
+	~CParsTangencyOnArc();  
+
+public:
+	double rtnTopPointTangency();    
+	double rtnBotPointTangency();  
+private:
+	bool isTopPointEqualToStartPoint();
+	void findTopAndBotPoint();
+	AcGePoint3d getTopPoint();
+	AcGePoint3d getBotPoint();
+	bool isStartPointEqualToEndPointByYcoord();  
+
+private:
+	COptOnArc* m_pArcOpt;
+	AcGePoint3d m_topPoint;
+	AcGePoint3d m_botPoint;  
+	double m_topPointTangency;   
+	double m_botPointTangency;   
+}
+
+
+
+
+
+/*
+class COptOnArc; 
+功能：针对arc类型实体的一些计算；
+*/
+class COptOnArc:public CPrsTangencyOfSegment   
+{
+public:
+	COptOnArc();  
+	COptOnArc(IN const AcDbArc* pArc);
+	COptOnArc(IN const AcGePoint3d midPoint);   
+	COptOnArc(IN const AcDbArc* pArc,IN AcGePoint3d midPoint);   
+	~COptOnArc();   
 
 public:  
 	 bool initArcAndMidPoint(IN const AcDbArc* pArc,IN AcGePoint3d midPoint);  
 	 bool init(IN const AcDbArc* pArc); 
 	 bool inputMiddlePoint(IN AcGePoint3d pt); //弧段上的点：
-	 double calTopPointTangency();    
-	 double calBotPointTangency();  
-	 bool calTangencyFromMidToBot(OUT double& dblTangency);  
-	 bool calTangencyFromMidToTop(OUT double& dblTangency);  
-	 //获取top point和bottom point;
-	 AcGePoint3d getTopPoint();
-	 AcGePoint3d getBotPoint();
-	 
-
+	 bool calTangencyFromMidToStartPoint(OUT double& dblTangency);  
+	 bool calTangencyFromMidToEndPoint(OUT double& dblTangency);
+	 bool isTheMidPointValid();	
+	 AcGePoint3d rtnStartPoint();   
+	 AcGePoint3d rtnEndPoint();   
+	
 private:
 	 bool prsTopAndBotPoint();   
 	 bool isTheMidPointEqualTopPoint();  
 	 bool isTheMidPointEqualBotPoint();  
-	 bool isTheMidPointOnArc();
+	 bool isTheMidPointOnArc();  
 	 bool calMidPointTangency();   
+	 void getBaseInfoOfArc();   
+	 double calStartPointTangency();   
+	 double calEndPointTangency();  
 private:
 	void calStartPoint();
 	void calEndPoint();
-	void findTopPoint();
-	void findBotPoint();
-	bool isTopPointEqualToStartPoint();
-	 
+	bool isStartPointEqualToEndPoint();    
+
 private:
 	AcDbArc* m_pArc;   	
-	AcGePoint3d m_midPoint;    	 	 	
-	AcGePoint3d m_centerPoint;   
-	AcGePoint3d m_topPoint;
-	AcGePoint3d m_botPoint;
+	double r;
+	AcGePoint3d m_centerPoint;  
 	double m_startAngle;   
 	double m_endAngle;   
-	double m_topPointTangency;   
-	double m_botPointTangency;   
-	double m_tanFromMidToTop;
+
+private:
+	AcGePoint3d m_midPoint; 
+	AcGePoint3d m_startPoint;   
+	AcGePoint3d m_endPoint;
+	double m_startPointTangency;   
+	double m_endPointTangency;
+	double m_tanFromMidToTop;   
 	double m_tanFromMidToBot;	
 };
 
