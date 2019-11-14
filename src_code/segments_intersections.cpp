@@ -693,3 +693,41 @@ COptOnArc::calEndPointTangency()
 	//调整角度范围，保证在0-2π内;
 	return m_endPointTangency;
 }
+
+
+//
+void
+COptOnArc::isStartPointEqualToEndPoint()
+{
+	if(m_startPoint.isEqualTo(m_endPoint))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+
+//
+bool
+COptOnArc::isTheMidPointEqualStartPoint()
+{
+	if(m_midPoint.isEqualTo(m_startPoint))
+	{
+		return true;
+	}
+	else
+	{
+		return false;   
+	}
+}
+
+
+//在mid point处，有2个切线，也就是有2个切角;
+bool
+COptOnArc::calMidPointTangency()
+{
+	;
+}

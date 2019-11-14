@@ -596,9 +596,9 @@ public:
 	 AcGePoint3d rtnEndPoint();   
 	
 private:
-	 bool prsTopAndBotPoint();   
-	 bool isTheMidPointEqualTopPoint();  
-	 bool isTheMidPointEqualBotPoint();  
+	 //void prsTopAndBotPoint();   
+	 bool isTheMidPointEqualStartPoint();  
+	 bool isTheMidPointEqualEndPoint();  
 	 bool isTheMidPointOnArc();  
 	 bool calMidPointTangency();   
 	 void getBaseInfoOfArc();   
