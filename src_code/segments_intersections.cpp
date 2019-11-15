@@ -554,14 +554,12 @@ COptOnArc::COptOnArc(IN const AcDbArc* pArc,IN AcGePoint3d midPoint)
 bool
 COptOnArc::init(IN const AcDbArc* pArc,IN AcGePoint3d midPoint)
 {
-	if(pArc != NULL)
-	{
-		m_pArc = pArc;
-		getBaseInfoOfArc();
-		m_midPoint = midPoint;
-		return true;
-	}
-	return false;  
+	bool isArcValid = false;
+	bool isMidPointValid = false;
+	isArcValid = init(pArc);
+	isMidPointValid = init(midPoint);
+
+	return (isMidPointValid && isMidPointValid);
 }
 
 
@@ -578,10 +576,18 @@ COptOnArc::init(IN const AcDbArc* pArc)
 }
 
 
-void
+bool
 COptOnArc::init(IN const AcGePoint3d midPoint) 
 {
 	m_midPoint = midPoint; 
+	if(isTheMidPointValid()) 
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 
@@ -595,21 +601,21 @@ COptOnArc::getBaseInfoOfArc()
 }
 
 
-//判断弧段走向:AcDbArc都是逆时针的;  
-double
-COptOnArc::rtnBotPointTangency()  
-{	
-	findTopAndBotPoint();
-
-	if(isStartPointEqualToEndPoint())
-	{
-		return -1; //没法求得上端点和下端点;
-	}
-	else if(isTopPointEqualToStartPoint())
-	{
-		;
-	}
-}
+////判断弧段走向:AcDbArc都是逆时针的;  
+//double
+//COptOnArc::rtnBotPointTangency()  
+//{	
+//	findTopAndBotPoint();
+//
+//	if(isStartPointEqualToEndPoint())
+//	{
+//		return -1; //没法求得上端点和下端点;
+//	}
+//	else if(isTopPointEqualToStartPoint())
+//	{
+//		;
+//	}
+//}
 
 
 //取起点坐标;
@@ -725,9 +731,106 @@ COptOnArc::isTheMidPointEqualStartPoint()
 }
 
 
+
+//
+bool
+COptOnArc::isTheMidPointEqualEndPoint()
+{
+	if(m_midPoint.isEqualTo(m_endPoint))
+	{
+		return true;
+	}
+	else
+	{
+		return false;   
+	}
+}
+
+
+//
+bool
+COptOnArc::isTheMidPointOnArc()
+{
+	m_pArc->isp
+}
+
+
 //在mid point处，有2个切线，也就是有2个切角;
 bool
 COptOnArc::calMidPointTangency()
 {
-	;
+	if(!isTheMidPointValid())
+	{
+		return false;
+	}
+	
+	AcGeVector2d vtr2d;
+	double x = m_midPoint.x - m_centerPoint.x;
+	double y = m_midPoint.y - m_centerPoint.y;
+	vtr2d.set(x,y);
+
+	//tangency from midpoint pointing to endPoint
+	vtr2d.rotateBy(Pi* 0.5);
+	m_tanFromMidToEndPoint = vtr2d.angle();
+
+	//tangency from midpoint pointing to startpoint;
+	vtr2d.rotateBy(-1.0 * Pi);
+	m_tanFromMidToStartPoint = vtr2d.angle();
+
+	return true;
+}
+
+
+//check if the mid point is valid;
+bool
+COptOnArc::isTheMidPointValid()
+{
+	if(isTheMidPointEqualEndPoint())
+	{
+		return false;
+	}
+	else if(isTheMidPointEqualStartPoint())
+	{
+		return false;
+	}
+	else if(!isTheMidPointOnArc())
+	{
+		return false;
+	}
+	else
+	{
+		return true;  
+	}
+}
+
+
+//
+bool
+COptOnArc::rtnTangencyFromMidToEndPoint(OUT double& dblTangency)
+{	
+	dblTangency = m_tanFromMidToEndPoint;
+	if(m_tanFromMidToEndPoint != -1)
+	{
+		return true;
+	}
+	else  
+	{
+		return false;  
+	}
+}
+
+
+//
+bool
+COptOnArc::rtnTangencyFromMidToStartPoint(OUT double& dblTangency)
+{
+	dblTangency = m_tanFromMidToStartPoint;
+	if(m_tanFromMidToEndPoint != -1)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }

@@ -586,14 +586,12 @@ public:
 	~COptOnArc();   
 
 public:  
-	 bool initArcAndMidPoint(IN const AcDbArc* pArc,IN AcGePoint3d midPoint);  
+	 bool init(IN const AcDbArc* pArc,IN AcGePoint3d midPoint);  
 	 bool init(IN const AcDbArc* pArc); 
-	 bool inputMiddlePoint(IN AcGePoint3d pt); //弧段上的点：
-	 bool calTangencyFromMidToStartPoint(OUT double& dblTangency);  
-	 bool calTangencyFromMidToEndPoint(OUT double& dblTangency);
-	 bool isTheMidPointValid();	
-	 AcGePoint3d rtnStartPoint();   
-	 AcGePoint3d rtnEndPoint();   
+	 bool init(IN AcGePoint3d midPoint); //弧段上的点：
+	 bool rtnTangencyFromMidToStartPoint(OUT double& dblTangency);  
+	 bool rtnTangencyFromMidToEndPoint(OUT double& dblTangency);   
+	 bool isTheMidPointValid();	 
 	
 private:
 	 //void prsTopAndBotPoint();   
@@ -603,7 +601,7 @@ private:
 	 bool calMidPointTangency();   
 	 void getBaseInfoOfArc();   
 	 double calStartPointTangency();   
-	 double calEndPointTangency();  
+	 double calEndPointTangency();   
 private:
 	void calStartPoint();
 	void calEndPoint();
@@ -622,8 +620,8 @@ private:
 	AcGePoint3d m_endPoint;
 	double m_startPointTangency;   
 	double m_endPointTangency;
-	double m_tanFromMidToTop;   
-	double m_tanFromMidToBot;	
+	double m_tanFromMidToStartPoint;   
+	double m_tanFromMidToEndPoint;	
 };
 
 
@@ -653,5 +651,10 @@ private:
 	double m_tangencyRsult;    	 
 };
 
+
+
+/*
+class AcGeArcTo
+*/
 
 #endif  //ZHOUHUAGANG_20190822_segments_intersections
