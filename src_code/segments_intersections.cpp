@@ -834,3 +834,50 @@ COptOnArc::rtnTangencyFromMidToStartPoint(OUT double& dblTangency)
 		return false;
 	}
 }
+
+
+
+/*
+class ConvertArcToArc
+功能：AcGeCircArc3d和AcDbArc互相转换；
+*/
+//
+ConvertArcToArc::ConvertArcToArc()
+{
+}
+
+
+//
+ConvertArcToArc::~ConvertArcToArc()
+{
+}
+
+
+//注意：有用户内存分配
+void 
+ConvertArcToArc::convertArc2Arc(IN AcGeCircArc3d*pGeArc, OUT AcDbArc*&pDbArc)
+{
+	AcGePoint3d center = pGeArc->center();
+	AcGeVector3d normal = pGeArc->normal();
+	AcGeVector3d refVec = pGeArc->refVec();
+	AcGePlane plane = AcGePlane(center, normal);
+	double ang = refVec.angleOnPlane(plane);
+	pDbArc = new AcDbArc(center, normal,
+		                 pGeArc->radius(),
+						 pGeArc->startAng() + ang,
+						 pGeArc->endAng() + ang );
+}
+
+
+//注意：有用户内存分配
+void 
+ConvertArcToArc::convertArc2Arc(IN AcDbArc*pDbArc, OUT AcGeCircArc3d*&pGeArc)
+
+{
+	pGeArc = new AcGeCircArc3d(pDbArc->center(),
+							   pDbArc->normal(),
+							   pDbArc->normal().perpVector(),
+							   pDbArc->radius(),
+							   pDbArc->startAngle(),
+							   pDbArc->endAngle());
+}

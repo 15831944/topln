@@ -542,7 +542,7 @@ public:
 /*
 class CParsTangencyOnArc; 
 给定弧段及其上一个点，计算其切线角度;
-Top point:是指Y值更大;
+Top point:是指Y值更大;或者在Y值相等情况下，左边端点为Top point;
 */
 class CParsTangencyOnArc
 {
@@ -551,14 +551,17 @@ public:
 	~CParsTangencyOnArc();  
 
 public:
-	double rtnTopPointTangency();    
+	double rtnTopPointTangency();      
 	double rtnBotPointTangency();  
+	double rtnMidToTopTangency();  
+	double rtnMidToBotTangency(); 
+
 private:
-	bool isTopPointEqualToStartPoint();
-	void findTopAndBotPoint();
-	AcGePoint3d getTopPoint();
-	AcGePoint3d getBotPoint();
-	bool isStartPointEqualToEndPointByYcoord();  
+	bool isTopPointEqualToStartPoint();   
+	void findTopAndBotPoint();  
+	AcGePoint3d getTopPoint();   
+	AcGePoint3d getBotPoint();   
+	bool isStartPointEqualToEndPointByYcoord();    
 
 private:
 	COptOnArc* m_pArcOpt;
@@ -571,12 +574,11 @@ private:
 
 
 
-
 /*
 class COptOnArc; 
 功能：针对arc类型实体的一些计算；
 */
-class COptOnArc:public CPrsTangencyOfSegment   
+class COptOnArc    
 {
 public:
 	COptOnArc();  
@@ -588,15 +590,15 @@ public:
 public:  
 	 bool init(IN const AcDbArc* pArc,IN AcGePoint3d midPoint);  
 	 bool init(IN const AcDbArc* pArc); 
-	 bool init(IN AcGePoint3d midPoint); //弧段上的点：
-	 bool rtnTangencyFromMidToStartPoint(OUT double& dblTangency);  
-	 bool rtnTangencyFromMidToEndPoint(OUT double& dblTangency);   
-	 bool isTheMidPointValid();	 
-	
+	 bool init(IN AcGePoint3d midPoint); //弧段上的点： 
+	 double rtnTangencyFromMidToStartPoint();   
+	 double rtnTangencyFromMidToEndPoint();     
+	 double rtnTangencyFromTopPoint();
+	 double rtnTangencyFromBotPoint();	 	
 private:
 	 //void prsTopAndBotPoint();   
-	 bool isTheMidPointEqualStartPoint();  
-	 bool isTheMidPointEqualEndPoint();  
+	 bool isTheMidPointEqualStartPoint();     
+	 bool isTheMidPointEqualEndPoint();    
 	 bool isTheMidPointOnArc();  
 	 bool calMidPointTangency();   
 	 void getBaseInfoOfArc();   
@@ -654,7 +656,18 @@ private:
 
 
 /*
-class AcGeArcTo
+class ConvertArcToArc
+功能：AcGeCircArc3d和AcDbArc互相转换；
 */
+class ConvertArcToArc
+{
+public:
+	ConvertArcToArc();
+	~ConvertArcToArc();
+
+public:
+	void convertArc2Arc( AcGeCircArc3d*pGeArc, AcDbArc*&pDbArc );
+	void convertArc2Arc( AcDbArc*pDbArc, AcGeCircArc3d*&pGeArc);
+};
 
 #endif  //ZHOUHUAGANG_20190822_segments_intersections
