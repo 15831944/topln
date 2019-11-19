@@ -557,6 +557,8 @@ COptOnArc::init(IN const AcDbArc* pArc,IN AcGePoint3d midPoint)
 	bool isMidPointValid = false;
 	isArcValid = init(pArc);
 	isMidPointValid = init(midPoint);
+	//cal tangency
+	;
 
 	return (isMidPointValid && isMidPointValid);
 }
@@ -651,25 +653,25 @@ COptOnArc::calEndPoint()
 
 
 //
-void
-COptOnArc::findTopAndBotPoint()
-{
-	if(isStartPointEqualToEndPoint())
-	{
-		m_topPoint = m_startPoint;
-		m_botPoint = m_startPoint;
-	}
-	else if(isTopPointEqualToStartPoint())
-	{
-		m_topPoint = m_startPoint;
-		m_botPoint = m_endPoint;
-	}
-	else
-	{
-		m_topPoint = m_endPoint;
-		m_botPoint = m_startPoint;
-	}
-}
+//void
+//COptOnArc::findTopAndBotPoint()
+//{
+//	if(isStartPointEqualToEndPoint())
+//	{
+//		m_topPoint = m_startPoint;
+//		m_botPoint = m_startPoint;
+//	}
+//	else if(isTopPointEqualToStartPoint())
+//	{
+//		m_topPoint = m_startPoint;
+//		m_botPoint = m_endPoint;
+//	}
+//	else
+//	{
+//		m_topPoint = m_endPoint;
+//		m_botPoint = m_startPoint;
+//	}
+//}
 
 
 //

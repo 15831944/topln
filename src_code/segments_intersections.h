@@ -593,9 +593,7 @@ public:
 	 bool init(IN const AcDbArc* pArc,IN AcGePoint3d midPoint);  
 	 bool init(IN const AcDbArc* pArc); 
 	 bool init(IN AcGePoint3d midPoint); //弧段上的点： 
-	 double calStartPointTangency();   
-	 double calEndPointTangency();   
-	 bool calMidPointTangency();   
+
 	 double rtnTangencyFromMidToStartPoint();   
 	 double rtnTangencyFromMidToEndPoint();     
 	 double rtnTangencyFromStartPoint();     
@@ -609,6 +607,9 @@ private:
 	 bool isTheMidPointEqualEndPoint();    
 	 bool isTheMidPointOnArc();  	
 	 void getBaseInfoOfArc();   
+	 double calStartPointTangency();   
+	 double calEndPointTangency();   
+	 bool calMidPointTangency();   
 
 private:
 	void calStartPoint();
