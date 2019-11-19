@@ -548,27 +548,29 @@ class CParsTangencyOnArc
 {
 public:
 	CParsTangencyOnArc();  
+	CParsTangencyOnArc(IN AcDbArc* pArc);
+	CParsTangencyOnArc(IN AcGePoint3d midPoint);
+	CParsTangencyOnArc(IN AcDbArc* pArc,IN AcGePoint3d midPoint);  
 	~CParsTangencyOnArc();  
 
 public:
+	bool calTopPointTangency();
 	double rtnTopPointTangency();      
 	double rtnBotPointTangency();  
 	double rtnMidToTopTangency();  
 	double rtnMidToBotTangency(); 
 
 private:
-	bool isTopPointEqualToStartPoint();   
-	void findTopAndBotPoint();  
-	AcGePoint3d getTopPoint();   
-	AcGePoint3d getBotPoint();   
-	bool isStartPointEqualToEndPointByYcoord();    
+	bool isTopPointEqualToStartPoint();         
+	bool isStartPointEqualToEndPointByYcoord();  
 
 private:
-	COptOnArc* m_pArcOpt;
-	AcGePoint3d m_topPoint;
-	AcGePoint3d m_botPoint;  
+	COptOnArc* m_pArcOpt;  
+	AcGePoint3d m_midPoint;    
 	double m_topPointTangency;   
 	double m_botPointTangency;   
+	double m_midToBotTangency;  
+	double m_midToTopTangency;   
 }
 
 
@@ -591,19 +593,23 @@ public:
 	 bool init(IN const AcDbArc* pArc,IN AcGePoint3d midPoint);  
 	 bool init(IN const AcDbArc* pArc); 
 	 bool init(IN AcGePoint3d midPoint); //弧段上的点： 
+	 double calStartPointTangency();   
+	 double calEndPointTangency();   
+	 bool calMidPointTangency();   
 	 double rtnTangencyFromMidToStartPoint();   
 	 double rtnTangencyFromMidToEndPoint();     
-	 double rtnTangencyFromTopPoint();
-	 double rtnTangencyFromBotPoint();	 	
+	 double rtnTangencyFromStartPoint();     
+	 double rtnTangencyFromEndPoint();	 
+public:
+	bool isStartPointEqualToEndPoint();
+	bool isStartPointLowerTanEndPointInYcoord();   
 private:
 	 //void prsTopAndBotPoint();   
 	 bool isTheMidPointEqualStartPoint();     
 	 bool isTheMidPointEqualEndPoint();    
-	 bool isTheMidPointOnArc();  
-	 bool calMidPointTangency();   
+	 bool isTheMidPointOnArc();  	
 	 void getBaseInfoOfArc();   
-	 double calStartPointTangency();   
-	 double calEndPointTangency();   
+
 private:
 	void calStartPoint();
 	void calEndPoint();

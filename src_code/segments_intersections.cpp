@@ -522,12 +522,11 @@ COptOnSegmentsGroup::sortByAngle(IN OUT vector<SPointAndSegment>& vPoints)
 
 
 /*
-class CPrsTangencyOfArc; 
+class COptOnArc; 
 给定弧段及其上一个点，计算其切线角度；
 1.如果点在弧段中间，则有2个切角，一大一小，相差180度;
 2.如果点在弧段端点处，则只有一个切角，切角指向另一端点;
 */
-
 COptOnArc::COptOnArc()
 {
 	m_pArc = NULL;   	
@@ -718,6 +717,23 @@ COptOnArc::isStartPointEqualToEndPoint()
 
 //
 bool
+COptOnArc::isStartPointLowerTanEndPointInYcoord()
+{
+	double yStartPoint = m_startPoint.y;
+	double yEndPoint = m_endPoint.y;
+	if(yStartPoint - yEndPoint < AcGeTol::equalPoint())
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+
+//
+bool
 COptOnArc::isTheMidPointEqualStartPoint()
 {
 	if(m_midPoint.isEqualTo(m_startPoint))
@@ -880,4 +896,55 @@ ConvertArcToArc::convertArc2Arc(IN AcDbArc*pDbArc, OUT AcGeCircArc3d*&pGeArc)
 							   pDbArc->radius(),
 							   pDbArc->startAngle(),
 							   pDbArc->endAngle());
+}
+
+
+
+/*
+class CParsTangencyOnArc; 
+给定弧段及其上一个点，计算其切线角度；
+1.如果点在弧段中间，则有2个切角，一大一小，相差180度;
+2.如果点在弧段端点处，则只有一个切角，切角指向另一端点;
+*/
+CParsTangencyOnArc::CParsTangencyOnArc()
+{
+}
+
+CParsTangencyOnArc::~CParsTangencyOnArc()
+{
+}
+
+
+//
+CParsTangencyOnArc::CParsTangencyOnArc(IN AcDbArc* pArc)
+{
+	if(! (m_pArcOpt->init(pArc))
+	{
+		return;
+	}
+	
+	m_pArcOpt->calStartPointTangency();  
+	m_pArcOpt->calEndPointTangency();  
+	//此时可以计算2个Tangency
+
+	if(m_pArcOpt->isStartPointLowerTanEndPointInYcoord())
+	{
+		m_botPointTangency = m_pArcOpt->rtnBotPointTangency();
+	}
+	m_botPointTangency;
+	m_topPointTangency;
+}
+
+
+//
+CParsTangencyOnArc::CParsTangencyOnArc(IN AcGePoint3d midPoint) 
+{
+	;
+}
+
+
+//
+CParsTangencyOnArc::CParsTangencyOnArc(IN AcDbArc* pArc,IN AcGePoint3d midPoint)
+{
+	;
 }
