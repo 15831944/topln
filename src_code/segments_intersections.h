@@ -554,15 +554,17 @@ public:
 	~CParsTangencyOnArc();  
 
 public:
-	bool calTopPointTangency();
-	double rtnTopPointTangency();      
+	bool init(IN AcDbArc* pArc);
+	bool init(IN AcGePoint3d midPoint);
+	bool init(IN AcDbArc* pArc,IN AcGePoint3d midPoint);  
+	void calTopAndBotPointTangency();   
+	//bool calBotPointTangency();   
+	void calMidToTopAndBotTangency();  
+	//bool calMidToBotTangency();   
+	double rtnTopPointTangency();   
 	double rtnBotPointTangency();  
 	double rtnMidToTopTangency();  
 	double rtnMidToBotTangency(); 
-
-private:
-	bool isTopPointEqualToStartPoint();         
-	bool isStartPointEqualToEndPointByYcoord();  
 
 private:
 	COptOnArc* m_pArcOpt;  
@@ -593,23 +595,24 @@ public:
 	 bool init(IN const AcDbArc* pArc,IN AcGePoint3d midPoint);  
 	 bool init(IN const AcDbArc* pArc); 
 	 bool init(IN AcGePoint3d midPoint); //弧段上的点： 
+	 double calStartPointTangency();   
+	 double calEndPointTangency();   
+	 bool calMidPointTangency();   
 
 	 double rtnTangencyFromMidToStartPoint();   
 	 double rtnTangencyFromMidToEndPoint();     
 	 double rtnTangencyFromStartPoint();     
-	 double rtnTangencyFromEndPoint();	 
+	 double rtnTangencyFromEndPoint();	  
 public:
-	bool isStartPointEqualToEndPoint();
-	bool isStartPointLowerTanEndPointInYcoord();   
+	bool isStartPointEqualToEndPoint();   
+	bool isStartPointLowerThanEndPointInYcoord();   
 private:
 	 //void prsTopAndBotPoint();   
 	 bool isTheMidPointEqualStartPoint();     
 	 bool isTheMidPointEqualEndPoint();    
 	 bool isTheMidPointOnArc();  	
 	 void getBaseInfoOfArc();   
-	 double calStartPointTangency();   
-	 double calEndPointTangency();   
-	 bool calMidPointTangency();   
+
 
 private:
 	void calStartPoint();
@@ -637,28 +640,61 @@ private:
 
 
 /*
-class CPrsTangencyOfLine; 
-给定弧段及其上一个点，计算其切线角度;
+class COptOnLine; 
+功能：针对AcDbLine体的一些计算；
 */
-class CPrsTangencyOfLine:public CPrsTangencyOfSegment()
+class COptOnLine    
 {
 public:
-	CPrsTangencyOfLine();  
-	CPrsTangencyOfLine(IN const SPointAndSegment* pPntSegment); 
-	~CPrsTangencyOfLine();   
+	COptOnLine();  
+	COptOnLine(IN const AcDbLine* pLine);
+	//COptOnLine(IN const AcGePoint3d midPoint);   
+	//COptOnLine(IN const AcDbLine* pLine,IN AcGePoint3d midPoint);   
+	~COptOnLine();   
 
+public:  
+	//bool init(IN const AcDbLine* pLine,IN AcGePoint3d midPoint);    
+	bool init(IN const AcDbLine* pLine); 
+	//bool init(IN AcGePoint3d midPoint); //弧段上的点： 
+	double calStartPointTangency();   
+	double calEndPointTangency();   
+	//void calMidPointTangency();   
+
+	//double rtnTangencyFromMidToStartPoint();   
+	//double rtnTangencyFromMidToEndPoint();     
+	double rtnTangencyFromStartPoint();     
+	double rtnTangencyFromEndPoint();	  
 public:
-	bool init(IN const SPointAndSegment* pPntSegment);      
-	double calTopPointTangency();   
-	double calBotPointTangency();   
-	double calMidPointTangency();	 
+	bool isStartPointEqualToEndPoint();   
+	bool isStartPointLowerThanEndPointInYcoord();     
+private:
+	//void prsTopAndBotPoint();   
+	//bool isTheMidPointEqualStartPoint();     
+	//bool isTheMidPointEqualEndPoint();    
+	//bool isTheMidPointOnArc();  	
+	void getBaseInfoOfArc();   
+
 
 private:
-	AcGePoint3d m_curPoint;    	 
-	ELocationTypeOfPoint m_locationType;  
-	AcDbLine* m_pLine;   	
-	double m_tangencyRsult;    	 
+	void calStartPoint();
+	void calEndPoint();
+	bool isStartPointEqualToEndPoint();    
+
+private:
+	AcDbLine* m_pLine;   			
+	//double m_startAngle;   
+	//double m_endAngle;   
+
+private:
+	//AcGePoint3d m_midPoint; 
+	AcGePoint3d m_startPoint;   
+	AcGePoint3d m_endPoint;
+	double m_startPointTangency;   
+	double m_endPointTangency;
+	//double m_tanFromMidToStartPoint;    
+	//double m_tanFromMidToEndPoint;	
 };
+
 
 
 

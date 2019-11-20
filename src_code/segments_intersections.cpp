@@ -719,7 +719,7 @@ COptOnArc::isStartPointEqualToEndPoint()
 
 //
 bool
-COptOnArc::isStartPointLowerTanEndPointInYcoord()
+COptOnArc::isStartPointLowerThanEndPointInYcoord()
 {
 	double yStartPoint = m_startPoint.y;
 	double yEndPoint = m_endPoint.y;
@@ -775,16 +775,20 @@ COptOnArc::isTheMidPointOnArc()
 
 //在mid point处，有2个切线，也就是有2个切角;
 bool
-COptOnArc::calMidPointTangency()
+COptOnArc::calMidPointTangency()  
 {
 	if(!isTheMidPointValid())
 	{
 		return false;
 	}
+	else if(m_pArc == NULL)
+	{
+		return false;
+	}	
 	
 	AcGeVector2d vtr2d;
-	double x = m_midPoint.x - m_centerPoint.x;
-	double y = m_midPoint.y - m_centerPoint.y;
+	double x = m_midPoint.x - m_centerPoint.x;  
+	double y = m_midPoint.y - m_centerPoint.y;   
 	vtr2d.set(x,y);
 
 	//tangency from midpoint pointing to endPoint
@@ -855,6 +859,280 @@ COptOnArc::rtnTangencyFromMidToStartPoint(OUT double& dblTangency)
 
 
 
+
+/*
+class COptOnLine; 
+给定弧段及其上一个点，计算其切线角度；
+1.如果点在弧段中间，则有2个切角，一大一小，相差180度;
+2.如果点在弧段端点处，则只有一个切角，切角指向另一端点;
+*/
+COptOnLine::COptOnLine()
+{
+	m_pLine = NULL;   			
+	//double m_startAngle;   
+	//double m_endAngle;   
+
+	//AcGePoint3d m_midPoint; 
+	//AcGePoint3d m_startPoint;   
+	//AcGePoint3d m_endPoint;
+	m_startPointTangency = -1;   
+	m_endPointTangency = -1; 
+	//double m_tanFromMidToStartPoint;    
+	//double m_tanFromMidToEndPoint;	
+}
+
+COptOnLine::~COptOnLine()
+{
+}
+
+
+//COptOnLine::COptOnLine(IN const AcDbLine* pLine,IN AcGePoint3d midPoint)  
+//{
+//	init(pLine,midPoint);  
+//}
+
+
+//bool
+//COptOnLine::init(IN const AcDbArc* pArc,IN AcGePoint3d midPoint)  
+//{
+//	bool isArcValid = false;
+//	bool isMidPointValid = false; 
+//	isArcValid = init(pArc);
+//	isMidPointValid = init(midPoint);
+//	//cal tangency
+//	;
+//
+//	return (isMidPointValid && isMidPointValid);
+//}
+
+
+bool
+COptOnLine::init(IN const AcDbLine* pLine)
+{
+	if(pLine != NULL)
+	{
+		m_pLine = pLine;
+		getBaseInfoOfArc();
+		return true;
+	}
+	return false;
+}
+
+
+//bool
+//COptOnLine::init(IN const AcGePoint3d midPoint) 
+//{
+//	m_midPoint = midPoint; 
+//	if(isTheMidPointValid()) 
+//	{
+//		return true;
+//	}
+//	else
+//	{
+//		return false;
+//	}
+//}
+
+
+void
+COptOnLine::getBaseInfoOfArc()
+{
+	m_startPoint = m_pLine->startPoint();  
+	m_endPoint = m_pLine->endPoint();   
+}
+
+
+//
+double
+COptOnLine::calStartPointTangency()
+{
+	double xStart = m_startPoint.x;
+	double yStart = m_startPoint.y;
+	double xEnd = m_endPoint.x;
+	double yEnd = m_endPoint.y;
+
+	AcGeVector2d vtr2d(r,0);
+	vtr2d.rotateBy(m_startAngle);  
+	vtr2d.rotateBy(Pi* 0.5);
+	m_startPointTangency = vtr2d.angle();  
+
+	//调整角度范围，保证在0-2π内;
+	return m_startPointTangency;
+}
+
+
+//
+double
+COptOnLine::calEndPointTangency()
+{
+	AcGeVector2d vtr2d(r,0);
+	vtr2d.rotateBy(m_endAngle);
+	vtr2d.rotateBy(-Pi* 0.5);
+	m_endPointTangency = vtr2d.angle();
+
+	//调整角度范围，保证在0-2π内;
+	return m_endPointTangency;
+}
+
+
+//
+void
+COptOnLine::isStartPointEqualToEndPoint()
+{
+	if(m_startPoint.isEqualTo(m_endPoint))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+
+//
+bool
+COptOnLine::isStartPointLowerThanEndPointInYcoord()
+{
+	double yStartPoint = m_startPoint.y;
+	double yEndPoint = m_endPoint.y;
+	if(yStartPoint - yEndPoint < AcGeTol::equalPoint())
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+
+//
+bool
+COptOnLine::isTheMidPointEqualStartPoint()
+{
+	if(m_midPoint.isEqualTo(m_startPoint))
+	{
+		return true;
+	}
+	else
+	{
+		return false;   
+	}
+}
+
+
+
+//
+bool
+COptOnLine::isTheMidPointEqualEndPoint()
+{
+	if(m_midPoint.isEqualTo(m_endPoint))
+	{
+		return true;
+	}
+	else
+	{
+		return false;   
+	}
+}
+
+
+//
+bool
+COptOnLine::isTheMidPointOnArc()
+{
+	m_pArc->isp
+}
+
+
+//在mid point处，有2个切线，也就是有2个切角;
+bool
+COptOnLine::calMidPointTangency()  
+{
+	if(!isTheMidPointValid())
+	{
+		return false;
+	}
+	else if(m_pArc == NULL)
+	{
+		return false;
+	}	
+
+	AcGeVector2d vtr2d;
+	double x = m_midPoint.x - m_centerPoint.x;  
+	double y = m_midPoint.y - m_centerPoint.y;   
+	vtr2d.set(x,y);
+
+	//tangency from midpoint pointing to endPoint
+	vtr2d.rotateBy(Pi* 0.5);
+	m_tanFromMidToEndPoint = vtr2d.angle();
+
+	//tangency from midpoint pointing to startpoint;
+	vtr2d.rotateBy(-1.0 * Pi);
+	m_tanFromMidToStartPoint = vtr2d.angle();
+
+	return true;
+}
+
+
+//check if the mid point is valid;
+bool
+COptOnLine::isTheMidPointValid()
+{
+	if(isTheMidPointEqualEndPoint())
+	{
+		return false;
+	}
+	else if(isTheMidPointEqualStartPoint())
+	{
+		return false;
+	}
+	else if(!isTheMidPointOnArc())
+	{
+		return false;
+	}
+	else
+	{
+		return true;  
+	}
+}
+
+
+//
+bool
+COptOnLine::rtnTangencyFromMidToEndPoint(OUT double& dblTangency)
+{	
+	dblTangency = m_tanFromMidToEndPoint;
+	if(m_tanFromMidToEndPoint != -1)
+	{
+		return true;
+	}
+	else  
+	{
+		return false;  
+	}
+}
+
+
+//
+bool
+COptOnLine::rtnTangencyFromMidToStartPoint(OUT double& dblTangency)
+{
+	dblTangency = m_tanFromMidToStartPoint;
+	if(m_tanFromMidToEndPoint != -1)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+
+
+
 /*
 class ConvertArcToArc
 功能：AcGeCircArc3d和AcDbArc互相转换；
@@ -920,33 +1198,92 @@ CParsTangencyOnArc::~CParsTangencyOnArc()
 //
 CParsTangencyOnArc::CParsTangencyOnArc(IN AcDbArc* pArc)
 {
-	if(! (m_pArcOpt->init(pArc))
-	{
-		return;
-	}
-	
-	m_pArcOpt->calStartPointTangency();  
-	m_pArcOpt->calEndPointTangency();  
-	//此时可以计算2个Tangency
-
-	if(m_pArcOpt->isStartPointLowerTanEndPointInYcoord())
-	{
-		m_botPointTangency = m_pArcOpt->rtnBotPointTangency();
-	}
-	m_botPointTangency;
-	m_topPointTangency;
+	m_pArcOpt->init(pArc)
 }
+
 
 
 //
 CParsTangencyOnArc::CParsTangencyOnArc(IN AcGePoint3d midPoint) 
 {
-	;
+	m_pArcOpt->init(midPoint);
 }
 
 
 //
 CParsTangencyOnArc::CParsTangencyOnArc(IN AcDbArc* pArc,IN AcGePoint3d midPoint)
 {
-	;
+	m_pArcOpt->init(pArc,midPoint);
 }
+
+
+
+//
+bool
+CParsTangencyOnArc::init(IN AcDbArc* pArc)
+{
+	return m_pArcOpt->init(pArc);
+}
+
+
+//
+bool
+CParsTangencyOnArc::init(IN AcDbArc* pArc,IN AcGePoint3d midPoint)
+{
+	return m_pArcOpt->init(pArc,midPoint);
+}
+
+
+//
+bool
+CParsTangencyOnArc::init(IN AcGePoint3d midPoint)
+{
+	return m_pArcOpt->init(midPoint);
+}
+
+
+
+//
+void
+CParsTangencyOnArc::calTopAndBotPointTangency()
+{
+	m_pArcOpt->calStartPointTangency();  
+	m_pArcOpt->calEndPointTangency();  
+	//此时可以计算2个Tangency
+	if(m_pArcOpt->isStartPointLowerThanEndPointInYcoord())
+	{
+		m_botPointTangency = m_pArcOpt->rtnTangencyFromStartPoint();
+		m_topPointTangency = m_pArcOpt->rtnTangencyFromEndPoint();
+	}
+	else
+	{
+		m_botPointTangency = m_pArcOpt->rtnTangencyFromEndPoint();
+		m_topPointTangency = m_pArcOpt->rtnTangencyFromStartPoint();		
+	}	
+}
+
+
+
+//
+void
+CParsTangencyOnArc::calMidToTopAndBotTangency()
+{
+	if(m_pArcOpt->isStartPointLowerThanEndPointInYcoord())
+	{
+		m_midToBotTangency = m_pArcOpt->rtnTangencyFromMidToStartPoint();
+		m_midToTopTangency = m_pArcOpt->rtnTangencyFromMidToEndPoint();
+	}
+	else
+	{
+		m_midToBotTangency = m_pArcOpt->rtnTangencyFromMidToEndPoint();
+		m_midToTopTangency = m_pArcOpt->rtnTangencyFromMidToStartPoint();
+	}
+}
+
+
+//
+//bool
+//CParsTangencyOnArc::calMidToTopTangency()
+//{
+//	;
+//}
