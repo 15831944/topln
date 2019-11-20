@@ -665,8 +665,8 @@ public:
 	double rtnTangencyFromStartPoint();     
 	double rtnTangencyFromEndPoint();	  
 public:
-	bool isStartPointEqualToEndPoint();   
-	bool isStartPointLowerThanEndPointInYcoord();     
+	//bool isStartPointEqualToEndPoint();   
+	bool isStartPointLowerThanEndPointInYcoord();      
 private:
 	//void prsTopAndBotPoint();   
 	//bool isTheMidPointEqualStartPoint();     
@@ -674,11 +674,10 @@ private:
 	//bool isTheMidPointOnArc();  	
 	void getBaseInfoOfArc();   
 
-
 private:
 	void calStartPoint();
 	void calEndPoint();
-	bool isStartPointEqualToEndPoint();    
+	//bool isStartPointEqualToEndPoint();    
 
 private:
 	AcDbLine* m_pLine;   			

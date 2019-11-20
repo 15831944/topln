@@ -919,20 +919,6 @@ COptOnLine::init(IN const AcDbLine* pLine)
 }
 
 
-//bool
-//COptOnLine::init(IN const AcGePoint3d midPoint) 
-//{
-//	m_midPoint = midPoint; 
-//	if(isTheMidPointValid()) 
-//	{
-//		return true;
-//	}
-//	else
-//	{
-//		return false;
-//	}
-//}
-
 
 void
 COptOnLine::getBaseInfoOfArc()
@@ -951,12 +937,10 @@ COptOnLine::calStartPointTangency()
 	double xEnd = m_endPoint.x;
 	double yEnd = m_endPoint.y;
 
-	AcGeVector2d vtr2d(r,0);
-	vtr2d.rotateBy(m_startAngle);  
-	vtr2d.rotateBy(Pi* 0.5);
+	AcGeVector2d vtr2d(xEnd-xStart,yEnd-yStart);
 	m_startPointTangency = vtr2d.angle();  
 
-	//调整角度范围，保证在0-2π内;
+	//调整角度范围，保证在0-2π内;--不需要调整;
 	return m_startPointTangency;
 }
 
@@ -965,12 +949,15 @@ COptOnLine::calStartPointTangency()
 double
 COptOnLine::calEndPointTangency()
 {
-	AcGeVector2d vtr2d(r,0);
-	vtr2d.rotateBy(m_endAngle);
-	vtr2d.rotateBy(-Pi* 0.5);
-	m_endPointTangency = vtr2d.angle();
+	double xStart = m_startPoint.x;
+	double yStart = m_startPoint.y;
+	double xEnd = m_endPoint.x;
+	double yEnd = m_endPoint.y;
 
-	//调整角度范围，保证在0-2π内;
+	AcGeVector2d vtr2d(xStart-xEnd,yStart-yEnd);
+	m_endPointTangency = vtr2d.angle();  
+
+	//调整角度范围，保证在0-2π内;--不需要调整;
 	return m_endPointTangency;
 }
 
@@ -1008,72 +995,18 @@ COptOnLine::isStartPointLowerThanEndPointInYcoord()
 
 
 //
-bool
-COptOnLine::isTheMidPointEqualStartPoint()
-{
-	if(m_midPoint.isEqualTo(m_startPoint))
-	{
-		return true;
-	}
-	else
-	{
-		return false;   
-	}
-}
-
-
-
-//
-bool
-COptOnLine::isTheMidPointEqualEndPoint()
-{
-	if(m_midPoint.isEqualTo(m_endPoint))
-	{
-		return true;
-	}
-	else
-	{
-		return false;   
-	}
-}
-
-
-//
-bool
-COptOnLine::isTheMidPointOnArc()
-{
-	m_pArc->isp
-}
-
-
-//在mid point处，有2个切线，也就是有2个切角;
-bool
-COptOnLine::calMidPointTangency()  
-{
-	if(!isTheMidPointValid())
-	{
-		return false;
-	}
-	else if(m_pArc == NULL)
-	{
-		return false;
-	}	
-
-	AcGeVector2d vtr2d;
-	double x = m_midPoint.x - m_centerPoint.x;  
-	double y = m_midPoint.y - m_centerPoint.y;   
-	vtr2d.set(x,y);
-
-	//tangency from midpoint pointing to endPoint
-	vtr2d.rotateBy(Pi* 0.5);
-	m_tanFromMidToEndPoint = vtr2d.angle();
-
-	//tangency from midpoint pointing to startpoint;
-	vtr2d.rotateBy(-1.0 * Pi);
-	m_tanFromMidToStartPoint = vtr2d.angle();
-
-	return true;
-}
+//bool
+//COptOnLine::isTheMidPointEqualStartPoint()
+//{
+//	if(m_midPoint.isEqualTo(m_startPoint))
+//	{
+//		return true;
+//	}
+//	else
+//	{
+//		return false;   
+//	}
+//}
 
 
 //check if the mid point is valid;
