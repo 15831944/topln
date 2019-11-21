@@ -103,24 +103,23 @@ enum ETypeOfArc
 //一条弧段的信息;
 struct Segment
 {
-	ETypeOfArc m_myselfType ; 
+	ETypeOfArc m_myselfType; 
 	AcDbArc* m_arcPtr;
-	AcDbLine* m_LinePtr;	
-	EPartOfArc m_whichPart; 
+	AcDbLine* m_LinePtr;		
 };
 
 
-//弧段父辈信息,如果父辈存在的话;
+//弧段父辈信息,如果父辈存在的话;  
 struct SegmentFather
 {
-	//父母信息(可能存在）；  
-	ETypeOfArc m_parentType;
-	AcDbArc* m_arcPtr;
-	AcDbCircle* m_circlePtr;
+	//父母信息(可能存在）；  	
+	ETypeOfArc m_parentType;    
+	AcDbArc* m_arcPtr;       
+	AcDbCircle* m_circlePtr;    
+	EPartOfArc m_whichPart; 
 	//AcDbLine* m_LinePtr;
-	AcGeCircArc2d* m_circArc2d;
-	AcDbPolyline* m_polylinePtr;
-	
+	AcGeCircArc2d* m_circArc2d;   
+	AcDbPolyline* m_polylinePtr;   	
 };
 
 
