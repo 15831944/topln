@@ -1,16 +1,16 @@
 ﻿/*************************************************************************
 Copyright (C), 2017-12-1, XuMiJieZi.
-FileName: pointMap.h
+FileName: d:\GitHub\topln\src_code\segments_intersections.h
 Author: 
 Version:
 Date: //zhg 1.0
-Description: // 1.¶ÔÑ¡ÖÐµÄÊµÌå¼¯ºÏ½¨Á¢¶¥µã±í£¬¹©²éÑ¯;
-             // 2.Ê¹ÓÃmap½á¹¹; ÒÔµã×ø±êµÄx¡¢yÎª²éÑ¯keyÖµ; xµÄmapÇ¶Ì×yµÄmap£»
-Function List: // Ö÷Òªº¯ÊýÁÐ±í£¬Ã¿Ìõ¼ÇÂ¼Ó¦°üÀ¨º¯ÊýÃû¼°¹¦ÄÜ¼òÒªËµÃ÷
+Description: // 1.查找所有线段的交点（不包括多义线端点）;
+             // 2.用于求N条线的场合;
+Function List: //
 1. ....
-History: // ÐÞ¸ÄÀúÊ·¼ÇÂ¼ÁÐ±í£¬Ã¿ÌõÐÞ¸Ä¼ÇÂ¼Ó¦°üÀ¨ÐÞ¸ÄÈÕÆÚ¡¢ÐÞ¸Ä
-		// Õß¼°ÐÞ¸ÄÄÚÈÝ¼òÊö
-eg£º Date:	Author: 	Modification:
+History: // 
+		// 
+index  Date:	Author: 	Modification:
 1. ...
 2.
 *************************************************************************/
@@ -22,6 +22,7 @@ eg£º Date:	Author: 	Modification:
 #include <vector>
 #include <list>
 #include <set>
+
 //--------------------
 #include <stdlib.h>
 #include <ctype.h>
@@ -48,7 +49,7 @@ eg£º Date:	Author: 	Modification:
 #include <rxobject.h>
 #include <gelnsg2d.h>
 #include <gevec2d.h>
-
+//----------------------------
 #include "..\StdAfx.h"
 #include "TCHAR.h"
 
@@ -56,7 +57,6 @@ eg£º Date:	Author: 	Modification:
 
 
 using namespace  std;
-
 
 
 
@@ -75,7 +75,7 @@ enum EPartOfArc
 };
 
 
-//Ö¸Ê¾Ä³¸ö¶¥µãÊÇÏß¶ÎµÄÉÏ¶Ëµã»¹ÊÇÏÂ¶Ëµã,ÊÇÆ½ÐÐÏß¶ÎµÄ»°£¬ÊÇ×ó¶Ëµã»¹ÊÇÓÒ¶Ëµã;
+//标明点在弧段上的位置类型;  
 enum ELocationTypeOfPoint
 {
 	TOP_POINT,
@@ -83,7 +83,7 @@ enum ELocationTypeOfPoint
 	LEFT_POINT,
 	RIGHT_POINT,
 	MIDDLE_POINT,
-	NONE_INDICTATION  //´íÎóÖ¸Ê¾;
+	NONE_INDICTATION  //错误;
 };
 
 
@@ -114,7 +114,7 @@ struct Segment
 struct SegmentFather
 {
 	//父母信息(可能存在）；  
-	ETypeOfArc m_parentType ;k
+	ETypeOfArc m_parentType;
 	AcDbArc* m_arcPtr;
 	AcDbCircle* m_circlePtr;
 	//AcDbLine* m_LinePtr;
@@ -519,30 +519,11 @@ private:
 
 
 
-/*
-class CPrsTangencyOfSegment; 
-给定弧段及其上一个点，计算其切线角度;
-*/
-class CPrsTangencyOfSegment
-{
-public:
-	CPrsTangencyOfSegment();  	
-	~CPrsTangencyOfSegment();   
-
-public:
-	virtual bool init(IN const SPointAndSegment* pPntSegment) = 0;      
-	virtual double calTopPointTangency() = 0;    
-	virtual double calBotPointTangency() = 0;   
-	virtual double calMidPointTangency() = 0;	   
-
-//private:	 
-};
-
 
 /*
 class CParsTangencyOnArc; 
 给定弧段及其上一个点，计算其切线角度;
-Top point:是指Y值更大;或者在Y值相等情况下，左边端点为Top point;
+Top point:是指Y值更大;或者在Y值相等情况下，左边端点为Top point;  
 */
 class CParsTangencyOnArc
 {
@@ -562,9 +543,12 @@ public:
 	void calMidToTopAndBotTangency();  
 	//bool calMidToBotTangency();   
 	double rtnTopPointTangency();   
-	double rtnBotPointTangency();  
+	double rtnBotPointTangency();    
 	double rtnMidToTopTangency();  
 	double rtnMidToBotTangency(); 
+
+private:
+	void initMember();
 
 private:
 	COptOnArc* m_pArcOpt;  
@@ -607,6 +591,7 @@ public:
 	bool isStartPointEqualToEndPoint();   
 	bool isStartPointLowerThanEndPointInYcoord();   
 private:
+	void initMember();
 	 //void prsTopAndBotPoint();   
 	 bool isTheMidPointEqualStartPoint();     
 	 bool isTheMidPointEqualEndPoint();    
@@ -648,20 +633,21 @@ class COptOnLine
 public:
 	COptOnLine();  
 	COptOnLine(IN const AcDbLine* pLine);
-	//COptOnLine(IN const AcGePoint3d midPoint);   
-	//COptOnLine(IN const AcDbLine* pLine,IN AcGePoint3d midPoint);   
+	COptOnLine(IN const AcGePoint3d midPoint);   
+	COptOnLine(IN const AcDbLine* pLine,IN AcGePoint3d midPoint);   
 	~COptOnLine();   
 
 public:  
-	//bool init(IN const AcDbLine* pLine,IN AcGePoint3d midPoint);    
+	bool init(IN const AcDbLine* pLine,IN AcGePoint3d midPoint);    
 	bool init(IN const AcDbLine* pLine); 
-	//bool init(IN AcGePoint3d midPoint); //弧段上的点： 
+	bool init(IN AcGePoint3d midPoint); //弧段上的点： 
+	bool initMember();
 	double calStartPointTangency();   
 	double calEndPointTangency();   
 	//void calMidPointTangency();   
 
-	//double rtnTangencyFromMidToStartPoint();   
-	//double rtnTangencyFromMidToEndPoint();     
+	double rtnTangencyFromMidToStartPoint();   
+	double rtnTangencyFromMidToEndPoint();     
 	double rtnTangencyFromStartPoint();     
 	double rtnTangencyFromEndPoint();	  
 public:
@@ -669,9 +655,9 @@ public:
 	bool isStartPointLowerThanEndPointInYcoord();      
 private:
 	//void prsTopAndBotPoint();   
-	//bool isTheMidPointEqualStartPoint();     
-	//bool isTheMidPointEqualEndPoint();    
-	//bool isTheMidPointOnArc();  	
+	bool isTheMidPointEqualStartPoint();     
+	bool isTheMidPointEqualEndPoint();    
+	bool isTheMidPointOnArc();  	
 	void getBaseInfoOfArc();   
 
 private:
@@ -685,7 +671,7 @@ private:
 	//double m_endAngle;   
 
 private:
-	//AcGePoint3d m_midPoint; 
+	AcGePoint3d m_midPoint; 
 	AcGePoint3d m_startPoint;   
 	AcGePoint3d m_endPoint;
 	double m_startPointTangency;   

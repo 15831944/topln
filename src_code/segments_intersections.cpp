@@ -529,15 +529,9 @@ class COptOnArc;
 */
 COptOnArc::COptOnArc()
 {
-	m_pArc = NULL;   	
-	r = -1;
-	m_startAngle = -1;   
-	m_endAngle = -1;
-	m_startPointTangency = -1;     
-	m_endPointTangency= -1;  
-	m_tanFromMidToTop= -1;   
-	m_tanFromMidToBot= -1;	
+	initMember();
 }
+
 
 COptOnArc::~COptOnArc()
 {
@@ -553,12 +547,11 @@ COptOnArc::COptOnArc(IN const AcDbArc* pArc,IN AcGePoint3d midPoint)
 bool
 COptOnArc::init(IN const AcDbArc* pArc,IN AcGePoint3d midPoint)
 {
+	initMember();
 	bool isArcValid = false;
 	bool isMidPointValid = false;
 	isArcValid = init(pArc);
 	isMidPointValid = init(midPoint);
-	//cal tangency
-	;
 
 	return (isMidPointValid && isMidPointValid);
 }
@@ -567,6 +560,7 @@ COptOnArc::init(IN const AcDbArc* pArc,IN AcGePoint3d midPoint)
 bool
 COptOnArc::init(IN const AcDbArc* pArc)
 {
+	initMember();
 	if(pArc != NULL)
 	{
 		m_pArc = pArc;	
@@ -735,6 +729,19 @@ COptOnArc::isStartPointLowerThanEndPointInYcoord()
 
 
 //
+void
+COptOnArc::initMember()
+{
+	m_pArc = NULL;   	
+	r = -1;
+	m_startAngle = -1;   
+	m_endAngle = -1;
+	m_startPointTangency = -1;     
+	m_endPointTangency= -1;  	
+}
+
+
+//
 bool
 COptOnArc::isTheMidPointEqualStartPoint()
 {
@@ -868,6 +875,75 @@ class COptOnLine;
 */
 COptOnLine::COptOnLine()
 {
+	initMember();
+}
+
+
+COptOnLine::~COptOnLine()
+{
+}
+
+
+//
+COptOnLine::COptOnLine(IN const AcDbLine* pLine)
+{
+	initMember();
+	init(pLine);
+}
+
+
+//
+COptOnLine::COptOnLine(IN AcGePoint3d midPoint)  
+{
+	init(m_midPoint);
+}
+
+
+COptOnLine::COptOnLine(IN const AcDbLine* pLine,IN AcGePoint3d midPoint)  
+{
+	initMember();
+	init(pLine,midPoint);  
+}
+
+
+bool
+COptOnLine::init(IN const AcDbArc* pArc,IN AcGePoint3d midPoint)  
+{
+	bool isArcValid = false;
+	bool isMidPointValid = false; 
+	isArcValid = init(pArc);
+	isMidPointValid = init(midPoint);
+
+	return (isMidPointValid && isMidPointValid);
+}
+
+
+bool
+COptOnLine::init(IN const AcDbLine* pLine)
+{
+	if(pLine != NULL)
+	{
+		initMember();
+		m_pLine = pLine;
+		getBaseInfoOfArc();
+		return true;
+	}
+	return false;
+}
+
+
+//
+void
+COptOnLine::init(IN AcGePoint3d midPoint)
+{
+	m_midPoint = midPoint;
+}
+
+
+//
+void
+COptOnLine::initMember()
+{
 	m_pLine = NULL;   			
 	//double m_startAngle;   
 	//double m_endAngle;   
@@ -880,45 +956,6 @@ COptOnLine::COptOnLine()
 	//double m_tanFromMidToStartPoint;    
 	//double m_tanFromMidToEndPoint;	
 }
-
-COptOnLine::~COptOnLine()
-{
-}
-
-
-//COptOnLine::COptOnLine(IN const AcDbLine* pLine,IN AcGePoint3d midPoint)  
-//{
-//	init(pLine,midPoint);  
-//}
-
-
-//bool
-//COptOnLine::init(IN const AcDbArc* pArc,IN AcGePoint3d midPoint)  
-//{
-//	bool isArcValid = false;
-//	bool isMidPointValid = false; 
-//	isArcValid = init(pArc);
-//	isMidPointValid = init(midPoint);
-//	//cal tangency
-//	;
-//
-//	return (isMidPointValid && isMidPointValid);
-//}
-
-
-bool
-COptOnLine::init(IN const AcDbLine* pLine)
-{
-	if(pLine != NULL)
-	{
-		m_pLine = pLine;
-		getBaseInfoOfArc();
-		return true;
-	}
-	return false;
-}
-
-
 
 void
 COptOnLine::getBaseInfoOfArc()
@@ -934,7 +971,7 @@ COptOnLine::calStartPointTangency()
 {
 	double xStart = m_startPoint.x;
 	double yStart = m_startPoint.y;
-	double xEnd = m_endPoint.x;
+	double xEnd = m_endPoint.x;     
 	double yEnd = m_endPoint.y;
 
 	AcGeVector2d vtr2d(xEnd-xStart,yEnd-yStart);
@@ -963,16 +1000,16 @@ COptOnLine::calEndPointTangency()
 
 
 //
-void
-COptOnLine::isStartPointEqualToEndPoint()
+bool
+COptOnLine::isTheMidPointEqualEndPoint()
 {
-	if(m_startPoint.isEqualTo(m_endPoint))
+	if(m_midPoint.isEqualTo(m_endPoint))
 	{
 		return true;
 	}
 	else
 	{
-		return false;
+		return false;   
 	}
 }
 
@@ -995,18 +1032,18 @@ COptOnLine::isStartPointLowerThanEndPointInYcoord()
 
 
 //
-//bool
-//COptOnLine::isTheMidPointEqualStartPoint()
-//{
-//	if(m_midPoint.isEqualTo(m_startPoint))
-//	{
-//		return true;
-//	}
-//	else
-//	{
-//		return false;   
-//	}
-//}
+bool
+COptOnLine::isTheMidPointEqualStartPoint()
+{
+	if(m_midPoint.isEqualTo(m_startPoint))
+	{
+		return true;
+	}
+	else
+	{
+		return false;   
+	}
+}
 
 
 //check if the mid point is valid;
@@ -1033,34 +1070,33 @@ COptOnLine::isTheMidPointValid()
 
 
 //
-bool
+double
 COptOnLine::rtnTangencyFromMidToEndPoint(OUT double& dblTangency)
 {	
-	dblTangency = m_tanFromMidToEndPoint;
-	if(m_tanFromMidToEndPoint != -1)
-	{
-		return true;
-	}
-	else  
-	{
-		return false;  
-	}
+	return m_startPointTangency;
 }
 
 
 //
-bool
+double
 COptOnLine::rtnTangencyFromMidToStartPoint(OUT double& dblTangency)
 {
-	dblTangency = m_tanFromMidToStartPoint;
-	if(m_tanFromMidToEndPoint != -1)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return m_endPointTangency;
+}
+
+
+//
+double COptOnLine::rtnTangencyFromStartPoint()
+{
+	return m_startPointTangency;
+}
+
+
+//
+double
+COptOnLine::rtnTangencyFromEndPoint()
+{
+	return m_endPointTangency;
 }
 
 
@@ -1121,19 +1157,20 @@ class CParsTangencyOnArc;
 */
 CParsTangencyOnArc::CParsTangencyOnArc()
 {
+	initMember();
 }
 
 CParsTangencyOnArc::~CParsTangencyOnArc()
 {
+	delete m_pArcOpt;
 }
 
 
 //
 CParsTangencyOnArc::CParsTangencyOnArc(IN AcDbArc* pArc)
 {
-	m_pArcOpt->init(pArc)
+	m_pArcOpt->init(pArc);
 }
-
 
 
 //
@@ -1146,6 +1183,7 @@ CParsTangencyOnArc::CParsTangencyOnArc(IN AcGePoint3d midPoint)
 //
 CParsTangencyOnArc::CParsTangencyOnArc(IN AcDbArc* pArc,IN AcGePoint3d midPoint)
 {
+	initMember();
 	m_pArcOpt->init(pArc,midPoint);
 }
 
@@ -1155,6 +1193,7 @@ CParsTangencyOnArc::CParsTangencyOnArc(IN AcDbArc* pArc,IN AcGePoint3d midPoint)
 bool
 CParsTangencyOnArc::init(IN AcDbArc* pArc)
 {
+	initMember();	
 	return m_pArcOpt->init(pArc);
 }
 
@@ -1163,6 +1202,7 @@ CParsTangencyOnArc::init(IN AcDbArc* pArc)
 bool
 CParsTangencyOnArc::init(IN AcDbArc* pArc,IN AcGePoint3d midPoint)
 {
+	initMember();
 	return m_pArcOpt->init(pArc,midPoint);
 }
 
@@ -1175,10 +1215,26 @@ CParsTangencyOnArc::init(IN AcGePoint3d midPoint)
 }
 
 
+//
+void
+CParsTangencyOnArc::initMember()
+{	
+	COptOnArc* m_pArcOpt = NULL;  	    
+	if(m_pArcOpt == NULL)
+	{
+		m_pArcOpt = new COptOnArc;
+	}
+	m_topPointTangency = -1;   
+	m_botPointTangency = -1;   
+	m_midToBotTangency = -1;  
+	m_midToTopTangency = -1;   
+}
+
+
 
 //
 void
-CParsTangencyOnArc::calTopAndBotPointTangency()
+CParsTangencyOnArc::calTopAndBotPointTangency()  
 {
 	m_pArcOpt->calStartPointTangency();  
 	m_pArcOpt->calEndPointTangency();  
