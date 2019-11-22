@@ -117,11 +117,10 @@ struct SegmentFather
 	AcDbArc* m_arcPtr;       
 	AcDbCircle* m_circlePtr;    
 	EPartOfArc m_whichPart; 
-	//AcDbLine* m_LinePtr;
+	//AcDbLine* m_LinePtr;  
 	AcGeCircArc2d* m_circArc2d;   
 	AcDbPolyline* m_polylinePtr;   	
 };
-
 
 
 //弧段祖父的信息，如果存在祖父辈的话：
@@ -134,6 +133,25 @@ struct SegmentGrandfather
 	AcDbPolyline* m_polylinePtr;  
 	int index; //多义线中的第几段子弧;
 };
+
+/*
+class CLineSegment
+*/
+class CLineSegment
+{
+	;
+};
+
+
+/*
+class CArcSegment
+*/
+class CArcSegment
+{
+	;
+};
+
+
 
 /*
 class CSegement
