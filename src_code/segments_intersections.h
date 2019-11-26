@@ -100,10 +100,19 @@ enum ETypeOfArc
 };
 
 
+/*
+弧段结构设计：
+1.
+1.1 pre弧段指针，next后一弧段指针：
+1.2 起点，终点;
+1.2.1 2个端点（结构）
+1.2.2 端点结构：pre指针-指向前一个端点结构；next-指向后一个端点结构
+1.2.3 指向本弧段指针；
+*/
 //一条弧段的信息;
 struct Segment
 {
-	ETypeOfArc m_myselfType; 
+	ETypeOfArc m_myselfType;  
 	AcDbArc* m_arcPtr;
 	AcDbLine* m_LinePtr;		
 };
@@ -134,11 +143,25 @@ struct SegmentGrandfather
 	int index; //多义线中的第几段子弧;
 };
 
+
+//弧段的端点结构;
+struct SegmentVertex
+{
+	AcGePoint3d m_pt;
+	SegmentVertex* m_preVertexPtr;
+	SegmentVertex* m_nextVertexPtr;
+	Segment* m_pMySegment;
+};
 /*
 class CLineSegment
 */
 class CLineSegment
 {
+public:
+	CLineSegment();
+	~CLineSegment();
+
+public:
 	;
 };
 
